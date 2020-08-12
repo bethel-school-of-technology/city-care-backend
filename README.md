@@ -34,3 +34,5 @@ cd back - changed into the back end directory to install the necessary dependenc
           added the org router to the app.js file
           created the auth.js service and folder, use email authentication for it. 
 
+# Created the application models, made migrations and migrated 
+sequelize model:generate --name users --attributes id:integer,FirstName:string,LastName:string,Email:string,Phone:integer,MobilePhone:integer,ContactMethod:string,Address1:string,Address2:string,City:string,State:string,County:string,Zip:integer

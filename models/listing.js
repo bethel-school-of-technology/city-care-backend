@@ -22,7 +22,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       required: true
     },
-    Availability: DataTypes.BOOLEAN,
+    Availability: 
+    {
+      type: DataTypes.STRING,
+      allowNull: false,
+      required: true
+    },
     Requirements: 
     {
       type: DataTypes.STRING,
