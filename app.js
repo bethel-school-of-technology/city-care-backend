@@ -10,6 +10,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 //add orgs router
 var orgsRouter = require('./routes/orgs');
+var postsRouter = require('./routes/posts');
 
 var app = express();
 //Use Cross Origin Resource Sharing In The Application
@@ -25,6 +26,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 //use the orgs route
 app.use('/orgs', orgsRouter);
+app.use('/posts', postsRouter);
 
 
 //Connect to the MySQL Database

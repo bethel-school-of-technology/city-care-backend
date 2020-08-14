@@ -35,4 +35,31 @@ cd back - changed into the back end directory to install the necessary dependenc
           created the auth.js service and folder, use email authentication for it. 
 
 # Created the application models, made migrations and migrated 
+
 sequelize model:generate --name users --attributes id:integer,FirstName:string,LastName:string,Email:string,Phone:integer,MobilePhone:integer,ContactMethod:string,Address1:string,Address2:string,City:string,State:string,County:string,Zip:integer
+
+makemigration --name created_users_model
+
+sequelize model:generate --name organizations --attributes id:integer,OrgName:string,ContactName:string,Phone:integer,Fax:integer,Email:string,Address1:string,Address2:string,City:string,State:string,County:string,Zip:integer
+
+makemigration --name added_organizations_model
+
+sequelize model:generate --name authorization --attributes Email:string,Password:string,Role:boolean,Active:boolean
+
+makemigration --name added_authorization_model
+
+sequelize model:generate --name listing --attributes id:integer,Quantity:integer,Description:string,Availability:string,Requirements:string,Category:string,SubCategory:string,OrgId:integer
+
+makemigration --name added_listing_model
+
+sequelize model:generate --name request --attributes id:integer,Description:string,Category:string,SubCategory:string,UserId:integer
+
+makemigration --name added_request_model
+
+sequelize model:generate –name category –attributes id:integer,Name:string
+
+makemigration --name added_category_model
+
+sequelize model:generate –name subcategory –attributes id:integer,CatId:integer,Name:string,Type:string
+
+makemigration --name added_subcategory_model
