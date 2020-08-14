@@ -94,8 +94,10 @@
                     "seqType": "Sequelize.STRING"
                 },
                 "Availability": {
+                    "allowNull": false,
+                    "required": true,
                     "field": "Availability",
-                    "seqType": "Sequelize.BOOLEAN"
+                    "seqType": "Sequelize.STRING"
                 },
                 "Requirements": {
                     "allowNull": false,
@@ -159,11 +161,11 @@
                     "required": true,
                     "allowNull": false,
                     "field": "Phone",
-                    "seqType": "Sequelize.INTEGER"
+                    "seqType": "Sequelize.STRING"
                 },
                 "Fax": {
                     "field": "Fax",
-                    "seqType": "Sequelize.INTEGER"
+                    "seqType": "Sequelize.STRING"
                 },
                 "Email": {
                     "allowNull": false,
@@ -178,8 +180,6 @@
                     "seqType": "Sequelize.STRING"
                 },
                 "Address2": {
-                    "allowNull": false,
-                    "required": true,
                     "field": "Address2",
                     "seqType": "Sequelize.STRING"
                 },
@@ -336,11 +336,11 @@
                 },
                 "Phone": {
                     "field": "Phone",
-                    "seqType": "Sequelize.INTEGER"
+                    "seqType": "Sequelize.STRING"
                 },
                 "MobilePhone": {
                     "field": "MobilePhone",
-                    "seqType": "Sequelize.INTEGER"
+                    "seqType": "Sequelize.STRING"
                 },
                 "ContactMethod": {
                     "allowNull": false,
@@ -355,8 +355,6 @@
                     "seqType": "Sequelize.STRING"
                 },
                 "Address2": {
-                    "allowNull": false,
-                    "required": true,
                     "field": "Address2",
                     "seqType": "Sequelize.STRING"
                 },
@@ -398,5 +396,5 @@
             "indexes": []
         }
     },
-    "revision": 7
+    "revision": 1
 }

@@ -7,12 +7,22 @@ var authService = require('../services/auth');
 
 //Create a user
 router.post('/register', function(req, res, next) {
-          models.authorization.findOrCreate({
+          models.users.findOrCreate({
                     where: {Email: req.body.Email },
                     defaults: {
-                              Password: authService.hashPassword(req.body.Password),
-                              Role: false,
-                              Active: false
+                              FirstName: req.body.FirstName,
+                              LastName: req.body.LastName,
+                              Email: req.body.Email,
+                              Phone: req.body.Phone,
+                              MobilePhone: req.body.MobilePhone,
+                              ContactMethod: req.body.ContactMethod,
+                              Address1: req.body.Address1,
+                              Address2: req.body.Address2, 
+                              City: req.body.City,
+                              State: req.body.State,
+                              County: req.body.County,
+                              Zip: req.body.Zip,
+                              Password: authService.hashPassword(req.body.Password)
                     }
           }).spread(function(result, created) {
                     if(created) {
@@ -44,18 +54,81 @@ router.post('/login', function(req, res, next) {
 });
 /* GET all users listing. */
 router.get('/', function(req, res, next) {
-
+          let token = req.headers['jwt'];
+          if(token) {
+                    authService.verifyUser(token).then(user => {
+                              if(user) {
+                                        models.users.findAll({}).then(users => {
+                                                  console.log(users);
+                                                  res.status(201).json(users);
+                                        });
+                              } else {
+                                        res.status(400).json({ message: 'You are not authorized to view this page!'})
+                              }
+                    });
+          } else {
+                    res.status(400).json({ message: 'You are not logged in!'})
+          }
 });
 //Get a user by the id
 router.get('/:id', function(req, res, next) {
-
+      
 });
 //Update a user
 router.put('/:id', function(req, res, next) {
-
+          let token = req.headers['jwt'];
+          let UserId =  parseInt(req.params.id);
+          if(token) {
+                    authService.verifyUser(token).then(user => {
+                              if(user) {
+                                        models.users.update({
+                                                  FirstName: req.body.FirstName,
+                                                  LastName: req.body.FirstName,
+                                                  Email: req.body.Email,
+                                                  Phone: req.body.Phone,
+                                                  MobilePhone: req.body.MobilePhone,
+                                                  ContactMethod: req.body.ContactMethod,
+                                                  Address1: req.body.Address1,
+                                                  Address2: req.body.Address2,
+                                                  City: req.body.City,
+                                                  State: req.body.State,
+                                                  County: req.body.County,
+                                                  Zip: req.body.Zip
+                                        }, {where: {
+                                                  UserId: UserId
+                                        }}).then(function(result) {
+                                                  if(result) {
+                                                            res.status(201).json(result);
+                                                  }
+                                        });
+                              } else {
+                                        res.status(400).json({ message: 'Unable to update this user!'})
+                              }
+                    });
+          } else {
+                    res.status(500).json({ message: 'Whoops, something went wrong!'})
+          }
 });
 //Delete a user
 router.delete('/:id', function(req, res, next) {
-
+          let UserId = parseInt(req.params.id);
+          let token = req.headers['jwt'];
+          if(token) {
+                    authService.verifyUser(token).then(user => {
+                              if(user && user.Admin) {
+                                        models.users.delete({
+                                                  where: { UserId: UserId}
+                                        }).then(function(result) {
+                                                  if(result) {
+                                                            res.status(201).json({ message: 'This user has be removed!'});
+                                                  }
+                                        });
+                              } else {
+                                        res.status(400).json({ message: 'User can not be deleted!'})
+                              }
+                    });
+          } else {
+                    res.status(500).json({ message: 'Whoops, something went wrong!'})
+          }
 });
 module.exports = router;

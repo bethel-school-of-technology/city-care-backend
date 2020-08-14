@@ -24,13 +24,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     Phone: 
     {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       required: true,
       allowNull: false
     },
     Fax: 
     {
-      type: DataTypes.INTEGER
+      type: DataTypes.STRING
     },
     Email: 
     {

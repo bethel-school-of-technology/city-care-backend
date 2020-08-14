@@ -30,11 +30,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     Phone: 
     {
-      type: DataTypes.INTEGER
+      type: DataTypes.STRING
     },
     MobilePhone: 
     {
-      type: DataTypes.INTEGER
+      type: DataTypes.STRING
     },
     ContactMethod: 
     {
