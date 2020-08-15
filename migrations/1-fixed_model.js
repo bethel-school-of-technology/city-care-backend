@@ -8,7 +8,6 @@ var Sequelize = require('sequelize');
  * createTable "Authorizations", deps: []
  * createTable "categories", deps: []
  * createTable "listings", deps: []
- * createTable "organizations", deps: []
  * createTable "requests", deps: []
  * createTable "subcategories", deps: []
  * createTable "users", deps: []
@@ -17,8 +16,8 @@ var Sequelize = require('sequelize');
 
 var info = {
     "revision": 1,
-    "name": "initial_migration",
-    "created": "2020-08-14T17:48:32.310Z",
+    "name": "fixed_model",
+    "created": "2020-08-15T11:11:53.170Z",
     "comment": ""
 };
 
@@ -169,94 +168,6 @@ var migrationCommands = [{
     {
         fn: "createTable",
         params: [
-            "organizations",
-            {
-                "id": {
-                    "type": Sequelize.INTEGER,
-                    "field": "id",
-                    "primaryKey": true,
-                    "allowNull": false,
-                    "autoIncrement": true
-                },
-                "OrgName": {
-                    "type": Sequelize.STRING,
-                    "field": "OrgName",
-                    "required": true,
-                    "allowNull": false
-                },
-                "ContactName": {
-                    "type": Sequelize.STRING,
-                    "field": "ContactName",
-                    "required": true,
-                    "allowNull": false
-                },
-                "Phone": {
-                    "type": Sequelize.STRING,
-                    "field": "Phone",
-                    "allowNull": false,
-                    "required": true
-                },
-                "Fax": {
-                    "type": Sequelize.STRING,
-                    "field": "Fax"
-                },
-                "Email": {
-                    "type": Sequelize.STRING,
-                    "field": "Email",
-                    "required": true,
-                    "allowNull": false
-                },
-                "Address1": {
-                    "type": Sequelize.STRING,
-                    "field": "Address1",
-                    "required": true,
-                    "allowNull": false
-                },
-                "Address2": {
-                    "type": Sequelize.STRING,
-                    "field": "Address2"
-                },
-                "City": {
-                    "type": Sequelize.STRING,
-                    "field": "City",
-                    "required": true,
-                    "allowNull": false
-                },
-                "State": {
-                    "type": Sequelize.STRING,
-                    "field": "State",
-                    "required": true,
-                    "allowNull": false
-                },
-                "County": {
-                    "type": Sequelize.STRING,
-                    "field": "County",
-                    "required": true,
-                    "allowNull": false
-                },
-                "Zip": {
-                    "type": Sequelize.INTEGER,
-                    "field": "Zip",
-                    "required": true,
-                    "allowNull": false
-                },
-                "createdAt": {
-                    "type": Sequelize.DATE,
-                    "field": "createdAt",
-                    "allowNull": false
-                },
-                "updatedAt": {
-                    "type": Sequelize.DATE,
-                    "field": "updatedAt",
-                    "allowNull": false
-                }
-            },
-            {}
-        ]
-    },
-    {
-        fn: "createTable",
-        params: [
             "requests",
             {
                 "id": {
@@ -370,6 +281,16 @@ var migrationCommands = [{
                     "required": true,
                     "allowNull": false
                 },
+                "OrgName": {
+                    "type": Sequelize.STRING,
+                    "field": "OrgName",
+                    "allowNull": false
+                },
+                "ContactName": {
+                    "type": Sequelize.STRING,
+                    "field": "ContactName",
+                    "required": false
+                },
                 "Email": {
                     "type": Sequelize.STRING,
                     "field": "Email",
@@ -383,6 +304,11 @@ var migrationCommands = [{
                 "MobilePhone": {
                     "type": Sequelize.STRING,
                     "field": "MobilePhone"
+                },
+                "Fax": {
+                    "type": Sequelize.STRING,
+                    "field": "Fax",
+                    "required": false
                 },
                 "ContactMethod": {
                     "type": Sequelize.STRING,
@@ -423,6 +349,10 @@ var migrationCommands = [{
                     "field": "Zip",
                     "required": true,
                     "allowNull": false
+                },
+                "Password": {
+                    "type": Sequelize.STRING,
+                    "field": "Password"
                 },
                 "createdAt": {
                     "type": Sequelize.DATE,

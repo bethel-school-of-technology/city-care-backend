@@ -22,6 +22,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       required: true
     },
+    OrgName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    ContactName: {
+      type: DataTypes.STRING,
+      required: false
+    },
     Email: 
     {
       type: DataTypes.STRING,
@@ -35,6 +43,10 @@ module.exports = (sequelize, DataTypes) => {
     MobilePhone: 
     {
       type: DataTypes.STRING
+    },
+    Fax: {
+      type: DataTypes.STRING,
+      required: false
     },
     ContactMethod: 
     {
@@ -75,6 +87,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       required: true
+    },
+    Password: {
+      type: DataTypes.STRING
     }
   }, 
   {}
