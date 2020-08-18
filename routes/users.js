@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql2');
+var cors = require('cors');
 var models = require('../models');
 var authService = require('../services/auth');
 
@@ -8,23 +9,9 @@ var authService = require('../services/auth');
 //Create a user
 router.post('/register', function(req, res, next) {
           models.users.findOrCreate({
-                    where: {Email: req.body.Email },
-                    defaults: {
-                              FirstName: req.body.FirstName,
-                              LastName: req.body.LastName,
-                              Email: req.body.Email,
-                              Phone: req.body.Phone,
-                              MobilePhone: req.body.MobilePhone,
-                              ContactMethod: req.body.ContactMethod,
-                              Address1: req.body.Address1,
-                              Address2: req.body.Address2, 
-                              City: req.body.City,
-                              State: req.body.State,
-                              County: req.body.County,
-                              Zip: req.body.Zip,
-                              Password: authService.hashPassword(req.body.Password)
-                    }
+                
           }).spread(function(result, created) {
+                    console.log(user.Password)
                     if(created) {
                               res.status(201).json({ message: 'Account created! Please log in and update your information!' })
                     } else {

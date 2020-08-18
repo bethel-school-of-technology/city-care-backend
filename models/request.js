@@ -28,12 +28,26 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       required: true
     },
+    Deleted: {
+      type: DataTypes.BOOLEAN,
+      default: false
+    },
     UserId: 
     {
       type: DataTypes.INTEGER,
       foreignKey: true
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false
     }
-  }, {});
+  }, 
+  {}
+  );
   request.associate = function(models) {
     // associations can be defined here
   };

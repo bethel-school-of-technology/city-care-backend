@@ -24,11 +24,16 @@ module.exports = (sequelize, DataTypes) => {
     },
     OrgName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      required: false
     },
     ContactName: {
       type: DataTypes.STRING,
       required: false
+    },
+    Username: {
+      type: DataTypes.STRING,
+      required: true
     },
     Email: 
     {
@@ -38,11 +43,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     Phone: 
     {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      required: false
     },
     MobilePhone: 
     {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      required: false
     },
     Fax: {
       type: DataTypes.STRING,
@@ -51,7 +58,6 @@ module.exports = (sequelize, DataTypes) => {
     ContactMethod: 
     {
       type: DataTypes.STRING,
-      allowNull: false,
       required: true
     },
     Address1: 
@@ -62,7 +68,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     Address2: 
     {
-      type: DataTypes.STRING      
+      type: DataTypes.STRING,
+      required: false      
     },
     City: 
     {
@@ -89,7 +96,26 @@ module.exports = (sequelize, DataTypes) => {
       required: true
     },
     Password: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
+      required: true
+    },
+    Deleted: {
+      type: DataTypes.BOOLEAN,
+      default: false
+    },
+    Admin: {
+      type: DataTypes.BOOLEAN,
+      default: false,
+      required: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false
     }
   }, 
   {}

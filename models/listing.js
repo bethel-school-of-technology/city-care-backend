@@ -50,6 +50,18 @@ module.exports = (sequelize, DataTypes) => {
     {
       type: DataTypes.INTEGER,
       foreignKey: true
+    },
+    Deleted: {
+      type: DataTypes.BOOLEAN,
+      default: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false
     }
   }, 
   {}

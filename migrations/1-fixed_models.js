@@ -16,8 +16,8 @@ var Sequelize = require('sequelize');
 
 var info = {
     "revision": 1,
-    "name": "fixed_model",
-    "created": "2020-08-15T11:11:53.170Z",
+    "name": "fixed_models",
+    "created": "2020-08-18T14:55:13.391Z",
     "comment": ""
 };
 
@@ -151,6 +151,11 @@ var migrationCommands = [{
                     "field": "OrgId",
                     "foreignKey": true
                 },
+                "Deleted": {
+                    "type": Sequelize.BOOLEAN,
+                    "field": "Deleted",
+                    "default": false
+                },
                 "createdAt": {
                     "type": Sequelize.DATE,
                     "field": "createdAt",
@@ -194,6 +199,11 @@ var migrationCommands = [{
                     "field": "SubCategory",
                     "required": true,
                     "allowNull": false
+                },
+                "Deleted": {
+                    "type": Sequelize.BOOLEAN,
+                    "field": "Deleted",
+                    "default": false
                 },
                 "UserId": {
                     "type": Sequelize.INTEGER,
@@ -284,12 +294,18 @@ var migrationCommands = [{
                 "OrgName": {
                     "type": Sequelize.STRING,
                     "field": "OrgName",
+                    "required": false,
                     "allowNull": false
                 },
                 "ContactName": {
                     "type": Sequelize.STRING,
                     "field": "ContactName",
                     "required": false
+                },
+                "Username": {
+                    "type": Sequelize.STRING,
+                    "field": "Username",
+                    "required": true
                 },
                 "Email": {
                     "type": Sequelize.STRING,
@@ -299,11 +315,13 @@ var migrationCommands = [{
                 },
                 "Phone": {
                     "type": Sequelize.STRING,
-                    "field": "Phone"
+                    "field": "Phone",
+                    "required": false
                 },
                 "MobilePhone": {
                     "type": Sequelize.STRING,
-                    "field": "MobilePhone"
+                    "field": "MobilePhone",
+                    "required": false
                 },
                 "Fax": {
                     "type": Sequelize.STRING,
@@ -313,8 +331,7 @@ var migrationCommands = [{
                 "ContactMethod": {
                     "type": Sequelize.STRING,
                     "field": "ContactMethod",
-                    "required": true,
-                    "allowNull": false
+                    "required": true
                 },
                 "Address1": {
                     "type": Sequelize.STRING,
@@ -324,7 +341,8 @@ var migrationCommands = [{
                 },
                 "Address2": {
                     "type": Sequelize.STRING,
-                    "field": "Address2"
+                    "field": "Address2",
+                    "required": false
                 },
                 "City": {
                     "type": Sequelize.STRING,
@@ -352,7 +370,20 @@ var migrationCommands = [{
                 },
                 "Password": {
                     "type": Sequelize.STRING,
-                    "field": "Password"
+                    "field": "Password",
+                    "required": true,
+                    "allowNull": false
+                },
+                "Deleted": {
+                    "type": Sequelize.BOOLEAN,
+                    "field": "Deleted",
+                    "default": false
+                },
+                "Admin": {
+                    "type": Sequelize.BOOLEAN,
+                    "field": "Admin",
+                    "required": false,
+                    "default": false
                 },
                 "createdAt": {
                     "type": Sequelize.DATE,

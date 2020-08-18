@@ -122,6 +122,11 @@
                     "field": "OrgId",
                     "seqType": "Sequelize.INTEGER"
                 },
+                "Deleted": {
+                    "default": false,
+                    "field": "Deleted",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
                 "createdAt": {
                     "allowNull": false,
                     "field": "createdAt",
@@ -162,6 +167,11 @@
                     "required": true,
                     "field": "SubCategory",
                     "seqType": "Sequelize.STRING"
+                },
+                "Deleted": {
+                    "default": false,
+                    "field": "Deleted",
+                    "seqType": "Sequelize.BOOLEAN"
                 },
                 "UserId": {
                     "foreignKey": true,
@@ -245,12 +255,18 @@
                 },
                 "OrgName": {
                     "allowNull": false,
+                    "required": false,
                     "field": "OrgName",
                     "seqType": "Sequelize.STRING"
                 },
                 "ContactName": {
                     "required": false,
                     "field": "ContactName",
+                    "seqType": "Sequelize.STRING"
+                },
+                "Username": {
+                    "required": true,
+                    "field": "Username",
                     "seqType": "Sequelize.STRING"
                 },
                 "Email": {
@@ -260,10 +276,12 @@
                     "seqType": "Sequelize.STRING"
                 },
                 "Phone": {
+                    "required": false,
                     "field": "Phone",
                     "seqType": "Sequelize.STRING"
                 },
                 "MobilePhone": {
+                    "required": false,
                     "field": "MobilePhone",
                     "seqType": "Sequelize.STRING"
                 },
@@ -273,7 +291,6 @@
                     "seqType": "Sequelize.STRING"
                 },
                 "ContactMethod": {
-                    "allowNull": false,
                     "required": true,
                     "field": "ContactMethod",
                     "seqType": "Sequelize.STRING"
@@ -285,6 +302,7 @@
                     "seqType": "Sequelize.STRING"
                 },
                 "Address2": {
+                    "required": false,
                     "field": "Address2",
                     "seqType": "Sequelize.STRING"
                 },
@@ -313,8 +331,21 @@
                     "seqType": "Sequelize.INTEGER"
                 },
                 "Password": {
+                    "allowNull": false,
+                    "required": true,
                     "field": "Password",
                     "seqType": "Sequelize.STRING"
+                },
+                "Deleted": {
+                    "default": false,
+                    "field": "Deleted",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "Admin": {
+                    "default": false,
+                    "required": false,
+                    "field": "Admin",
+                    "seqType": "Sequelize.BOOLEAN"
                 },
                 "createdAt": {
                     "allowNull": false,
