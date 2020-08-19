@@ -39,6 +39,21 @@ router.post('/login', function(req, res, next) {
                     }
           });
 });
+/*Get user/org profile using authentication token */
+router.get('/profile', function(req, res, next) {
+          let token = req.headers['jwt'];
+          if(token) {
+                    authService.verifyUser(token).then(user => {
+                              if(user) {
+                                        res.status(200).json(user);
+                              } else {
+                                        res.status(400).json('error', {message: 'There has been an error, user must be logged in!'})
+                              }
+                    })
+          } else {
+                    res.status(500).json('error', {message: 'Internal server error!'})
+          }
+});
 /* GET all users listing. */
 router.get('/', function(req, res, next) {
           let token = req.headers['jwt'];
@@ -59,7 +74,22 @@ router.get('/', function(req, res, next) {
 });
 //Get a user by the id
 router.get('/:id', function(req, res, next) {
-      
+      let userId = req.params.id;
+      let token = req.headers['jwt'];
+      if(token) {
+                authService.verifyUser(token).then(user => {
+                          if(user && user.admin) {
+                                    models.users.findByPk(parseInt(req.params.id))
+                                    .then(user => {
+                                              res.status(200).json(user);
+                                    })
+                          } else {
+                                    res.status(400).json('error', { message: 'You can not do that!'})
+                          }
+                })
+      } else {
+                res.status(500).json('error', {message: 'Internal Server Error!'})
+      }
 });
 //Update a user
 router.put('/:id', function(req, res, next) {
@@ -69,18 +99,7 @@ router.put('/:id', function(req, res, next) {
                     authService.verifyUser(token).then(user => {
                               if(user) {
                                         models.users.update({
-                                                  FirstName: req.body.FirstName,
-                                                  LastName: req.body.FirstName,
-                                                  Email: req.body.Email,
-                                                  Phone: req.body.Phone,
-                                                  MobilePhone: req.body.MobilePhone,
-                                                  ContactMethod: req.body.ContactMethod,
-                                                  Address1: req.body.Address1,
-                                                  Address2: req.body.Address2,
-                                                  City: req.body.City,
-                                                  State: req.body.State,
-                                                  County: req.body.County,
-                                                  Zip: req.body.Zip
+                                                 
                                         }, {where: {
                                                   UserId: UserId
                                         }}).then(function(result) {
