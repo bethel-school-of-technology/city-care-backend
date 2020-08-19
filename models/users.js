@@ -10,108 +10,104 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       primaryKey: true
     },
-    FirstName: 
-    {
+    first_name: {
       type: DataTypes.STRING,
       allowNull: false,
       required: true
     },
-    LastName: 
-    {
+    last_name: {
       type: DataTypes.STRING,
       allowNull: false,
       required: true
     },
-    OrgName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      required: false
-    },
-    ContactName: {
+    org_name: {
       type: DataTypes.STRING,
       required: false
     },
-    Username: {
-      type: DataTypes.STRING,
-      required: true
-    },
-    Email: 
-    {
-      type: DataTypes.STRING,
-      allowNull: false,
-      required: true
-    },
-    Phone: 
-    {
+    contact_name: {
       type: DataTypes.STRING,
       required: false
     },
-    MobilePhone: 
-    {
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      required: true
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      required: true
+    },
+    phone: {
+      type: DataTypes.INTEGER,
+      required: false
+    },
+    mobile_phone: {
+      type: DataTypes.INTEGER,
+      required: false
+    },
+    fax: {
+      type: DataTypes.INTEGER, 
+      required: false
+    },
+    contact_method: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      required: true
+    },
+    address1: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      required: true
+    },
+    address2: {
       type: DataTypes.STRING,
       required: false
     },
-    Fax: {
-      type: DataTypes.STRING,
-      required: false
-    },
-    ContactMethod: 
-    {
-      type: DataTypes.STRING,
-      required: true
-    },
-    Address1: 
-    {
+    city: {
       type: DataTypes.STRING,
       allowNull: false,
       required: true
     },
-    Address2: 
-    {
-      type: DataTypes.STRING,
-      required: false      
-    },
-    City: 
-    {
+    state: {
       type: DataTypes.STRING,
       allowNull: false,
       required: true
     },
-    State: 
-    {
+    county: {
       type: DataTypes.STRING,
       allowNull: false,
       required: true
     },
-    County: 
-    {
-      type: DataTypes.STRING,
-      allowNull: false,
-      required: true
-    },
-    Zip: 
-    {
+    zip: {
       type: DataTypes.INTEGER,
       allowNull: false,
       required: true
     },
-    Password: {
+    password: {
       type: DataTypes.STRING,
       allowNull: false,
       required: true
     },
-    Deleted: {
+    role: {
       type: DataTypes.BOOLEAN,
-      default: false
+      default: false,
+      required: false
     },
-    Admin: {
+    deleted: {
+      type: DataTypes.BOOLEAN,
+      default: false,
+      required: false
+    },
+    admin: {
       type: DataTypes.BOOLEAN,
       default: false,
       required: false
     },
     createdAt: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: false
     },
     updatedAt: {
       type: DataTypes.DATE,

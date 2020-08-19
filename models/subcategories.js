@@ -10,18 +10,18 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         primaryKey: true
       },
-      CatId:
+      cat_id:
       {
         type: DataTypes.INTEGER,
         foreignKey: true
       },
-      Name:
+      name:
       {
         type: DataTypes.STRING,
         allowNull: false,
         required: true
       },
-      Type:
+      type:
       {
         type: DataTypes.STRING,
         allowNull: false,

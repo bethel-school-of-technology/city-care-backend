@@ -10,29 +10,29 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       allowNull: false,
     },
-    Description: 
+    description: 
     {
       type: DataTypes.STRING,
       allowNull: false,
       required: true
     },
-    Category: 
+    category: 
     {
       type: DataTypes.STRING,
       allowNull: false,
       required: true
     },
-    SubCategory: 
+    sub_category: 
     {
       type: DataTypes.STRING,
       allowNull: false,
       required: true
     },
-    Deleted: {
+    deleted: {
       type: DataTypes.BOOLEAN,
       default: false
     },
-    UserId: 
+    user_id: 
     {
       type: DataTypes.INTEGER,
       foreignKey: true

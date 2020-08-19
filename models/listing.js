@@ -10,48 +10,48 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       primaryKey: true
     },
-    Quantity: 
+    quantity: 
     {
       type: DataTypes.INTEGER,
       allowNull: false,
       required: true
     },
-    Description: 
+    description: 
     {
       type: DataTypes.STRING,
       allowNull: false,
       required: true
     },
-    Availability: 
+    availability: 
     {
       type: DataTypes.STRING,
       allowNull: false,
       required: true
     },
-    Requirements: 
+    requirements: 
     {
       type: DataTypes.STRING,
       allowNull: false,
       required: true
     },
-    Category: 
+    category: 
     {
       type: DataTypes.STRING,
       allowNull: false,
       required: true
     },
-    SubCategory: 
+    sub_category: 
     {
       type: DataTypes.STRING,
       allowNull: false,
       required: true
     },
-    OrgId: 
+    org_id: 
     {
       type: DataTypes.INTEGER,
       foreignKey: true
     },
-    Deleted: {
+    deleted: {
       type: DataTypes.BOOLEAN,
       default: false
     },

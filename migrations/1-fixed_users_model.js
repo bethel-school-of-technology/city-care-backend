@@ -16,8 +16,8 @@ var Sequelize = require('sequelize');
 
 var info = {
     "revision": 1,
-    "name": "fixed_models",
-    "created": "2020-08-18T14:55:13.391Z",
+    "name": "fixed_users_model",
+    "created": "2020-08-19T12:03:47.861Z",
     "comment": ""
 };
 
@@ -279,109 +279,118 @@ var migrationCommands = [{
                     "allowNull": false,
                     "autoIncrement": true
                 },
-                "FirstName": {
+                "first_name": {
                     "type": Sequelize.STRING,
-                    "field": "FirstName",
+                    "field": "first_name",
                     "required": true,
                     "allowNull": false
                 },
-                "LastName": {
+                "last_name": {
                     "type": Sequelize.STRING,
-                    "field": "LastName",
+                    "field": "last_name",
                     "required": true,
                     "allowNull": false
                 },
-                "OrgName": {
+                "orgName": {
                     "type": Sequelize.STRING,
-                    "field": "OrgName",
-                    "required": false,
-                    "allowNull": false
-                },
-                "ContactName": {
-                    "type": Sequelize.STRING,
-                    "field": "ContactName",
+                    "field": "orgName",
                     "required": false
                 },
-                "Username": {
+                "contactName": {
                     "type": Sequelize.STRING,
-                    "field": "Username",
-                    "required": true
-                },
-                "Email": {
-                    "type": Sequelize.STRING,
-                    "field": "Email",
-                    "required": true,
-                    "allowNull": false
-                },
-                "Phone": {
-                    "type": Sequelize.STRING,
-                    "field": "Phone",
+                    "field": "contactName",
                     "required": false
                 },
-                "MobilePhone": {
+                "username": {
                     "type": Sequelize.STRING,
-                    "field": "MobilePhone",
-                    "required": false
-                },
-                "Fax": {
-                    "type": Sequelize.STRING,
-                    "field": "Fax",
-                    "required": false
-                },
-                "ContactMethod": {
-                    "type": Sequelize.STRING,
-                    "field": "ContactMethod",
-                    "required": true
-                },
-                "Address1": {
-                    "type": Sequelize.STRING,
-                    "field": "Address1",
+                    "field": "username",
                     "required": true,
                     "allowNull": false
                 },
-                "Address2": {
+                "email": {
                     "type": Sequelize.STRING,
-                    "field": "Address2",
-                    "required": false
-                },
-                "City": {
-                    "type": Sequelize.STRING,
-                    "field": "City",
+                    "field": "email",
                     "required": true,
+                    "unique": true,
                     "allowNull": false
                 },
-                "State": {
-                    "type": Sequelize.STRING,
-                    "field": "State",
-                    "required": true,
-                    "allowNull": false
-                },
-                "County": {
-                    "type": Sequelize.STRING,
-                    "field": "County",
-                    "required": true,
-                    "allowNull": false
-                },
-                "Zip": {
+                "phone": {
                     "type": Sequelize.INTEGER,
-                    "field": "Zip",
-                    "required": true,
-                    "allowNull": false
+                    "field": "phone",
+                    "required": false
                 },
-                "Password": {
+                "mobilePhone": {
+                    "type": Sequelize.INTEGER,
+                    "field": "mobilePhone",
+                    "required": false
+                },
+                "fax": {
+                    "type": Sequelize.INTEGER,
+                    "field": "fax",
+                    "required": false
+                },
+                "contactMethod": {
                     "type": Sequelize.STRING,
-                    "field": "Password",
+                    "field": "contactMethod",
                     "required": true,
                     "allowNull": false
                 },
-                "Deleted": {
+                "address1": {
+                    "type": Sequelize.STRING,
+                    "field": "address1",
+                    "required": true,
+                    "allowNull": false
+                },
+                "address2": {
+                    "type": Sequelize.STRING,
+                    "field": "address2",
+                    "required": false
+                },
+                "city": {
+                    "type": Sequelize.STRING,
+                    "field": "city",
+                    "required": true,
+                    "allowNull": false
+                },
+                "state": {
+                    "type": Sequelize.STRING,
+                    "field": "state",
+                    "required": true,
+                    "allowNull": false
+                },
+                "county": {
+                    "type": Sequelize.STRING,
+                    "field": "county",
+                    "required": true,
+                    "allowNull": false
+                },
+                "zip": {
+                    "type": Sequelize.INTEGER,
+                    "field": "zip",
+                    "required": true,
+                    "allowNull": false
+                },
+                "password": {
+                    "type": Sequelize.STRING,
+                    "field": "password",
+                    "required": true,
+                    "allowNull": false
+                },
+                "role": {
                     "type": Sequelize.BOOLEAN,
-                    "field": "Deleted",
+                    "field": "role",
+                    "required": false,
                     "default": false
                 },
-                "Admin": {
+                "deleted": {
                     "type": Sequelize.BOOLEAN,
-                    "field": "Admin",
+                    "field": "deleted",
+                    "required": false,
+                    "default": false
+                },
+                "admin": {
+                    "type": Sequelize.BOOLEAN,
+                    "field": "admin",
                     "required": false,
                     "default": false
                 },

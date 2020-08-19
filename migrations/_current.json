@@ -241,110 +241,119 @@
                     "field": "id",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "FirstName": {
+                "first_name": {
                     "allowNull": false,
                     "required": true,
-                    "field": "FirstName",
+                    "field": "first_name",
                     "seqType": "Sequelize.STRING"
                 },
-                "LastName": {
+                "last_name": {
                     "allowNull": false,
                     "required": true,
-                    "field": "LastName",
+                    "field": "last_name",
                     "seqType": "Sequelize.STRING"
                 },
-                "OrgName": {
-                    "allowNull": false,
+                "orgName": {
                     "required": false,
-                    "field": "OrgName",
+                    "field": "orgName",
                     "seqType": "Sequelize.STRING"
                 },
-                "ContactName": {
+                "contactName": {
                     "required": false,
-                    "field": "ContactName",
+                    "field": "contactName",
                     "seqType": "Sequelize.STRING"
                 },
-                "Username": {
-                    "required": true,
-                    "field": "Username",
-                    "seqType": "Sequelize.STRING"
-                },
-                "Email": {
+                "username": {
                     "allowNull": false,
                     "required": true,
-                    "field": "Email",
+                    "field": "username",
                     "seqType": "Sequelize.STRING"
                 },
-                "Phone": {
+                "email": {
+                    "allowNull": false,
+                    "unique": true,
+                    "required": true,
+                    "field": "email",
+                    "seqType": "Sequelize.STRING"
+                },
+                "phone": {
                     "required": false,
-                    "field": "Phone",
-                    "seqType": "Sequelize.STRING"
-                },
-                "MobilePhone": {
-                    "required": false,
-                    "field": "MobilePhone",
-                    "seqType": "Sequelize.STRING"
-                },
-                "Fax": {
-                    "required": false,
-                    "field": "Fax",
-                    "seqType": "Sequelize.STRING"
-                },
-                "ContactMethod": {
-                    "required": true,
-                    "field": "ContactMethod",
-                    "seqType": "Sequelize.STRING"
-                },
-                "Address1": {
-                    "allowNull": false,
-                    "required": true,
-                    "field": "Address1",
-                    "seqType": "Sequelize.STRING"
-                },
-                "Address2": {
-                    "required": false,
-                    "field": "Address2",
-                    "seqType": "Sequelize.STRING"
-                },
-                "City": {
-                    "allowNull": false,
-                    "required": true,
-                    "field": "City",
-                    "seqType": "Sequelize.STRING"
-                },
-                "State": {
-                    "allowNull": false,
-                    "required": true,
-                    "field": "State",
-                    "seqType": "Sequelize.STRING"
-                },
-                "County": {
-                    "allowNull": false,
-                    "required": true,
-                    "field": "County",
-                    "seqType": "Sequelize.STRING"
-                },
-                "Zip": {
-                    "allowNull": false,
-                    "required": true,
-                    "field": "Zip",
+                    "field": "phone",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "Password": {
+                "mobilePhone": {
+                    "required": false,
+                    "field": "mobilePhone",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fax": {
+                    "required": false,
+                    "field": "fax",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "contactMethod": {
                     "allowNull": false,
                     "required": true,
-                    "field": "Password",
+                    "field": "contactMethod",
                     "seqType": "Sequelize.STRING"
                 },
-                "Deleted": {
-                    "default": false,
-                    "field": "Deleted",
-                    "seqType": "Sequelize.BOOLEAN"
+                "address1": {
+                    "allowNull": false,
+                    "required": true,
+                    "field": "address1",
+                    "seqType": "Sequelize.STRING"
                 },
-                "Admin": {
+                "address2": {
+                    "required": false,
+                    "field": "address2",
+                    "seqType": "Sequelize.STRING"
+                },
+                "city": {
+                    "allowNull": false,
+                    "required": true,
+                    "field": "city",
+                    "seqType": "Sequelize.STRING"
+                },
+                "state": {
+                    "allowNull": false,
+                    "required": true,
+                    "field": "state",
+                    "seqType": "Sequelize.STRING"
+                },
+                "county": {
+                    "allowNull": false,
+                    "required": true,
+                    "field": "county",
+                    "seqType": "Sequelize.STRING"
+                },
+                "zip": {
+                    "allowNull": false,
+                    "required": true,
+                    "field": "zip",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "password": {
+                    "allowNull": false,
+                    "required": true,
+                    "field": "password",
+                    "seqType": "Sequelize.STRING"
+                },
+                "role": {
                     "default": false,
                     "required": false,
-                    "field": "Admin",
+                    "field": "role",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "deleted": {
+                    "default": false,
+                    "required": false,
+                    "field": "deleted",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "admin": {
+                    "default": false,
+                    "required": false,
+                    "field": "admin",
                     "seqType": "Sequelize.BOOLEAN"
                 },
                 "createdAt": {

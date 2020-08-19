@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const Authorization = sequelize.define(
     'Authorization', 
     {
-    Email: 
+    email: 
     {
       type: DataTypes.STRING,
       allowNull: false,
@@ -11,19 +11,19 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: true,
       required: true
     },
-    Password: 
+    password: 
     {
       type: DataTypes.STRING,
       allowNull: false,
       required: true
     },
-    Role: 
+    role: 
     {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       required: true
     },
-    Active: 
+    active: 
     {
       type: DataTypes.BOOLEAN,
       allowNull: false,
