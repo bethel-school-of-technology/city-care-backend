@@ -5,8 +5,8 @@ var cors = require('cors');
 var models = require('../models');
 var authService = require('../services/auth');
 
-//Create a user
-router.post('/register', function (req, res, next) {
+//Create a user 
+/* router.post('/register', function (req, res, next) {
   models.users
     .findOrCreate({
       where: { email: req.body.email },
@@ -33,51 +33,77 @@ router.post('/register', function (req, res, next) {
       }
     });
 });
-
-//Log a user in
-router.post('/login', function (req, res, next) {
-  models.authorization
-    .findOne({
-      where: { Email: req.body.Email }
+ */
+//Create a user for testing purposes
+router.post('/register', function (req, res, next) {
+  models.users
+    .findOrCreate({
+      where: { email: req.body.email },
+      defaults: {
+        role: req.body.type,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        org_name: req.body.org_name,
+        contact_name: req.body.contact_name,
+        username: req.body.username,
+        email: req.body.email,
+        phone: req.body.phone,
+        mobile_phone: req.body.mobile_phone,
+        fax: req.body.fax,
+        contact_method: req.body.contact_method,
+        address1: req.body.address1,
+        address2: req.body.address2,
+        city: req.body.city,
+        state: req.body.state,
+        county: req.body.county,
+        zip: req.body.zip,
+        password: authService.hashPassword(req.body.password),
+        deleted: false,
+        admin: true,
+      }
     })
-    .then((user) => {
-      if (!user) {
-        console.log('User not found!');
-        return res
-          .status(400)
-          .json({ message: 'Login failed! User not found!' });
+    .spread(function (result, created) {
+      if (created) {
+        res.status(201).json(result);
       } else {
-        let passwordMatch = authService.comparePasswords(
-          req.body.Password,
-          user.Password
-        );
-        if (passwordMatch) {
-          let token = authService.signUser(user);
-          res.cookie('jwt', token);
-          res
-            .status(201)
-            .json({ token: token, message: 'You have been logged in!' });
-        } else {
-          res.status(400).json({ message: 'Wrong password!' });
-        }
+        res.status(400).send('This user already exists!');
       }
     });
 });
+
+//Log a user in
+router.post('/login', function(req, res, next) { 
+  models.users.findOne({
+    where: {email: req.body.email }
+  }).then(user => {
+    if(!user) {
+      console.log('User not found!');
+      return res.status(400).json({message: 'Login Failed! User not found!'});
+    } else {
+      let passwordMatch = authService.comparePasswords(req.body.password, user.password);
+      if(passwordMatch) {
+        let token = authService.signUser(user);
+        res.cookie('jwt', token);
+        res.status(200).json({token: token, message: 'You have been logged in!'});
+      } else {
+        res.status(400).json({message: 'Wrong Password!'});
+      }
+    }
+  });
+});
 /*Get user/org profile using authentication token */
-router.get('/profile', function (req, res, next) {
+router.get('/profile', function(req, res, next) {
   let token = req.headers['jwt'];
-  if (token) {
-    authService.verifyUser(token).then((user) => {
-      if (user) {
+  if(token) {
+    authService.verifyUser(token).then(user => {
+      if(user) {
         res.status(200).json(user);
       } else {
-        res.status(400).json('error', {
-          message: 'There has been an error, user must be logged in!'
-        });
+        res.status(401).json({message: 'There has been an error, user must be logged in.'})
       }
-    });
+    })
   } else {
-    res.status(500).json('error', { message: 'Internal server error!' });
+    res.status(500).json({message: 'internal server mix up'})
   }
 });
 /* GET all users listing. */
@@ -111,15 +137,15 @@ router.get('/:id', function (req, res, next) {
           res.status(200).json(user);
         });
       } else {
-        res.status(400).json('error', { message: 'You can not do that!' });
+        res.status(400).json({ message: 'You can not do that!' });
       }
     });
   } else {
-    res.status(500).json('error', { message: 'Internal Server Error!' });
+    res.status(500).json({ message: 'Internal Server Error!' });
   }
 });
 //Update a user
-router.put('/:id', function (req, res, next) {
+/* router.put('/:id', function (req, res, next) {
   let token = req.headers['jwt'];
   let UserId = parseInt(req.params.id);
   if (token) {
@@ -146,7 +172,7 @@ router.put('/:id', function (req, res, next) {
   } else {
     res.status(500).json({ message: 'Whoops, something went wrong!' });
   }
-});
+}); */
 //Delete a user
 router.delete('/:id', function (req, res, next) {
   let UserId = parseInt(req.params.id);
@@ -171,4 +197,5 @@ router.delete('/:id', function (req, res, next) {
     res.status(500).json({ message: 'Whoops, something went wrong!' });
   }
 });
+
 module.exports = router;

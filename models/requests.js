@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const request = sequelize.define(
-    'request', 
+  const requests = sequelize.define(
+    'requests', 
     {
     id: 
     {
@@ -13,19 +13,16 @@ module.exports = (sequelize, DataTypes) => {
     description: 
     {
       type: DataTypes.STRING,
-      allowNull: false,
       required: true
     },
     category: 
     {
       type: DataTypes.STRING,
-      allowNull: false,
       required: true
     },
     sub_category: 
     {
       type: DataTypes.STRING,
-      allowNull: false,
       required: true
     },
     deleted: {
@@ -48,8 +45,8 @@ module.exports = (sequelize, DataTypes) => {
   }, 
   {}
   );
-  request.associate = function(models) {
-    // associations can be defined here
+  requests.associate = function(models) {
+    requests.belongsTo(models.users, {foreignKey: 'user_id'})
   };
-  return request;
+  return requests;
 };

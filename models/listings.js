@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const listing = sequelize.define(
-    'listing', 
+  const listings = sequelize.define(
+    'listings', 
     {
     id: 
     {
@@ -13,38 +13,26 @@ module.exports = (sequelize, DataTypes) => {
     quantity: 
     {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      required: true
     },
     description: 
     {
       type: DataTypes.STRING,
-      allowNull: false,
-      required: true
     },
     availability: 
     {
       type: DataTypes.STRING,
-      allowNull: false,
-      required: true
     },
     requirements: 
     {
       type: DataTypes.STRING,
-      allowNull: false,
-      required: true
     },
     category: 
     {
       type: DataTypes.STRING,
-      allowNull: false,
-      required: true
     },
     sub_category: 
     {
       type: DataTypes.STRING,
-      allowNull: false,
-      required: true
     },
     org_id: 
     {
@@ -66,8 +54,8 @@ module.exports = (sequelize, DataTypes) => {
   }, 
   {}
   );
-  listing.associate = function(models) {
-    // associations can be defined here
-  };
-  return listing;
+  listings.associate = function(models) {
+listings.belongsTo(models.users, {foreignKey: 'org_id'})  
+};
+  return listings;
 };

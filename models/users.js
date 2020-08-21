@@ -40,15 +40,15 @@ module.exports = (sequelize, DataTypes) => {
       required: true
     },
     phone: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       required: false
     },
     mobile_phone: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       required: false
     },
     fax: {
-      type: DataTypes.INTEGER, 
+      type: DataTypes.STRING, 
       required: false
     },
     contact_method: {
@@ -97,13 +97,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     deleted: {
       type: DataTypes.BOOLEAN,
-      default: false,
-      required: false
+      default: false
     },
     admin: {
       type: DataTypes.BOOLEAN,
-      default: false,
-      required: false
+      default: false
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -117,7 +115,7 @@ module.exports = (sequelize, DataTypes) => {
   {}
   );
   users.associate = function(models) {
-    // associations can be defined here
+    users.hasMany(models.requests, {foreignKey: 'user_id'})
   };
   return users;
 };
