@@ -6,7 +6,7 @@ var models = require('../models');
 var authService = require('../services/auth');
 
 //Create a user 
-router.post('/register', function (req, res, next) {
+/* router.post('/register', function (req, res, next) {
   models.users
     .findOrCreate({
       where: {
@@ -35,43 +35,43 @@ router.post('/register', function (req, res, next) {
       }
     });
 });
-
+ */
 //Create a user for testing purposes
-// router.post('/register', function (req, res, next) {
-//   models.users
-//     .findOrCreate({
-//       where: { email: req.body.email },
-//       defaults: {
-//         role: req.body.type,
-//         first_name: req.body.first_name,
-//         last_name: req.body.last_name,
-//         org_name: req.body.org_name,
-//         contact_name: req.body.contact_name,
-//         username: req.body.username,
-//         email: req.body.email,
-//         phone: req.body.phone,
-//         mobile_phone: req.body.mobile_phone,
-//         fax: req.body.fax,
-//         contact_method: req.body.contact_method,
-//         address1: req.body.address1,
-//         address2: req.body.address2,
-//         city: req.body.city,
-//         state: req.body.state,
-//         county: req.body.county,
-//         zip: req.body.zip,
-//         password: authService.hashPassword(req.body.password),
-//         deleted: false,
-//         admin: true,
-//       }
-//     })
-//     .spread(function (result, created) {
-//       if (created) {
-//         res.status(201).json(result);
-//       } else {
-//         res.status(400).send('This user already exists!');
-//       }
-//     });
-// });
+router.post('/register', function (req, res, next) {
+  models.users
+    .findOrCreate({
+      where: { email: req.body.email },
+      defaults: {
+        role: req.body.type,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        org_name: req.body.org_name,
+        contact_name: req.body.contact_name,
+        username: req.body.username,
+        email: req.body.email,
+        phone: req.body.phone,
+        mobile_phone: req.body.mobile_phone,
+        fax: req.body.fax,
+        contact_method: req.body.contact_method,
+        address1: req.body.address1,
+        address2: req.body.address2,
+        city: req.body.city,
+        state: req.body.state,
+        county: req.body.county,
+        zip: req.body.zip,
+        password: authService.hashPassword(req.body.password),
+        deleted: false,
+        admin: true,
+      }
+    })
+    .spread(function (result, created) {
+      if (created) {
+        res.status(201).json(result);
+      } else {
+        res.status(400).send('This user already exists!');
+      }
+    });
+});
 
 //Log a user in
 router.post('/login', function (req, res, next) {
