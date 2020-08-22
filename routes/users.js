@@ -74,38 +74,51 @@ router.post('/register', function (req, res, next) {
 // });
 
 //Log a user in
-router.post('/login', function(req, res, next) { 
+router.post('/login', function (req, res, next) {
   models.users.findOne({
-    where: {email: req.body.email }
+    where: {
+      email: req.body.email
+    }
   }).then(user => {
-    if(!user) {
+    if (!user) {
       console.log('User not found!');
-      return res.status(400).json({message: 'Login Failed! User not found!'});
+      return res.status(400).json({
+        message: 'Login Failed! User not found!'
+      });
     } else {
       let passwordMatch = authService.comparePasswords(req.body.password, user.password);
-      if(passwordMatch) {
+      if (passwordMatch) {
         let token = authService.signUser(user);
         res.cookie('jwt', token);
-        res.status(200).json({token: token, message: 'You have been logged in!'});
+        res.status(200).json({
+          token: token,
+          message: 'You have been logged in!'
+        });
       } else {
-        res.status(400).json({message: 'Wrong Password!'});
+        res.status(400).json({
+          message: 'Wrong Password!'
+        });
       }
     }
   });
 });
 /*Get user/org profile using authentication token */
-router.get('/profile', function(req, res, next) {
+router.get('/profile', function (req, res, next) {
   let token = req.headers['jwt'];
-  if(token) {
+  if (token) {
     authService.verifyUser(token).then(user => {
-      if(user) {
+      if (user) {
         res.status(200).json(user);
       } else {
-        res.status(401).json({message: 'There has been an error, user must be logged in.'})
+        res.status(401).json({
+          message: 'There has been an error, user must be logged in.'
+        })
       }
     })
   } else {
-    res.status(500).json({message: 'internal server mix up'})
+    res.status(500).json({
+      message: 'internal server mix up'
+    })
   }
 });
 /* GET all users listing. */
@@ -143,11 +156,15 @@ router.get('/:id', function (req, res, next) {
           res.status(200).json(user);
         });
       } else {
-        res.status(400).json({ message: 'You can not do that!' });
+        res.status(400).json({
+          message: 'You can not do that!'
+        });
       }
     });
   } else {
-    res.status(500).json({ message: 'Internal Server Error!' });
+    res.status(500).json({
+      message: 'Internal Server Error!'
+    });
   }
 });
 //Update a user
@@ -180,6 +197,7 @@ router.get('/:id', function (req, res, next) {
     });
   }
 }); */
+
 //Delete a user
 router.delete('/:id', function (req, res, next) {
   let UserId = parseInt(req.params.id);
