@@ -86,7 +86,7 @@ router.delete('/:id', function (req, res, next) {
             })
          } else {
             res.status(400).json({
-               message: "Post can not be deleted."
+               message: "Listing can not be deleted."
             })
          }
       })
