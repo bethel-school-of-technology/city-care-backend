@@ -12,6 +12,7 @@ var usersRouter = require('./routes/users');
 var orgsRouter = require('./routes/orgs');
 var requestsRouter = require('./routes/requests');
 var listingsRouter = require('./routes/listings');
+var searchRouter = require('./routes/search');
 
 var app = express();
 //Use Cross Origin Resource Sharing In The Application
@@ -29,6 +30,7 @@ app.use('/users', usersRouter);
 app.use('/orgs', orgsRouter);
 app.use('/requests', requestsRouter);
 app.use('/listings', listingsRouter);
+app.use('/search', searchRouter);
 
 app.use(function(req, res, next) {
           next(createError(404));

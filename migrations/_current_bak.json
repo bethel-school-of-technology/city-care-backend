@@ -1,7 +1,7 @@
 {
     "tables": {
-        "authorizations": {
-            "tableName": "authorizations",
+        "Authorizations": {
+            "tableName": "Authorizations",
             "schema": {
                 "email": {
                     "allowNull": false,
@@ -9,12 +9,6 @@
                     "foreignKey": true,
                     "required": true,
                     "field": "email",
-                    "references": {
-                        "model": "users",
-                        "key": "id"
-                    },
-                    "onDelete": "NO ACTION",
-                    "onUpdate": "CASCADE",
                     "seqType": "Sequelize.STRING"
                 },
                 "password": {
@@ -277,7 +271,6 @@
                 "email": {
                     "allowNull": false,
                     "unique": true,
-                    "foreignKey": true,
                     "required": true,
                     "field": "email",
                     "seqType": "Sequelize.STRING"
@@ -374,5 +367,5 @@
             "indexes": []
         }
     },
-    "revision": 2
+    "revision": 1
 }

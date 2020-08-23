@@ -42,7 +42,7 @@ router.post('/register', function (req, res, next) {
     .findOrCreate({
       where: { email: req.body.email },
       defaults: {
-        role: req.body.type,
+        role: false,
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         org_name: req.body.org_name,
@@ -60,32 +60,86 @@ router.post('/register', function (req, res, next) {
         county: req.body.county,
         zip: req.body.zip,
         password: authService.hashPassword(req.body.password),
+        active: false,
         deleted: false,
-        admin: true,
+        admin: true
       }
-    })
-    .spread(function (result, created) {
+  }).spread(function (result, created) {
       if (created) {
         res.status(201).json(result);
       } else {
         res.status(400).send('This user already exists!');
       }
+    }), models.authorizations.findOrCreate({
+      where: {email: req.body.email }, defaults: {
+        password: authService.hashPassword(req.body.password),
+        role: true,
+        active: false
+      }
+    }).spread(function(result, created) {
+      if(created) {
+        console.log(result);
+        res.status(200).json(result);
+      } else {
+        res.status(400).json({message: 'This user exists'});
+      }
     });
 });
-
-//Log a user in
-router.post('/login', function(req, res, next) { 
-  models.users.findOne({
-    where: {email: req.body.email }
+// router.put('/user', function(req, res, next) {
+//   let token = req.headers['jwt'];
+//   if(token) {
+//     authService.verifyUser(token).then(user => {
+//       if(user) {
+//         models.users.update({
+//           role: false,
+//         first_name: req.body.first_name,
+//         last_name: req.body.last_name,
+//         org_name: req.body.org_name,
+//         contact_name: req.body.contact_name,
+//         username: req.body.username,
+//         phone: req.body.phone,
+//         mobile_phone: req.body.mobile_phone,
+//         fax: req.body.fax,
+//         contact_method: req.body.contact_method,
+//         address1: req.body.address1,
+//         address2: req.body.address2,
+//         city: req.body.city,
+//         state: req.body.state,
+//         county: req.body.county,
+//         zip: req.body.zip,
+//         // password: authService.hashPassword(req.body.password),
+//         active: false,
+//         deleted: false,
+//         admin: true
+//         }, {where: {
+//           email: user.email
+//         }}).then(function(result) {
+//           if(result) {
+//             res.status(200).json(result);
+//           } else {
+//             res.status(400).json({message: 'Not going to happen sunshine'})
+//           }
+//         })
+//       } else {
+//         res.status(500).json({message: 'Internal Server Error!'})
+//       }
+//     });
+//   }
+// });
+//log a user in
+router.post('/login', function(req, res, next) {
+  models.authorizations.findOne({where: { email: req.body.email},
+    include: {model: models.users },
+    where: { email: req.body.email }
   }).then(user => {
     if(!user) {
-      console.log('User not found!');
-      return res.status(400).json({message: 'Login Failed! User not found!'});
+      console.log({message: 'User not found!'})
+      return res.status(400).json({message: 'Login failed, user not found!'})
     } else {
       let passwordMatch = authService.comparePasswords(req.body.password, user.password);
       if(passwordMatch) {
         let token = authService.signUser(user);
-        res.cookie('jwt', token);
+        // res.cookie('jwt', token);
         res.status(200).json({token: token, message: 'You have been logged in!'});
       } else {
         res.status(400).json({message: 'Wrong Password!'});
@@ -93,6 +147,26 @@ router.post('/login', function(req, res, next) {
     }
   });
 });
+//Log a user in
+// router.post('/login', function(req, res, next) { 
+//   models.users.findOne({
+//     where: {email: req.body.email }
+//   }).then(user => {
+//     if(!user) {
+//       console.log('User not found!');
+//       return res.status(400).json({message: 'Login Failed! User not found!'});
+//     } else {
+//       let passwordMatch = authService.comparePasswords(req.body.password, user.password);
+//       if(passwordMatch) {
+//         let token = authService.signUser(user);
+//         // res.cookie('jwt', token);
+//         res.status(200).json({token: token, message: 'You have been logged in!'});
+//       } else {
+//         res.status(400).json({message: 'Wrong Password!'});
+//       }
+//     }
+//   });
+// });
 /*Get user/org profile using authentication token */
 router.get('/profile', function(req, res, next) {
   let token = req.headers['jwt'];
@@ -150,36 +224,7 @@ router.get('/:id', function (req, res, next) {
     res.status(500).json({ message: 'Internal Server Error!' });
   }
 });
-//Update a user
-/* router.put('/:id', function (req, res, next) {
-  let token = req.headers['jwt'];
-  let UserId = parseInt(req.params.id);
-  if (token) {
-    authService.verifyUser(token).then((user) => {
-      if (user) {
-        models.users
-          .update({}, {
-            where: {
-              UserId: UserId
-            }
-          })
-          .then(function (result) {
-            if (result) {
-              res.status(201).json(result);
-            }
-          });
-      } else {
-        res.status(400).json({
-          message: 'Unable to update this user!'
-        });
-      }
-    });
-  } else {
-    res.status(500).json({
-      message: 'Whoops, something went wrong!'
-    });
-  }
-}); */
+
 //Delete a user
 router.delete('/:id', function (req, res, next) {
   let UserId = parseInt(req.params.id);

@@ -5,55 +5,51 @@ var cors = require('cors');
 var models = require('../models');
 var authService = require('../services/auth');
 
-router.post('/', function(req, res, next) {
+//Get users requests by zip code
+router.get('/requests', function (req, res, next) {
           let token = req.headers['jwt'];
-          if(token) {
-                    authService.verifyUser(token).then(user => {
-                              if(user) {
-
-                              }
+          if (token) {
+            authService.verifyUser(token)
+              .then(user => {
+                if (user) { 
+                  models.users
+                    .findAll({
+                      where: { id: user.user_id }, 
+                      include: {model: models.requests}, 
+                      where: {zip: user.zip }
                     })
+                    .then(users_requests => {
+                     res.status(200).json(users_requests);
+                    })
+                } else {
+                  res.status(400).json({ message: 'Whoops! Something went wrong!' })
+                }
+              });
+          } else {
+                    res.status(500).json({message: 'Internal Server Error!'})
           }
-});
-router.get('/', function(req, res, next) {
+        });
+//Get users listings by zip code
+router.get('/listings', function (req, res, next) {
           let token = req.headers['jwt'];
-          if(token) {
+          if (token) {
                     authService.verifyUser(token).then(user => {
-                              if(user) {
-                                        
-                              }
+                              if (user) {
+                                        models.users
+                    .findAll({
+                      where: { org_id: user.user_id }, 
+                      include: {model: models.listings}, 
+                      where: {zip: user.zip }
+                    }).then(users_listings => {
+                              res.status(200).json(users_listings);
                     })
-          }
-});
-router.get('/:id', function(req, res, next) {
-          let token = req.headers['jwt'];
-          if(token) {
-                    authService.verifyUser(token).then(user => {
-                              if(user) {
-                                        
-                              }
-                    })
-          }
-});
-router.put('/:id', function(req, res, next) {
-          let token = req.headers['jwt'];
-          if(token) {
-                    authService.verifyUser(token).then(user => {
-                              if(user) {
-                                        
-                              }
-                    })
-          }
-});
-router.delete('/:id', function(req, res, next) {
-          let token = req.headers['jwt'];
-          if(token) {
-                    authService.verifyUser(token).then(user => {
-                              if(user) {
-                                        
-                              }
-                    })
-          }
+                    } else {
+                              res.status(400).json({message: 'Could not find anything that matches'});
+                    }
+          })
+   } else {
+             res.status(500).json({message: 'Internal Server Error!'})
+   }
 });
 
 module.exports = router;

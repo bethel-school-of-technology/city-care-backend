@@ -1,14 +1,13 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Authorization = sequelize.define(
-    'Authorization', 
+  const authorizations = sequelize.define(
+    'authorizations', 
     {
     email: 
     {
       type: DataTypes.STRING,
       allowNull: false,
       primaryKey: true,
-      foreignKey: true,
       required: true
     },
     password: 
@@ -20,18 +19,17 @@ module.exports = (sequelize, DataTypes) => {
     role: 
     {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
+      default: false,
       required: true
     },
     active: 
     {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
-      required: true
+      required: true,
+      default: false
     },
     createdAt: {
       type: DataTypes.DATE,
-      allowNull: false
     },
     updatedAt: {
       type: DataTypes.DATE,
@@ -40,8 +38,8 @@ module.exports = (sequelize, DataTypes) => {
   }, 
   {}
   );
-  Authorization.associate = function(models) {
-    // associations can be defined here
-  };
-  return Authorization;
+authorizations.associate = function(models) {
+  authorizations.hasMany(models.users, { foreignKey: 'email'})
+  }
+  return authorizations;
 };
