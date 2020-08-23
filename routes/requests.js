@@ -9,6 +9,33 @@ router.get('/create', function(req, res, next) {
           res.status(200).json({message: 'You fetched the create request route.'})
 })
 //Create a user request
+router.post('/create', function(req, res, next) {
+          let token = req.headers['jwt'];
+          if(token) {
+                    authService.verifyUser(token).then(user => {
+                              if(user) {
+                                        models.requests.findOrCreate({
+                                                  where: { description: req.body.description},
+                                                  defaults: {
+                                                            category: req.body.category,
+                                                            sub_category: req.body.sub_category,
+                                                            deleted: false,
+                                                            user_id: user.id
+                                                  }
+                                        }).spread(function(result, created) {
+                                                  if(created) {
+                                                            console.log(result);
+                                                            res.status(200).json(result);
+                                                  } else {
+                                                            res.status(400).json({message: 'Sorry sunshine, not going to create that one!'})
+                                                  }
+                                        });
+                              } else {
+                                        res.status(500).json({message: 'Internal server error!'})
+                              }
+                    });
+          }
+});
 // router.post('/create', function(req, res, next) {
 //           let token = req.headers['jwt'];
 //           if(token) {
@@ -80,7 +107,9 @@ router.put('/:id', function(req, res, next) {
           if(token) {
                     authService.verifyUser(token).then(user => {
                               if(user) {
-                                        models.requests.update({})
+                                        models.requests.update({
+                                                  
+                                        })
                               }
                     })
           }

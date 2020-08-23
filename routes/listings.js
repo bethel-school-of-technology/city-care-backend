@@ -7,12 +7,32 @@ var authService = require('../services/auth');
 
 
 //Create an org listing
-router.post('/create/listing', function (req, res, next) {
+router.post('/create', function (req, res, next) {
    let token = req.headers['jwt'];
    if (token) {
       authService.verifyUser(token).then(user => {
          if (user) {
-
+            models.listings.findOrCreate({
+               where: { description: req.body.description },
+               defaults: {
+                  quantity: req.body.quantity,
+                  availability: req.body.availability,
+                  requirements: req.body.requirements,
+                  category: req.body.category,
+                  sub_category: req.body.sub_category,
+                  org_id: user.id,
+                  deleted: false
+               }
+            }).spread(function(result, created) {
+               if(created) {
+                  console.log(result) 
+                     res.status(200).json(created);
+                } else {
+                   res.status(400).json({message: 'Not going to work out!'})
+                }
+            })
+         } else {
+            res.status(500).json({message: 'Internal Server Error!'})
          }
       });
    }
@@ -33,7 +53,7 @@ router.get('/listings', function (req, res, next) {
                        } else { 
                                  res.status(400).json({message: 'Can not find requests.'})
                        }
-             })
+             });
    }
 });
 /*Get an org listing by the id */
@@ -57,13 +77,24 @@ router.get('/:id', function (req, res, next) {
    } else {
       res.status(500).json({
          message: 'Internal server error!'
+      });
+   }
+});
+
+/*Update an org listing */
+router.put('/:id', function (req, res, next) {
+   let token = req.headers['jwt'];
+   if(token) {
+      authService.verifyUser(token).then(user => {
+         if(user) {
+            models.listings.update({
+               //Code goes here
+            })
+         }
       })
    }
 });
-/*Update an org listing */
-router.put('/:id', function (req, res, next) {
 
-});
 /*Delete an org listing*/
 router.delete('/:id', function (req, res, next) {
    let token = req.headers['jwt'];
@@ -80,7 +111,7 @@ router.delete('/:id', function (req, res, next) {
             }).then(function (result) {
                if (result) {
                   res.status(200).json({
-                     message: "Message has been deleted."
+                     message: "Listing has been deleted."
                   })
                }
             })

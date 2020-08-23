@@ -1,53 +1,5 @@
 {
     "tables": {
-        "authorizations": {
-            "tableName": "authorizations",
-            "schema": {
-                "email": {
-                    "allowNull": false,
-                    "primaryKey": true,
-                    "foreignKey": true,
-                    "required": true,
-                    "field": "email",
-                    "references": {
-                        "model": "users",
-                        "key": "id"
-                    },
-                    "onDelete": "NO ACTION",
-                    "onUpdate": "CASCADE",
-                    "seqType": "Sequelize.STRING"
-                },
-                "password": {
-                    "allowNull": false,
-                    "required": true,
-                    "field": "password",
-                    "seqType": "Sequelize.STRING"
-                },
-                "role": {
-                    "allowNull": false,
-                    "required": true,
-                    "field": "role",
-                    "seqType": "Sequelize.BOOLEAN"
-                },
-                "active": {
-                    "allowNull": false,
-                    "required": true,
-                    "field": "active",
-                    "seqType": "Sequelize.BOOLEAN"
-                },
-                "createdAt": {
-                    "allowNull": false,
-                    "field": "createdAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "updatedAt": {
-                    "allowNull": false,
-                    "field": "updatedAt",
-                    "seqType": "Sequelize.DATE"
-                }
-            },
-            "indexes": []
-        },
         "categories": {
             "tableName": "categories",
             "schema": {
@@ -275,9 +227,9 @@
                     "seqType": "Sequelize.STRING"
                 },
                 "email": {
+                    "foreignKey": true,
                     "allowNull": false,
                     "unique": true,
-                    "foreignKey": true,
                     "required": true,
                     "field": "email",
                     "seqType": "Sequelize.STRING"
@@ -374,5 +326,5 @@
             "indexes": []
         }
     },
-    "revision": 2
+    "revision": 1
 }

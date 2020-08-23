@@ -14,7 +14,7 @@ router.get('/requests', function (req, res, next) {
                 if (user) { 
                   models.users
                     .findAll({
-                      where: { id: user.user_id }, 
+                      where: { user_id: user.id }, 
                       include: {model: models.requests}, 
                       where: {zip: user.zip }
                     })
@@ -37,7 +37,7 @@ router.get('/listings', function (req, res, next) {
                               if (user) {
                                         models.users
                     .findAll({
-                      where: { org_id: user.user_id }, 
+                      where: { org_id: user.id }, 
                       include: {model: models.listings}, 
                       where: {zip: user.zip }
                     }).then(users_listings => {

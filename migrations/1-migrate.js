@@ -5,7 +5,6 @@ var Sequelize = require('sequelize');
 /**
  * Actions summary:
  *
- * createTable "Authorizations", deps: []
  * createTable "categories", deps: []
  * createTable "subcategories", deps: []
  * createTable "users", deps: []
@@ -16,57 +15,12 @@ var Sequelize = require('sequelize');
 
 var info = {
     "revision": 1,
-    "name": "fixmodels",
-    "created": "2020-08-21T15:59:53.775Z",
+    "name": "migrate",
+    "created": "2020-08-23T17:46:48.390Z",
     "comment": ""
 };
 
 var migrationCommands = [{
-        fn: "createTable",
-        params: [
-            "Authorizations",
-            {
-                "email": {
-                    "type": Sequelize.STRING,
-                    "field": "email",
-                    "required": true,
-                    "foreignKey": true,
-                    "primaryKey": true,
-                    "allowNull": false
-                },
-                "password": {
-                    "type": Sequelize.STRING,
-                    "field": "password",
-                    "required": true,
-                    "allowNull": false
-                },
-                "role": {
-                    "type": Sequelize.BOOLEAN,
-                    "field": "role",
-                    "required": true,
-                    "allowNull": false
-                },
-                "active": {
-                    "type": Sequelize.BOOLEAN,
-                    "field": "active",
-                    "required": true,
-                    "allowNull": false
-                },
-                "createdAt": {
-                    "type": Sequelize.DATE,
-                    "field": "createdAt",
-                    "allowNull": false
-                },
-                "updatedAt": {
-                    "type": Sequelize.DATE,
-                    "field": "updatedAt",
-                    "allowNull": false
-                }
-            },
-            {}
-        ]
-    },
-    {
         fn: "createTable",
         params: [
             "categories",
@@ -186,7 +140,8 @@ var migrationCommands = [{
                     "field": "email",
                     "required": true,
                     "unique": true,
-                    "allowNull": false
+                    "allowNull": false,
+                    "foreignKey": true
                 },
                 "phone": {
                     "type": Sequelize.STRING,
