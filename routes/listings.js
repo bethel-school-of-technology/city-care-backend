@@ -7,18 +7,18 @@ var authService = require('../services/auth');
 
 
 //Create an org listing
-router.post('/create/listing', function(req, res, next) {
+router.post('/create/listing', function (req, res, next) {
    let token = req.headers['jwt'];
-   if(token) {
-             authService.verifyUser(token).then(user => {
-                      if(user) {
+   if (token) {
+      authService.verifyUser(token).then(user => {
+         if (user) {
 
-                      }
-             });
+         }
+      });
    }
 });
 //Get all of the organization listings
-router.get('/listings', function(req, res, next) {
+router.get('/listings', function (req, res, next) {
    let token = req.headers['jwt'];
    if(token) {
              authService.verifyUser(token).then(user => {
@@ -37,32 +37,64 @@ router.get('/listings', function(req, res, next) {
    }
 });
 /*Get an org listing by the id */
-router.get('/:id', function(req, res, next) {
+router.get('/:id', function (req, res, next) {
    let token = req.headers['jwt'];
    let org_id = req.params.id;
-   if(token) {
-             authService.verifyUser(token).then(user => {
-                       if(user) {
-                                 models.listings.findByPk(req.params.id)
-                                 .then(request => {
-                                           console.log(request);
-                                           res.status(200).json(request);
-                                 })
-                       } else {
-                                 res.status(401).json({message: 'Could not find request!'})
-                       }
-             })
+   if (token) {
+      authService.verifyUser(token).then(user => {
+         if (user) {
+            models.listings.findByPk(req.params.id)
+               .then(request => {
+                  console.log(request);
+                  res.status(200).json(request);
+               })
+         } else {
+            res.status(401).json({
+               message: 'Could not find request!'
+            })
+         }
+      })
    } else {
-             res.status(500).json({ message: 'Internal server error!'})
+      res.status(500).json({
+         message: 'Internal server error!'
+      })
    }
 });
 /*Update an org listing */
-router.put('/:id', function(req, res, next) {
+router.put('/:id', function (req, res, next) {
 
 });
 /*Delete an org listing*/
-router.delete('/:id', function(req, res, next) {
-
+router.delete('/:id', function (req, res, next) {
+   let token = req.headers['jwt'];
+   if (token) {
+      authService.verifyUser(token).then(user => {
+         let listings_id = parseInt(req.params.id);
+         if (user) {
+            models.listings.update({
+               Deleted: true
+            }, {
+               where: {
+                  id: listings_id
+               }
+            }).then(function (result) {
+               if (result) {
+                  res.status(200).json({
+                     message: "Message has been deleted."
+                  })
+               }
+            })
+         } else {
+            res.status(400).json({
+               message: "Post can not be deleted."
+            })
+         }
+      })
+   } else {
+      res.status(500).json({
+         message: "Internal Server Error!"
+      })
+   }
 });
 
 module.exports = router;
