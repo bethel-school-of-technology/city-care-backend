@@ -117,22 +117,26 @@ router.put('/:id', function(req, res, next) {
 //Delete an existing request
 router.delete('/:id', function(req, res, next) {
           let token = req.headers['jwt'];
+          let requestId = parseInt(req.params.id);
           if(token) {
-                    authService.verifyUser(token).then(user => {
-                              if(user) {
-                                        models.requests.delete({
-                                                  where: { id: id, deleted: false }
-                                        }).then(function(result) {
-                                                  if(result) {
-                                                            res.status(200).json({message: 'This request has been deleted!'})
-                                                  }
-                                        })
-                              } else {
-                                        res.status(400).json({message: 'Request can not be deleted!'})
-                              }
-                    });
-          } else {
-                    res.status(500).json({message: 'Internal Server Error!'})
+             authService.verifyUser(token).then(user => {
+                if(user) {
+                   models.requests.update({
+                      deleted: true
+                   }, {
+                      where: { id: requestId }
+                   }).then(function(result) {
+                      if(result) {
+                         console.log(result);
+                         res.status(200).json({message: 'Listing marked for deletion!'})
+                      } else {
+                         res.status(400).json({message: 'You are not authorized to delete this listing!'})
+                      }
+                   })
+                } else {
+                   res.status(500).json({message: 'Internal server error!'})
+                }
+             })
           }
-});
+       });
 module.exports = router;
