@@ -9,7 +9,7 @@ var authService = {
                         email: user.email,
                         userId: user.id
                   },
-                  'secretkey',
+                  'super_cali_fragi_listic_expi_ali_docious_a_longer_secret_key_is_better',
                   {
                         expiresIn: '1h'
                   }
@@ -18,7 +18,7 @@ var authService = {
       },
       verifyUser: function (token) {  //<--- receive JWT token as parameter
             try {
-              let decoded = jwt.verify(token, 'secretkey'); 
+              let decoded = jwt.verify(token, 'super_cali_fragi_listic_expi_ali_docious_a_longer_secret_key_is_better'); 
               //<--- Decrypt token using same key used to encrypt
                   console.log(decoded);
               return models.users.findByPk(decoded.userId); //<--- Return result of database query as promise
