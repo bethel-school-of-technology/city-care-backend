@@ -74,7 +74,6 @@ var authService = require('../services/auth');
 }); */
 //Log a user in
 router.post('/login', function (req, res, next) {
-  let fetchedUser
   models.users.findOne({
     where: {
       email: req.body.email
@@ -86,16 +85,12 @@ router.post('/login', function (req, res, next) {
         message: 'Login Failed! User not found!'
       });
     } else {
-      fetchedUser = user;
       let passwordMatch = authService.comparePasswords(req.body.password, user.password);
       if (passwordMatch) {
         let token = authService.signUser(user);
         res.status(200).json({
           token: token,
-          message: 'You have been logged in!',
-          expiresIn: 3600,
-          userId: fetchedUser.id,
-          role: user.role
+          message: 'You have been logged in!'
         });
       } else {
         res.status(400).json({
