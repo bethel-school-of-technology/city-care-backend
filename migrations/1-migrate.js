@@ -205,9 +205,9 @@ var migrationCommands = [{
                     "required": true,
                     "allowNull": false
                 },
-                "role": {
+                "isOrg": {
                     "type": Sequelize.BOOLEAN,
-                    "field": "role",
+                    "field": "isOrg",
                     "required": false,
                     "default": false
                 },
