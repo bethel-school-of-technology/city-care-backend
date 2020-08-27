@@ -5,7 +5,7 @@ var cors = require('cors');
 var models = require('../models');
 var authService = require('../services/auth');
 
-//Create a user 
+//Create a user
 // router.post('/register', function (req, res, next) {
 //   models.users
 //     .findOrCreate({
@@ -38,52 +38,92 @@ var authService = require('../services/auth');
 
 
 
+/* router.post('/register', function(req, res, next) {
+  models.users.findOrCreate({
+    where: { email: req.body.email},
+    defaults: {
+      isOrg: req.body.isOrg,
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      org_name: req.body.org_name,
+      contact_name: req.body.contact_name,
+      username: req.body.username,
+      phone: req.body.phone,
+      mobile_phone: req.body.mobile_phone,
+      fax: req.body.fax,
+      contact_method: req.body.contact_method,
+      address1: req.body.address1,
+      address2: req.body.address2,
+      city: req.body.city,
+      state: req.body.state,
+      county: req.body.county,
+      zip: req.body.zip,
+      password: authService.hashPassword(req.body.password),
+      isOrg: true,
+      deleted: false,
+      admin: true,
+      active: false
+    }
+  }).spread(function(result, created) {
+    if(created) {
+      console.log(result);
+      res.status(200).json(result);
+    } else {
+      res.status(400).json({message: 'Not going to happen sunshine!'})
+    } 
+  })
+}); */
 //Log a user in
 router.post('/login', function (req, res, next) {
-  models.users.findOne({
-    where: {
-      email: req.body.email
-    }
-  }).then(user => {
-    if (!user) {
-      console.log('User not found!');
-      return res.status(400).json({
-        message: 'Login Failed! User not found!'
-      });
-    } else {
-      let passwordMatch = authService.comparePasswords(req.body.password, user.password);
-      if (passwordMatch) {
-        let token = authService.signUser(user);
-        res.status(200).json({
-          token: token,
-          message: 'You have been logged in!'
+  models.users
+    .findOne({
+      where: {
+        email: req.body.email
+      }
+    })
+    .then((user) => {
+      if (!user) {
+        console.log('User not found!');
+        return res.status(400).json({
+          message: 'Login Failed! User not found!'
         });
       } else {
-        res.status(400).json({
-          message: 'Wrong Password!'
-        });
+        let passwordMatch = authService.comparePasswords(
+          req.body.password,
+          user.password
+        );
+        if (passwordMatch) {
+          let token = authService.signUser(user);
+          res.status(200).json({
+            token: token,
+            message: 'You have been logged in!'
+          });
+        } else {
+          res.status(400).json({
+            message: 'Wrong Password!'
+          });
+        }
       }
-    }
-  });
+    });
 });
 
 /*Get user/org profile using authentication token */
 router.get('/profile', function (req, res, next) {
   let token = req.headers['jwt'];
   if (token) {
-    authService.verifyUser(token).then(user => {
+    authService.verifyUser(token).then((user) => {
       if (user) {
         res.status(200).json(user);
       } else {
         res.status(401).json({
           message: 'There has been an error, user must be logged in.'
-        })
+        });
       }
-    })
+    });
   } else {
     res.status(500).json({
       message: 'internal server mix up'
-    })
+    });
   }
 });
 
@@ -98,11 +138,9 @@ router.get('/profile', function (req, res, next) {
           res.status(201).json(users);
         });
       } else {
-        res
-          .status(400)
-          .json({
-            message: 'You are not authorized to view this page!'
-          });
+        res.status(400).json({
+          message: 'You are not authorized to view this page!'
+        });
       }
     });
   } else {
