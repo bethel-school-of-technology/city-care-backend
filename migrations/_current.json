@@ -97,31 +97,26 @@
             "tableName": "requests",
             "schema": {
                 "id": {
+                    "allowNull": false,
                     "autoIncrement": true,
                     "primaryKey": true,
-                    "allowNull": false,
                     "field": "id",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "description": {
+                "name": {
                     "required": true,
-                    "field": "description",
+                    "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
-                "category": {
+                "details": {
                     "required": true,
-                    "field": "category",
+                    "field": "details",
                     "seqType": "Sequelize.STRING"
                 },
-                "sub_category": {
+                "date": {
                     "required": true,
-                    "field": "sub_category",
-                    "seqType": "Sequelize.STRING"
-                },
-                "deleted": {
-                    "default": false,
-                    "field": "deleted",
-                    "seqType": "Sequelize.BOOLEAN"
+                    "field": "date",
+                    "seqType": "Sequelize.DATE"
                 },
                 "user_id": {
                     "foreignKey": true,
@@ -134,6 +129,11 @@
                     "onDelete": "NO ACTION",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
+                },
+                "deleted": {
+                    "default": true,
+                    "field": "deleted",
+                    "seqType": "Sequelize.BOOLEAN"
                 },
                 "createdAt": {
                     "allowNull": false,

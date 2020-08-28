@@ -3,42 +3,45 @@ module.exports = (sequelize, DataTypes) => {
   const requests = sequelize.define(
     'requests', 
     {
-    id: 
+    id:
     {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-      allowNull: false,
+     type: DataTypes.INTEGER,
+     allowNull: false,
+     autoIncrement: true,
+     primaryKey: true
     },
-    description: 
-    {
-      type: DataTypes.STRING,
-      required: true
-    },
-    category: 
+    name: 
     {
       type: DataTypes.STRING,
       required: true
     },
-    sub_category: 
+    details: 
     {
       type: DataTypes.STRING,
       required: true
     },
-    deleted: {
-      type: DataTypes.BOOLEAN,
-      default: false
+    date: 
+    {
+      type: DataTypes.DATE,
+      required: true
     },
     user_id: 
     {
-      type: DataTypes.INTEGER,
-      foreignKey: true
+     type: DataTypes.INTEGER,
+    foreignKey: true
     },
-    createdAt: {
+    deleted: 
+    {
+      type: DataTypes.BOOLEAN,
+      default: true
+    },
+    createdAt: 
+    {
       type: DataTypes.DATE,
       allowNull: false
     },
-    updatedAt: {
+    updatedAt: 
+    {
       type: DataTypes.DATE,
       allowNull: false
     }
