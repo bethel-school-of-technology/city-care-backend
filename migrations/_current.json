@@ -1,47 +1,5 @@
 {
     "tables": {
-        "Authorizations": {
-            "tableName": "Authorizations",
-            "schema": {
-                "Email": {
-                    "allowNull": false,
-                    "primaryKey": true,
-                    "foreignKey": true,
-                    "required": true,
-                    "field": "Email",
-                    "seqType": "Sequelize.STRING"
-                },
-                "Password": {
-                    "allowNull": false,
-                    "required": true,
-                    "field": "Password",
-                    "seqType": "Sequelize.STRING"
-                },
-                "Role": {
-                    "allowNull": false,
-                    "required": true,
-                    "field": "Role",
-                    "seqType": "Sequelize.BOOLEAN"
-                },
-                "Active": {
-                    "allowNull": false,
-                    "required": true,
-                    "field": "Active",
-                    "seqType": "Sequelize.BOOLEAN"
-                },
-                "createdAt": {
-                    "allowNull": false,
-                    "field": "createdAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "updatedAt": {
-                    "allowNull": false,
-                    "field": "updatedAt",
-                    "seqType": "Sequelize.DATE"
-                }
-            },
-            "indexes": []
-        },
         "categories": {
             "tableName": "categories",
             "schema": {
@@ -52,10 +10,10 @@
                     "field": "id",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "Name": {
+                "name": {
                     "allowNull": false,
                     "required": true,
-                    "field": "Name",
+                    "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
@@ -81,50 +39,50 @@
                     "field": "id",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "Quantity": {
+                "quantity": {
                     "allowNull": false,
                     "required": true,
-                    "field": "Quantity",
+                    "field": "quantity",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "Description": {
+                "description": {
                     "allowNull": false,
                     "required": true,
-                    "field": "Description",
+                    "field": "description",
                     "seqType": "Sequelize.STRING"
                 },
-                "Availability": {
+                "availability": {
                     "allowNull": false,
                     "required": true,
-                    "field": "Availability",
+                    "field": "availability",
                     "seqType": "Sequelize.STRING"
                 },
-                "Requirements": {
+                "requirements": {
                     "allowNull": false,
                     "required": true,
-                    "field": "Requirements",
+                    "field": "requirements",
                     "seqType": "Sequelize.STRING"
                 },
-                "Category": {
+                "category": {
                     "allowNull": false,
                     "required": true,
-                    "field": "Category",
+                    "field": "category",
                     "seqType": "Sequelize.STRING"
                 },
-                "SubCategory": {
+                "sub_category": {
                     "allowNull": false,
                     "required": true,
-                    "field": "SubCategory",
+                    "field": "sub_category",
                     "seqType": "Sequelize.STRING"
                 },
-                "OrgId": {
+                "org_id": {
                     "foreignKey": true,
-                    "field": "OrgId",
+                    "field": "org_id",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "Deleted": {
+                "deleted": {
                     "default": false,
-                    "field": "Deleted",
+                    "field": "deleted",
                     "seqType": "Sequelize.BOOLEAN"
                 },
                 "createdAt": {
@@ -150,32 +108,32 @@
                     "field": "id",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "Description": {
+                "description": {
                     "allowNull": false,
                     "required": true,
-                    "field": "Description",
+                    "field": "description",
                     "seqType": "Sequelize.STRING"
                 },
-                "Category": {
+                "category": {
                     "allowNull": false,
                     "required": true,
-                    "field": "Category",
+                    "field": "category",
                     "seqType": "Sequelize.STRING"
                 },
-                "SubCategory": {
+                "sub_category": {
                     "allowNull": false,
                     "required": true,
-                    "field": "SubCategory",
+                    "field": "sub_category",
                     "seqType": "Sequelize.STRING"
                 },
-                "Deleted": {
+                "deleted": {
                     "default": false,
-                    "field": "Deleted",
+                    "field": "deleted",
                     "seqType": "Sequelize.BOOLEAN"
                 },
-                "UserId": {
+                "user_id": {
                     "foreignKey": true,
-                    "field": "UserId",
+                    "field": "user_id",
                     "seqType": "Sequelize.INTEGER"
                 },
                 "createdAt": {
@@ -201,21 +159,21 @@
                     "field": "id",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "CatId": {
+                "cat_id": {
                     "foreignKey": true,
-                    "field": "CatId",
+                    "field": "cat_id",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "Name": {
+                "name": {
                     "allowNull": false,
                     "required": true,
-                    "field": "Name",
+                    "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
-                "Type": {
+                "type": {
                     "allowNull": false,
                     "required": true,
-                    "field": "Type",
+                    "field": "type",
                     "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
@@ -253,14 +211,14 @@
                     "field": "last_name",
                     "seqType": "Sequelize.STRING"
                 },
-                "orgName": {
+                "org_name": {
                     "required": false,
-                    "field": "orgName",
+                    "field": "org_name",
                     "seqType": "Sequelize.STRING"
                 },
-                "contactName": {
+                "contact_name": {
                     "required": false,
-                    "field": "contactName",
+                    "field": "contact_name",
                     "seqType": "Sequelize.STRING"
                 },
                 "username": {
@@ -279,22 +237,22 @@
                 "phone": {
                     "required": false,
                     "field": "phone",
-                    "seqType": "Sequelize.INTEGER"
+                    "seqType": "Sequelize.STRING"
                 },
-                "mobilePhone": {
+                "mobile_phone": {
                     "required": false,
-                    "field": "mobilePhone",
-                    "seqType": "Sequelize.INTEGER"
+                    "field": "mobile_phone",
+                    "seqType": "Sequelize.STRING"
                 },
                 "fax": {
                     "required": false,
                     "field": "fax",
-                    "seqType": "Sequelize.INTEGER"
+                    "seqType": "Sequelize.STRING"
                 },
-                "contactMethod": {
+                "contact_method": {
                     "allowNull": false,
                     "required": true,
-                    "field": "contactMethod",
+                    "field": "contact_method",
                     "seqType": "Sequelize.STRING"
                 },
                 "address1": {
@@ -338,10 +296,10 @@
                     "field": "password",
                     "seqType": "Sequelize.STRING"
                 },
-                "role": {
+                "isOrg": {
                     "default": false,
                     "required": false,
-                    "field": "role",
+                    "field": "isOrg",
                     "seqType": "Sequelize.BOOLEAN"
                 },
                 "deleted": {

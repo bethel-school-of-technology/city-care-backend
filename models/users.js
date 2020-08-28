@@ -40,15 +40,15 @@ module.exports = (sequelize, DataTypes) => {
       required: true
     },
     phone: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       required: false
     },
     mobile_phone: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       required: false
     },
     fax: {
-      type: DataTypes.INTEGER, 
+      type: DataTypes.STRING, 
       required: false
     },
     contact_method: {
@@ -90,7 +90,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       required: true
     },
-    role: {
+    isOrg: {
       type: DataTypes.BOOLEAN,
       default: false,
       required: false

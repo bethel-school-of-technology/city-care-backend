@@ -7,27 +7,36 @@ var authService = require('../services/auth');
 
 //Create an org user
 router.post('/create', function(req, res, next) {
+          let token = req.headers['jwt'];
+          if(token) {
+                    authService.verifyUser(token).then(user => {
+
+                    })
+          }
 
 });
-//Log an org user in
-router.post('/login', function(req, res, next) {
 
-});
-/* GET all orgs listing. */
-router.get('/', function(req, res, next) {
-
-});
-/*Get an org by the id */
-router.get('/:id', function(req, res, next) {
-
-});
-/*Update an org */
+/* GET all org listings. */
+router.get('/listings', function (req, res, next) {
+      
+       });
+/*Update an org listing */
 router.put('/:id', function(req, res, next) {
-
+          let token = req.headers['jwt'];
+          if(token) {
+                    authService.verifyUser(token).then(user => {
+                              
+                    })
+          }
 });
-/*Delete an org */
+/*Delete an org listing */
 router.delete('/:id', function(req, res, next) {
-
+          let token = req.headers['jwt'];
+          if(token) {
+                    authService.verifyUser(token).then(user => {
+                              
+                    })
+          }
 });
 
 module.exports = router;

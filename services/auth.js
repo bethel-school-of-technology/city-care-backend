@@ -7,9 +7,10 @@ var authService = {
             const token = jwt.sign(
                   {
                         email: user.email,
+                        username: user.username,
                         userId: user.userId
                   },
-                  'secretkey',
+                  'secret',
                   {
                         expiresIn: '1h'
                   }
@@ -18,7 +19,7 @@ var authService = {
       },
       verifyUser: function (token) {  //<--- receive JWT token as parameter
             try {
-              let decoded = jwt.verify(token, 'secretkey'); 
+              let decoded = jwt.verify(token, 'secret'); 
               //<--- Decrypt token using same key used to encrypt
                   console.log(decoded);
               return models.users.findByPk(decoded.userId); //<--- Return result of database query as promise

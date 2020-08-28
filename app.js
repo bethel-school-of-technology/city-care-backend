@@ -30,7 +30,25 @@ app.use('/orgs', orgsRouter);
 app.use('/requests', requestsRouter);
 app.use('/listings', listingsRouter);
 
-
+// Catch 404 Errors and forward them to the express error handler
+app.use(function(req, res, next) {
+          next(createError(404));
+});
+/* //Error handling that matches all routes and all functions?
+app.use((req, res, next) => {
+          const error = new Error('Not Found!');
+          error.status(404);
+          next(error);
+});
+//Error handler middleware
+app.use((error, req, res, next) => {
+          res.status(error.status || 500).send({
+                    error: {
+                              status: error.status || 500,
+                              message: error.message || 'Internal Server Error!',
+                    },
+          });
+}); */
 //Connect to the MySQL Database
 models.sequelize.sync().then(function() {
           console.log('App Connected & Sync\'d up!')
