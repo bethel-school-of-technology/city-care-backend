@@ -6,6 +6,7 @@ var models = require('../models');
 var authService = require('../services/auth');
 
 router.post('/register', function (req, res, next) {
+<<<<<<< HEAD
   models.users.findOrCreate({
     where: {
       email: req.body.email
@@ -108,20 +109,87 @@ router.post('/login', function (req, res, next) {
           userId: fetchedUser.id,
           isOrg: fetchedUser.isOrg,
           isAdmin: fetchedUser.admin
+=======
+  models.users
+    .findOrCreate({
+      where: { email: req.body.email },
+      defaults: {
+        type: true,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        org_name: req.body.org_name,
+        contact_name: req.body.contact_name,
+        username: req.body.username,
+        phone: req.body.phone,
+        mobile_phone: req.body.mobile_phone,
+        fax: req.body.fax,
+        contact_method: req.body.contact_method,
+        address1: req.body.address1,
+        address2: req.body.address2,
+        city: req.body.city,
+        state: req.body.state,
+        county: req.body.county,
+        zip: req.body.zip,
+        password: authService.hashPassword(req.body.password),
+        deleted: false,
+        admin: false,
+        role: true
+      }
+    })
+    .spread(function (result, created) {
+      if (created) {
+        console.log(result);
+        res.status(201).json(result);
+      } else res.status(400).json({ message: 'User exists!' });
+    });
+});
+
+//Log a user in
+router.post('/login', function (req, res, next) {
+  let fetchedUser;
+  models.users
+    .findOne({
+      where: {
+        email: req.body.email
+      }
+    })
+    .then((user) => {
+      if (!user) {
+        console.log('User not found!');
+        return res.status(400).json({
+          message: 'Login Failed! User not found!'
+>>>>>>> 6792c19c5914ab96906c6f14cbe5a54f7410fe6e
         });
       } else {
-        res.status(400).json({
-          message: 'Wrong Password!'
-        });
+        fetchedUser = user;
+        let passwordMatch = authService.comparePasswords(
+          req.body.password,
+          user.password
+        );
+        if (passwordMatch) {
+          let token = authService.signUser(user);
+          res.status(200).json({
+            token: token,
+            message: 'You have been logged in!',
+            expiresIn: 3600,
+            userId: fetchedUser.id,
+            isOrg: fetchedUser.isOrg,
+            isAdmin: fetchedUser.admin
+          });
+        } else {
+          res.status(400).json({
+            message: 'Wrong Password!'
+          });
+        }
       }
-    }
-  });
+    });
 });
 
 /*Get user/org profile using authentication token */
 router.get('/profile', function (req, res, next) {
   let token = req.headers['jwt'];
   if (token) {
+<<<<<<< HEAD
     authService.verifyUser(token).then(user => {
       if (user) {
         res.status(200).json(user);
@@ -129,12 +197,23 @@ router.get('/profile', function (req, res, next) {
         res.status(400).json({
           message: 'Nope'
         })
+=======
+    authService.verifyUser(token).then((user) => {
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        res.status(400).json({ message: 'Nope' });
+>>>>>>> 6792c19c5914ab96906c6f14cbe5a54f7410fe6e
       }
-    })
+    });
   } else {
+<<<<<<< HEAD
     res.status(500).json({
       message: 'Internal'
     })
+=======
+    res.status(500).json({ message: 'Internal' });
+>>>>>>> 6792c19c5914ab96906c6f14cbe5a54f7410fe6e
   }
 });
 
@@ -187,6 +266,7 @@ router.put('/:id', function (req, res, next) {
   let token = req.headers['jwt'];
   let userId = parseInt(req.params.id);
   if (token) {
+<<<<<<< HEAD
     authService.verifyUser(token).then(user => {
       if (user) {
         models.users.update({
@@ -219,15 +299,55 @@ router.put('/:id', function (req, res, next) {
         res.status(400).json({
           message: 'Unable to update this user!'
         })
+=======
+    authService.verifyUser(token).then((user) => {
+      if (user) {
+        models.users
+          .update(
+            {
+              first_name: req.body.first_name,
+              last_name: req.body.last_name,
+              org_name: req.body.org_name,
+              contact_name: req.body.contact_name,
+              username: req.body.username,
+              email: req.body.email,
+              phone: req.body.phone,
+              mobile_phone: req.body.mobile_phone,
+              fax: req.body.fax,
+              contact_method: req.body.contact_method,
+              address1: req.body.address1,
+              address2: req.body.address2,
+              city: req.body.city,
+              state: req.body.state,
+              zip: req.body.zip,
+              county: req.body.county
+            },
+            {
+              where: {
+                id: userId
+              }
+            }
+          )
+          .then(function (result) {
+            if (result) {
+              res.status(201).json(result);
+            }
+          });
+      } else {
+        res.status(400).json({ message: 'Unable to update this user!' });
+>>>>>>> 6792c19c5914ab96906c6f14cbe5a54f7410fe6e
       }
-    })
+    });
   } else {
+<<<<<<< HEAD
     res.status(500).json({
       message: 'Internal server error!'
     })
+=======
+    res.status(500).json({ message: 'Internal server error!' });
+>>>>>>> 6792c19c5914ab96906c6f14cbe5a54f7410fe6e
   }
 });
-
 
 //Delete a user for the admin
 /* router.delete('/:id', function (req, res, next) {
