@@ -296,10 +296,10 @@
                     "field": "password",
                     "seqType": "Sequelize.STRING"
                 },
-                "role": {
+                "isOrg": {
                     "default": false,
                     "required": false,
-                    "field": "role",
+                    "field": "isOrg",
                     "seqType": "Sequelize.BOOLEAN"
                 },
                 "deleted": {
