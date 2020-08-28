@@ -10,15 +10,14 @@ router.post('/register', function (req, res, next) {
     .findOrCreate({
       where: { email: req.body.email },
       defaults: {
-        type: true,
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
+        isOrg: req.body.isOrg,
         org_name: req.body.org_name,
         contact_name: req.body.contact_name,
-        username: req.body.username,
+        fax: req.body.fax,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
         phone: req.body.phone,
         mobile_phone: req.body.mobile_phone,
-        fax: req.body.fax,
         contact_method: req.body.contact_method,
         address1: req.body.address1,
         address2: req.body.address2,
@@ -26,10 +25,10 @@ router.post('/register', function (req, res, next) {
         state: req.body.state,
         county: req.body.county,
         zip: req.body.zip,
+        username: req.body.username,
         password: authService.hashPassword(req.body.password),
         deleted: false,
-        admin: false,
-        role: true
+        admin: false
       }
     })
     .spread(function (result, created) {
