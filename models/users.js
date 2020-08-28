@@ -91,7 +91,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       required: true
     },
-    role: {
+    isOrg: {
       type: DataTypes.BOOLEAN,
       default: false,
       required: false
@@ -118,6 +118,7 @@ module.exports = (sequelize, DataTypes) => {
   users.associate = function(models) {
     users.hasMany(models.requests, {foreignKey: 'user_id'})
     users.hasMany(models.listings, {foreignKey: 'org_id'})
+    users.hasMany(models.image, {foreignKey: 'user_id'})
   };
   return users;
 };

@@ -7,7 +7,8 @@ var authService = {
             const token = jwt.sign(
                   {
                         email: user.email,
-                        userId: user.id
+/*                         username: user.username,
+ */                        userId: user.id
                   },
                   'super_cali_fragi_listic_expi_ali_docious_a_longer_secret_key_is_better',
                   {
