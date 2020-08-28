@@ -12,6 +12,7 @@ var usersRouter = require('./routes/users');
 var orgsRouter = require('./routes/orgs');
 var requestsRouter = require('./routes/requests');
 var listingsRouter = require('./routes/listings');
+var searchRouter = require('./routes/search');
 
 var app = express();
 //Use Cross Origin Resource Sharing In The Application
@@ -29,26 +30,20 @@ app.use('/users', usersRouter);
 app.use('/orgs', orgsRouter);
 app.use('/requests', requestsRouter);
 app.use('/listings', listingsRouter);
+app.use('/search', searchRouter);
 
-// Catch 404 Errors and forward them to the express error handler
 app.use(function(req, res, next) {
           next(createError(404));
 });
-/* //Error handling that matches all routes and all functions?
-app.use((req, res, next) => {
-          const error = new Error('Not Found!');
-          error.status(404);
-          next(error);
+//Error handler
+app.use(function(err, req, res, next) {
+//Set locals, only providing error in development
+          res.locals.message = err.message;
+          res.locals.error = req.app.get('env') === 'development' ? err: {};
+//Render the error page
+res.status(err.status || 500);
+res.render('error');
 });
-//Error handler middleware
-app.use((error, req, res, next) => {
-          res.status(error.status || 500).send({
-                    error: {
-                              status: error.status || 500,
-                              message: error.message || 'Internal Server Error!',
-                    },
-          });
-}); */
 //Connect to the MySQL Database
 models.sequelize.sync().then(function() {
           console.log('App Connected & Sync\'d up!')

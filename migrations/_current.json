@@ -40,44 +40,39 @@
                     "seqType": "Sequelize.INTEGER"
                 },
                 "quantity": {
-                    "allowNull": false,
-                    "required": true,
                     "field": "quantity",
                     "seqType": "Sequelize.INTEGER"
                 },
                 "description": {
-                    "allowNull": false,
-                    "required": true,
                     "field": "description",
                     "seqType": "Sequelize.STRING"
                 },
                 "availability": {
-                    "allowNull": false,
-                    "required": true,
                     "field": "availability",
                     "seqType": "Sequelize.STRING"
                 },
                 "requirements": {
-                    "allowNull": false,
-                    "required": true,
                     "field": "requirements",
                     "seqType": "Sequelize.STRING"
                 },
                 "category": {
-                    "allowNull": false,
-                    "required": true,
                     "field": "category",
                     "seqType": "Sequelize.STRING"
                 },
                 "sub_category": {
-                    "allowNull": false,
-                    "required": true,
                     "field": "sub_category",
                     "seqType": "Sequelize.STRING"
                 },
                 "org_id": {
                     "foreignKey": true,
                     "field": "org_id",
+                    "allowNull": true,
+                    "references": {
+                        "model": "users",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 },
                 "deleted": {
@@ -109,19 +104,16 @@
                     "seqType": "Sequelize.INTEGER"
                 },
                 "description": {
-                    "allowNull": false,
                     "required": true,
                     "field": "description",
                     "seqType": "Sequelize.STRING"
                 },
                 "category": {
-                    "allowNull": false,
                     "required": true,
                     "field": "category",
                     "seqType": "Sequelize.STRING"
                 },
                 "sub_category": {
-                    "allowNull": false,
                     "required": true,
                     "field": "sub_category",
                     "seqType": "Sequelize.STRING"
@@ -134,6 +126,13 @@
                 "user_id": {
                     "foreignKey": true,
                     "field": "user_id",
+                    "allowNull": true,
+                    "references": {
+                        "model": "users",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 },
                 "createdAt": {
@@ -228,6 +227,7 @@
                     "seqType": "Sequelize.STRING"
                 },
                 "email": {
+                    "foreignKey": true,
                     "allowNull": false,
                     "unique": true,
                     "required": true,
@@ -304,13 +304,11 @@
                 },
                 "deleted": {
                     "default": false,
-                    "required": false,
                     "field": "deleted",
                     "seqType": "Sequelize.BOOLEAN"
                 },
                 "admin": {
                     "default": false,
-                    "required": false,
                     "field": "admin",
                     "seqType": "Sequelize.BOOLEAN"
                 },
