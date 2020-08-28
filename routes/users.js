@@ -93,7 +93,11 @@ router.post('/login', function (req, res, next) {
         let token = authService.signUser(user);
         res.status(200).json({
           token: token,
-          message: 'You have been logged in!'
+          message: 'You have been logged in!',
+          expiresIn:3600,
+          userId: fetchedUser.id,
+          isOrg: fetchedUser.isOrg,
+          isAdmin: fetchedUser.admin
         });
       } else {
         res.status(400).json({
