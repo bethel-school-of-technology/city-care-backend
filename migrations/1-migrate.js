@@ -211,6 +211,11 @@ var migrationCommands = [{
                     "required": false,
                     "default": false
                 },
+                "org_id": {
+                    "type": Sequelize.INTEGER,
+                    "field": "org_id",
+                    "required": false
+                },
                 "deleted": {
                     "type": Sequelize.BOOLEAN,
                     "field": "deleted",

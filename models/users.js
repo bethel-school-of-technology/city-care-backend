@@ -95,6 +95,10 @@ module.exports = (sequelize, DataTypes) => {
         default: false,
         required: false
       },
+      org_id: {
+        type: DataTypes.INTEGER,
+        required: false
+      },
       deleted: {
         type: DataTypes.BOOLEAN,
         default: false

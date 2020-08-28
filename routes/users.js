@@ -5,72 +5,38 @@ var cors = require('cors');
 var models = require('../models');
 var authService = require('../services/auth');
 
-//Create a user
-// router.post('/register', function (req, res, next) {
-//   models.users
-//     .findOrCreate({
-//       where: {
-//         email: req.body.email
-//       },
-//       defaults: {
-//         type: req.body.type,
-//         first_name: req.body.first_name,
-//         last_name: req.body.last_name,
-//         phone: req.body.phone,
-//         mobile_phone: req.body.mobile_phone,
-//         contact_method: req.body.contact_method,
-//         address1: req.body.address1,
-//         address2: req.body.address2,
-//         city: req.body.city,
-//         state: req.body.state,
-//         zip: req.body.zip,
-//         password: authService.hashPassword(req.body.password)
-//       }
-//     })
-//     .spread(function (result, created) {
-//       if (created) {
-//         res.status(201).redirect('/city-care/profile');
-//       } else {
-//         res.status(400).send('This user already exists!');
-//       }
-//     });
-// });
+// Create a user
+router.post('/register', function (req, res, next) {
+  models.users
+    .findOrCreate({
+      where: {
+        email: req.body.email
+      },
+      defaults: {
+        isOrg: req.body.isOrg,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        phone: req.body.phone,
+        mobile_phone: req.body.mobile_phone,
+        contact_method: req.body.contact_method,
+        address1: req.body.address1,
+        address2: req.body.address2,
+        city: req.body.city,
+        state: req.body.state,
+        county: req.body.county,
+        zip: req.body.zip,
+        password: authService.hashPassword(req.body.password)
+      }
+    })
+    .spread(function (result, created) {
+      if (created) {
+        res.status(201).redirect('/city-care/profile');
+      } else {
+        res.status(400).send('This user already exists!');
+      }
+    });
+});
 
-/* router.post('/register', function(req, res, next) {
-  models.users.findOrCreate({
-    where: { email: req.body.email},
-    defaults: {
-      isOrg: req.body.isOrg,
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      org_name: req.body.org_name,
-      contact_name: req.body.contact_name,
-      username: req.body.username,
-      phone: req.body.phone,
-      mobile_phone: req.body.mobile_phone,
-      fax: req.body.fax,
-      contact_method: req.body.contact_method,
-      address1: req.body.address1,
-      address2: req.body.address2,
-      city: req.body.city,
-      state: req.body.state,
-      county: req.body.county,
-      zip: req.body.zip,
-      password: authService.hashPassword(req.body.password),
-      isOrg: true,
-      deleted: false,
-      admin: true,
-      active: false
-    }
-  }).spread(function(result, created) {
-    if(created) {
-      console.log(result);
-      res.status(200).json(result);
-    } else {
-      res.status(400).json({message: 'Not going to happen sunshine!'})
-    } 
-  })
-}); */
 //Log a user in
 router.post('/login', function (req, res, next) {
   models.users
