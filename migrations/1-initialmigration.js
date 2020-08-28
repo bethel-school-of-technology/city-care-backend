@@ -5,8 +5,6 @@ var Sequelize = require('sequelize');
 /**
  * Actions summary:
  *
- * createTable "categories", deps: []
- * createTable "subcategories", deps: []
  * createTable "users", deps: []
  * createTable "listings", deps: [users]
  * createTable "requests", deps: [users]
@@ -15,226 +13,12 @@ var Sequelize = require('sequelize');
 
 var info = {
     "revision": 1,
-<<<<<<< HEAD:migrations/1-phone.js
-    "name": "phone",
-    "created": "2020-08-27T13:06:02.061Z",
-=======
-    "name": "migrate",
-    "created": "2020-08-27T15:18:08.861Z",
->>>>>>> 4b91853247faa46cb63d3e1a5ffbd474edfb07cf:migrations/1-migrate.js
+    "name": "initialmigration",
+    "created": "2020-08-28T20:42:39.990Z",
     "comment": ""
 };
 
 var migrationCommands = [{
-        fn: "createTable",
-        params: [
-            "categories",
-            {
-                "id": {
-                    "type": Sequelize.INTEGER,
-                    "field": "id",
-                    "primaryKey": true,
-                    "allowNull": false,
-                    "autoIncrement": true
-                },
-                "name": {
-<<<<<<< HEAD:migrations/1-phone.js
-                    "type": Sequelize.STRING,
-                    "field": "name",
-                    "required": true,
-                    "allowNull": false
-                },
-                "createdAt": {
-                    "type": Sequelize.DATE,
-                    "field": "createdAt",
-                    "allowNull": false
-                },
-                "updatedAt": {
-                    "type": Sequelize.DATE,
-                    "field": "updatedAt",
-                    "allowNull": false
-                }
-            },
-            {}
-        ]
-    },
-    {
-        fn: "createTable",
-        params: [
-            "listings",
-            {
-                "id": {
-                    "type": Sequelize.INTEGER,
-                    "field": "id",
-                    "primaryKey": true,
-                    "allowNull": false,
-                    "autoIncrement": true
-                },
-                "quantity": {
-                    "type": Sequelize.INTEGER,
-                    "field": "quantity",
-                    "required": true,
-                    "allowNull": false
-                },
-                "description": {
-                    "type": Sequelize.STRING,
-                    "field": "description",
-                    "required": true,
-                    "allowNull": false
-                },
-                "availability": {
-                    "type": Sequelize.STRING,
-                    "field": "availability",
-                    "required": true,
-                    "allowNull": false
-                },
-                "requirements": {
-                    "type": Sequelize.STRING,
-                    "field": "requirements",
-                    "required": true,
-                    "allowNull": false
-                },
-                "category": {
-                    "type": Sequelize.STRING,
-                    "field": "category",
-                    "required": true,
-                    "allowNull": false
-                },
-                "sub_category": {
-                    "type": Sequelize.STRING,
-                    "field": "sub_category",
-                    "required": true,
-                    "allowNull": false
-                },
-                "org_id": {
-                    "type": Sequelize.INTEGER,
-                    "field": "org_id",
-                    "foreignKey": true
-                },
-                "deleted": {
-                    "type": Sequelize.BOOLEAN,
-                    "field": "deleted",
-                    "default": false
-                },
-                "createdAt": {
-                    "type": Sequelize.DATE,
-                    "field": "createdAt",
-                    "allowNull": false
-                },
-                "updatedAt": {
-                    "type": Sequelize.DATE,
-                    "field": "updatedAt",
-                    "allowNull": false
-                }
-            },
-            {}
-        ]
-    },
-    {
-        fn: "createTable",
-        params: [
-            "requests",
-            {
-                "id": {
-                    "type": Sequelize.INTEGER,
-                    "field": "id",
-                    "allowNull": false,
-                    "primaryKey": true,
-                    "autoIncrement": true
-                },
-                "description": {
-                    "type": Sequelize.STRING,
-                    "field": "description",
-                    "required": true,
-                    "allowNull": false
-                },
-                "category": {
-                    "type": Sequelize.STRING,
-                    "field": "category",
-                    "required": true,
-                    "allowNull": false
-                },
-                "sub_category": {
-                    "type": Sequelize.STRING,
-                    "field": "sub_category",
-                    "required": true,
-                    "allowNull": false
-                },
-                "deleted": {
-                    "type": Sequelize.BOOLEAN,
-                    "field": "deleted",
-                    "default": false
-                },
-                "user_id": {
-                    "type": Sequelize.INTEGER,
-                    "field": "user_id",
-                    "foreignKey": true
-                },
-=======
-                    "type": Sequelize.STRING,
-                    "field": "name",
-                    "required": true,
-                    "allowNull": false
-                },
->>>>>>> 4b91853247faa46cb63d3e1a5ffbd474edfb07cf:migrations/1-migrate.js
-                "createdAt": {
-                    "type": Sequelize.DATE,
-                    "field": "createdAt",
-                    "allowNull": false
-                },
-                "updatedAt": {
-                    "type": Sequelize.DATE,
-                    "field": "updatedAt",
-                    "allowNull": false
-                }
-            },
-            {}
-        ]
-    },
-    {
-        fn: "createTable",
-        params: [
-            "subcategories",
-            {
-                "id": {
-                    "type": Sequelize.INTEGER,
-                    "field": "id",
-                    "primaryKey": true,
-                    "allowNull": false,
-                    "autoIncrement": true
-                },
-                "cat_id": {
-                    "type": Sequelize.INTEGER,
-                    "field": "cat_id",
-                    "foreignKey": true
-                },
-                "name": {
-                    "type": Sequelize.STRING,
-                    "field": "name",
-                    "required": true,
-                    "allowNull": false
-                },
-                "type": {
-                    "type": Sequelize.STRING,
-                    "field": "type",
-                    "required": true,
-                    "allowNull": false
-                },
-                "createdAt": {
-                    "type": Sequelize.DATE,
-                    "field": "createdAt",
-                    "allowNull": false
-                },
-                "updatedAt": {
-                    "type": Sequelize.DATE,
-                    "field": "updatedAt",
-                    "allowNull": false
-                }
-            },
-            {}
-        ]
-    },
-    {
         fn: "createTable",
         params: [
             "users",
@@ -449,29 +233,24 @@ var migrationCommands = [{
                 "id": {
                     "type": Sequelize.INTEGER,
                     "field": "id",
-                    "allowNull": false,
                     "primaryKey": true,
-                    "autoIncrement": true
+                    "autoIncrement": true,
+                    "allowNull": false
                 },
-                "description": {
+                "name": {
                     "type": Sequelize.STRING,
-                    "field": "description",
+                    "field": "name",
                     "required": true
                 },
-                "category": {
+                "details": {
                     "type": Sequelize.STRING,
-                    "field": "category",
+                    "field": "details",
                     "required": true
                 },
-                "sub_category": {
-                    "type": Sequelize.STRING,
-                    "field": "sub_category",
+                "date": {
+                    "type": Sequelize.DATE,
+                    "field": "date",
                     "required": true
-                },
-                "deleted": {
-                    "type": Sequelize.BOOLEAN,
-                    "field": "deleted",
-                    "default": false
                 },
                 "user_id": {
                     "type": Sequelize.INTEGER,
@@ -484,6 +263,11 @@ var migrationCommands = [{
                     "allowNull": true,
                     "field": "user_id",
                     "foreignKey": true
+                },
+                "deleted": {
+                    "type": Sequelize.BOOLEAN,
+                    "field": "deleted",
+                    "default": true
                 },
                 "createdAt": {
                     "type": Sequelize.DATE,

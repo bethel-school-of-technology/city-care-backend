@@ -5,9 +5,11 @@ var cors = require('cors');
 var models = require('../models');
 var authService = require('../services/auth');
 
-router.post('/register', function(req, res, next) {
+router.post('/register', function (req, res, next) {
   models.users.findOrCreate({
-    where: { email: req.body.email },
+    where: {
+      email: req.body.email
+    },
     defaults: {
       type: true,
       first_name: req.body.first_name,
@@ -30,17 +32,21 @@ router.post('/register', function(req, res, next) {
       admin: false,
       role: true
     }
-  }).spread(function(result, created) {
-    if(created) {
+  }).spread(function (result, created) {
+    if (created) {
       console.log(result);
       res.status(201).json(result);
-    } else res.status(400).json({message: 'User exists!'})
+    } else res.status(400).json({
+      message: 'User exists!'
+    })
   })
 });
 
-/* router.post('/register', function(req, res, next) {
+router.post('/register', function (req, res, next) {
   models.users.findOrCreate({
-    where: { email: req.body.email},
+    where: {
+      email: req.body.email
+    },
     defaults: {
       isOrg: req.body.isOrg,
       first_name: req.body.first_name,
@@ -64,15 +70,19 @@ router.post('/register', function(req, res, next) {
       admin: true,
       active: false
     }
-  }).spread(function(result, created) {
-    if(created) {
+  }).spread(function (result, created) {
+    if (created) {
       console.log(result);
       res.status(200).json(result);
     } else {
-      res.status(400).json({message: 'Not going to happen sunshine!'})
-    } 
+      res.status(400).json({
+        message: 'Not going to happen sunshine!'
+      })
+    }
   })
-}); */
+});
+
+
 //Log a user in
 router.post('/login', function (req, res, next) {
   let fetchedUser
@@ -94,7 +104,7 @@ router.post('/login', function (req, res, next) {
         res.status(200).json({
           token: token,
           message: 'You have been logged in!',
-          expiresIn:3600,
+          expiresIn: 3600,
           userId: fetchedUser.id,
           isOrg: fetchedUser.isOrg,
           isAdmin: fetchedUser.admin
@@ -109,18 +119,22 @@ router.post('/login', function (req, res, next) {
 });
 
 /*Get user/org profile using authentication token */
-router.get('/profile', function(req, res, next) {
+router.get('/profile', function (req, res, next) {
   let token = req.headers['jwt'];
-  if(token) {
+  if (token) {
     authService.verifyUser(token).then(user => {
-      if(user) {
+      if (user) {
         res.status(200).json(user);
       } else {
-        res.status(400).json({ message: 'Nope'})
+        res.status(400).json({
+          message: 'Nope'
+        })
       }
     })
   } else {
-    res.status(500).json({message: 'Internal'})
+    res.status(500).json({
+      message: 'Internal'
+    })
   }
 });
 
@@ -152,7 +166,7 @@ router.get('/:id', function (req, res, next) {
   let token = req.headers['jwt'];
   if (token) {
     authService.verifyUser(token).then((user) => {
-      if (user && user.admin) {
+      if (user) {
         models.users.findByPk(parseInt(req.params.id)).then((user) => {
           res.status(200).json(user);
         });
@@ -169,12 +183,12 @@ router.get('/:id', function (req, res, next) {
   }
 });
 //Update a user
-router.put('/:id', function(req, res, next) {
+router.put('/:id', function (req, res, next) {
   let token = req.headers['jwt'];
   let userId = parseInt(req.params.id);
-  if(token) {
+  if (token) {
     authService.verifyUser(token).then(user => {
-      if(user) {
+      if (user) {
         models.users.update({
           first_name: req.body.first_name,
           last_name: req.body.last_name,
@@ -195,17 +209,22 @@ router.put('/:id', function(req, res, next) {
         }, {
           where: {
             id: userId
-          }}).then(function(result) {
-          if(result) {
+          }
+        }).then(function (result) {
+          if (result) {
             res.status(201).json(result)
           }
         })
       } else {
-        res.status(400).json({message: 'Unable to update this user!'})
+        res.status(400).json({
+          message: 'Unable to update this user!'
+        })
       }
     })
   } else {
-    res.status(500).json({message: 'Internal server error!'})
+    res.status(500).json({
+      message: 'Internal server error!'
+    })
   }
 });
 
