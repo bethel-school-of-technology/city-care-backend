@@ -5,74 +5,7 @@ var cors = require('cors');
 var models = require('../models');
 var authService = require('../services/auth');
 
-router.post('/register', function(req, res, next) {
-  models.users.findOrCreate({
-    where: { email: req.body.email },
-    defaults: {
-      type: true,
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      org_name: req.body.org_name,
-      contact_name: req.body.contact_name,
-      username: req.body.username,
-      phone: req.body.phone,
-      mobile_phone: req.body.mobile_phone,
-      fax: req.body.fax,
-      contact_method: req.body.contact_method,
-      address1: req.body.address1,
-      address2: req.body.address2,
-      city: req.body.city,
-      state: req.body.state,
-      county: req.body.county,
-      zip: req.body.zip,
-      password: authService.hashPassword(req.body.password),
-      deleted: false,
-      admin: false,
-      role: true
-    }
-  }).spread(function(result, created) {
-    if(created) {
-      console.log(result);
-      res.status(201).json(result);
-    } else res.status(400).json({message: 'User exists!'})
-  })
-});
 
-/* router.post('/register', function(req, res, next) {
-  models.users.findOrCreate({
-    where: { email: req.body.email},
-    defaults: {
-      isOrg: req.body.isOrg,
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      org_name: req.body.org_name,
-      contact_name: req.body.contact_name,
-      username: req.body.username,
-      phone: req.body.phone,
-      mobile_phone: req.body.mobile_phone,
-      fax: req.body.fax,
-      contact_method: req.body.contact_method,
-      address1: req.body.address1,
-      address2: req.body.address2,
-      city: req.body.city,
-      state: req.body.state,
-      county: req.body.county,
-      zip: req.body.zip,
-      password: authService.hashPassword(req.body.password),
-      isOrg: true,
-      deleted: false,
-      admin: true,
-      active: false
-    }
-  }).spread(function(result, created) {
-    if(created) {
-      console.log(result);
-      res.status(200).json(result);
-    } else {
-      res.status(400).json({message: 'Not going to happen sunshine!'})
-    } 
-  })
-}); */
 //Log a user in
 router.post('/login', function (req, res, next) {
   let fetchedUser
@@ -152,7 +85,7 @@ router.get('/:id', function (req, res, next) {
   let token = req.headers['jwt'];
   if (token) {
     authService.verifyUser(token).then((user) => {
-      if (user && user.admin) {
+      if (user) {
         models.users.findByPk(parseInt(req.params.id)).then((user) => {
           res.status(200).json(user);
         });
