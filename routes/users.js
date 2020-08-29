@@ -5,8 +5,14 @@ var cors = require('cors');
 var models = require('../models');
 var authService = require('../services/auth');
 
+<<<<<<< HEAD
 router.post('/register', function(req, res, next) {
   models.users.findOrCreate({
+=======
+router.post('/register', function (req, res, next) {
+  models.users
+    .findOrCreate({
+>>>>>>> 33ec02a4972e33235ddce97a3a48c91a88154eca
       where: { email: req.body.email },
       defaults: {
         isOrg: req.body.isOrg,
@@ -25,12 +31,22 @@ router.post('/register', function(req, res, next) {
         county: req.body.county,
         zip: req.body.zip,
         username: req.body.username,
+<<<<<<< HEAD
         password:  authService.hashPassword(req.body.password),
         deleted: false,
         admin: false
       }
     }).spread(function(result, created) {
       if(created) {
+=======
+        password: authService.hashPassword(req.body.password),
+        deleted: false,
+        admin: false
+      }
+    })
+    .spread(function (result, created) {
+      if (created) {
+>>>>>>> 33ec02a4972e33235ddce97a3a48c91a88154eca
         console.log(result);
         res.status(201).json(result);
       } else

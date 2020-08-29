@@ -102,7 +102,7 @@
                     "seqType": "Sequelize.INTEGER"
                 },
                 "deleted": {
-                    "default": true,
+                    "default": false,
                     "field": "deleted",
                     "seqType": "Sequelize.BOOLEAN"
                 },
