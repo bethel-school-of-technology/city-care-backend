@@ -1,8 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const users = sequelize.define(
-    'users',
-    {
+    'users', {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -95,10 +94,6 @@ module.exports = (sequelize, DataTypes) => {
         default: false,
         required: false
       },
-      org_id: {
-        type: DataTypes.INTEGER,
-        required: false
-      },
       deleted: {
         type: DataTypes.BOOLEAN,
         default: false
@@ -115,12 +110,15 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: false
       }
-    },
-    {}
+    }, {}
   );
   users.associate = function (models) {
-    users.hasMany(models.requests, { foreignKey: 'user_id' });
-    users.hasMany(models.listings, { foreignKey: 'org_id' });
+    users.hasMany(models.requests, {
+      foreignKey: 'user_id'
+    })
+    users.hasMany(models.listings, {
+      foreignKey: 'org_id'
+    })
   };
   return users;
 };

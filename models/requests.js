@@ -1,8 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const requests = sequelize.define(
-    'requests',
-    {
+    'requests', {
       id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -37,11 +36,12 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: false
       }
-    },
-    {}
+    }, {}
   );
   requests.associate = function (models) {
-    requests.belongsTo(models.users, { foreignKey: 'user_id' });
+    requests.belongsTo(models.users, {
+      foreignKey: 'user_id'
+    });
   };
   return requests;
 };
