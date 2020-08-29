@@ -84,9 +84,9 @@
                     "field": "details",
                     "seqType": "Sequelize.STRING"
                 },
-                "date": {
+                "needByDate": {
                     "required": true,
-                    "field": "date",
+                    "field": "needByDate",
                     "seqType": "Sequelize.DATE"
                 },
                 "user_id": {
@@ -102,7 +102,7 @@
                     "seqType": "Sequelize.INTEGER"
                 },
                 "deleted": {
-                    "default": true,
+                    "default": false,
                     "field": "deleted",
                     "seqType": "Sequelize.BOOLEAN"
                 },

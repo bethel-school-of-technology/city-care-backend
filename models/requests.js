@@ -1,7 +1,8 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const requests = sequelize.define(
-    'requests', {
+    'requests',
+    {
       id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -26,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       deleted: {
         type: DataTypes.BOOLEAN,
-        default: true
+        default: false
       },
       createdAt: {
         type: DataTypes.DATE,
@@ -36,7 +37,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: false
       }
-    }, {}
+    },
+    {}
   );
   requests.associate = function (models) {
     requests.belongsTo(models.users, {
