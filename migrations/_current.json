@@ -1,34 +1,5 @@
 {
     "tables": {
-        "categories": {
-            "tableName": "categories",
-            "schema": {
-                "id": {
-                    "autoIncrement": true,
-                    "allowNull": false,
-                    "primaryKey": true,
-                    "field": "id",
-                    "seqType": "Sequelize.INTEGER"
-                },
-                "name": {
-                    "allowNull": false,
-                    "required": true,
-                    "field": "name",
-                    "seqType": "Sequelize.STRING"
-                },
-                "createdAt": {
-                    "allowNull": false,
-                    "field": "createdAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "updatedAt": {
-                    "allowNull": false,
-                    "field": "updatedAt",
-                    "seqType": "Sequelize.DATE"
-                }
-            },
-            "indexes": []
-        },
         "listings": {
             "tableName": "listings",
             "schema": {
@@ -134,46 +105,6 @@
                     "default": true,
                     "field": "deleted",
                     "seqType": "Sequelize.BOOLEAN"
-                },
-                "createdAt": {
-                    "allowNull": false,
-                    "field": "createdAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "updatedAt": {
-                    "allowNull": false,
-                    "field": "updatedAt",
-                    "seqType": "Sequelize.DATE"
-                }
-            },
-            "indexes": []
-        },
-        "subcategories": {
-            "tableName": "subcategories",
-            "schema": {
-                "id": {
-                    "autoIncrement": true,
-                    "allowNull": false,
-                    "primaryKey": true,
-                    "field": "id",
-                    "seqType": "Sequelize.INTEGER"
-                },
-                "cat_id": {
-                    "foreignKey": true,
-                    "field": "cat_id",
-                    "seqType": "Sequelize.INTEGER"
-                },
-                "name": {
-                    "allowNull": false,
-                    "required": true,
-                    "field": "name",
-                    "seqType": "Sequelize.STRING"
-                },
-                "type": {
-                    "allowNull": false,
-                    "required": true,
-                    "field": "type",
-                    "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
                     "allowNull": false,
