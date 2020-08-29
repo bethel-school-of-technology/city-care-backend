@@ -5,6 +5,40 @@ var cors = require('cors');
 var models = require('../models');
 var authService = require('../services/auth');
 
+router.post('/register', function(req, res, next) {
+  models.users.findOrCreate({
+      where: { email: req.body.email },
+      defaults: {
+        isOrg: req.body.isOrg,
+        org_name: req.body.org_name,
+        contact_name: req.body.contact_name,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        phone: req.body.phone,
+        mobile_phone: req.body.mobile_phone,
+        fax: req.body.fax,
+        contact_method: req.body.contact_method,
+        address1: req.body.address1,
+        address2: req.body.address2,
+        city: req.body.city,
+        state: req.body.state,
+        county: req.body.county,
+        zip: req.body.zip,
+        username: req.body.username,
+        password:  authService.hashPassword(req.body.password),
+        deleted: false,
+        admin: false
+      }
+    }).spread(function(result, created) {
+      if(created) {
+        console.log(result);
+        res.status(201).json(result);
+      } else
+        res.status(400).json({
+          message: 'User exists!'
+        });
+    });
+});
 
 //Log a user in
 router.post('/login', function (req, res, next) {

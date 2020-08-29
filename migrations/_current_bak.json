@@ -84,9 +84,9 @@
                     "field": "details",
                     "seqType": "Sequelize.STRING"
                 },
-                "needByDate": {
+                "date": {
                     "required": true,
-                    "field": "needByDate",
+                    "field": "date",
                     "seqType": "Sequelize.DATE"
                 },
                 "user_id": {
@@ -257,5 +257,5 @@
             "indexes": []
         }
     },
-    "revision": 2
+    "revision": 1
 }

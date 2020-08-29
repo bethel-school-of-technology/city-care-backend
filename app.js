@@ -32,7 +32,7 @@ app.use('/requests', requestsRouter);
 app.use('/listings', listingsRouter);
 app.use('/search', searchRouter);
 
-app.use(function(req, res, next) {
+/* app.use(function(req, res, next) {
           next(createError(404));
 });
 //Error handler
@@ -42,8 +42,8 @@ app.use(function(err, req, res, next) {
           res.locals.error = req.app.get('env') === 'development' ? err: {};
 //Render the error page
 res.status(err.status || 500);
-res.render('error');
-});
+res.send(err.message).json({message: 'I have been sent to the error handler!'});
+}); */
 //Connect to the MySQL Database
 models.sequelize.sync().then(function() {
           console.log('App Connected & Sync\'d up!')

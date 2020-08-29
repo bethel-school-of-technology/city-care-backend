@@ -28,7 +28,7 @@ var authService = {
     }
   },
   hashPassword: function (plainTextPassword) {
-    let salt = bcrypt.genSaltSync(10);
+    let salt = bcrypt.genSaltSync(15);
     let hash = bcrypt.hashSync(plainTextPassword, salt);
     return hash;
   },
