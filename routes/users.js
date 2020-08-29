@@ -5,8 +5,14 @@ var cors = require('cors');
 var models = require('../models');
 var authService = require('../services/auth');
 
+<<<<<<< HEAD
 router.post('/register', function(req, res, next) {
   models.users.findOrCreate({
+=======
+router.post('/register', function (req, res, next) {
+  models.users
+    .findOrCreate({
+>>>>>>> 33ec02a4972e33235ddce97a3a48c91a88154eca
       where: { email: req.body.email },
       defaults: {
         isOrg: req.body.isOrg,
