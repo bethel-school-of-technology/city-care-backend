@@ -20,12 +20,12 @@ module.exports = (sequelize, DataTypes) => {
             requirements: {
                 type: DataTypes.STRING,
             },
-            category: {
+            /* category: {
                 type: DataTypes.STRING,
             },
             sub_category: {
                 type: DataTypes.STRING,
-            },
+            }, */
             org_id: {
                 type: DataTypes.INTEGER,
                 foreignKey: true
