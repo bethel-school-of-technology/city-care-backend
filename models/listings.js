@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
             sub_category: {
                 type: DataTypes.STRING,
             }, */
+            //test github branch
             org_id: {
                 type: DataTypes.INTEGER,
                 foreignKey: true
