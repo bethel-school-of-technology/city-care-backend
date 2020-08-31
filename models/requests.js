@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         required: true
       },
       needByDate: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         allowNull: false,
         required: true
       },

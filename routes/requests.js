@@ -31,7 +31,7 @@ router.post('/create', function (req, res, next) {
               res.status(200).json(created);
             } else {
               res.status(400).json({
-                message: 'Error creating request, please try again'
+                message: 'Not today Satan!'
               });
             }
           });
