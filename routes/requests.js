@@ -18,15 +18,17 @@ router.post('/create', function (req, res, next) {
           .findOrCreate({
             where: { name: req.body.name },
             defaults: {
-              details: req.body.description,
+              name: req.body.name,
+              details: req.body.details,
               needByDate: req.body.needByDate,
+              deleted: false,
               user_id: user.id
             }
           })
           .spread(function (result, created) {
             if (created) {
-              console.log(result);
-              res.status(200).json(result);
+              console.log(created);
+              res.status(200).json(created);
             } else {
               res.status(400).json({
                 message: 'Error creating request, please try again'

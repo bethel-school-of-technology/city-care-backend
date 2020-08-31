@@ -13,8 +13,8 @@ var Sequelize = require('sequelize');
 
 var info = {
     "revision": 1,
-    "name": "initial",
-    "created": "2020-08-29T15:30:27.859Z",
+    "name": "migrate",
+    "created": "2020-08-31T14:27:23.526Z",
     "comment": ""
 };
 
@@ -172,27 +172,27 @@ var migrationCommands = [{
                 },
                 "quantity": {
                     "type": Sequelize.INTEGER,
-                    "field": "quantity"
+                    "field": "quantity",
+                    "required": true,
+                    "allowNull": false
                 },
                 "description": {
                     "type": Sequelize.STRING,
-                    "field": "description"
+                    "field": "description",
+                    "required": true,
+                    "allowNull": false
                 },
                 "availability": {
                     "type": Sequelize.STRING,
-                    "field": "availability"
+                    "field": "availability",
+                    "required": true,
+                    "allowNull": false
                 },
                 "requirements": {
                     "type": Sequelize.STRING,
-                    "field": "requirements"
-                },
-                "category": {
-                    "type": Sequelize.STRING,
-                    "field": "category"
-                },
-                "sub_category": {
-                    "type": Sequelize.STRING,
-                    "field": "sub_category"
+                    "field": "requirements",
+                    "required": true,
+                    "allowNull": false
                 },
                 "org_id": {
                     "type": Sequelize.INTEGER,
@@ -202,9 +202,9 @@ var migrationCommands = [{
                         "model": "users",
                         "key": "id"
                     },
-                    "allowNull": true,
                     "field": "org_id",
-                    "foreignKey": true
+                    "foreignKey": true,
+                    "allowNull": false
                 },
                 "deleted": {
                     "type": Sequelize.BOOLEAN,
@@ -240,17 +240,20 @@ var migrationCommands = [{
                 "name": {
                     "type": Sequelize.STRING,
                     "field": "name",
-                    "required": true
+                    "required": true,
+                    "allowNull": false
                 },
                 "details": {
                     "type": Sequelize.STRING,
                     "field": "details",
-                    "required": true
+                    "required": true,
+                    "allowNull": false
                 },
                 "needByDate": {
                     "type": Sequelize.DATE,
                     "field": "needByDate",
-                    "required": true
+                    "required": true,
+                    "allowNull": false
                 },
                 "user_id": {
                     "type": Sequelize.INTEGER,
@@ -260,9 +263,9 @@ var migrationCommands = [{
                         "model": "users",
                         "key": "id"
                     },
-                    "allowNull": true,
                     "field": "user_id",
-                    "foreignKey": true
+                    "foreignKey": true,
+                    "allowNull": false
                 },
                 "deleted": {
                     "type": Sequelize.BOOLEAN,

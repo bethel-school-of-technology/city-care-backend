@@ -11,17 +11,21 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: {
         type: DataTypes.STRING,
+        allowNull: false,
         required: true
       },
       details: {
         type: DataTypes.STRING,
+        allowNull: false,
         required: true
       },
       needByDate: {
         type: DataTypes.DATE,
+        allowNull: false,
         required: true
       },
       user_id: {
+        allowNull: false,
         type: DataTypes.INTEGER,
         foreignKey: true
       },
