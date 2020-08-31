@@ -18,8 +18,8 @@ router.post('/create', function (req, res, next) {
                   quantity: req.body.quantity,
                   availability: req.body.availability,
                   requirements: req.body.requirements,
-                  category: req.body.category,
-                  sub_category: req.body.sub_category,
+                  //category: req.body.category,
+                  //sub_category: req.body.sub_category,
                   org_id: user.id,
                   deleted: false
                }
@@ -28,11 +28,11 @@ router.post('/create', function (req, res, next) {
                   console.log(result) 
                      res.status(200).json(created);
                 } else {
-                   res.status(400).json({message: 'Not going to work out!'})
+                   res.status(400).json({message: 'Not today satan!'})
                 }
             })
          } else {
-            res.status(500).json({message: 'Internal Server Error!'})
+            res.status(500).json({message: 'Not today satan!'})
          }
       });
    }
@@ -70,13 +70,13 @@ router.get('/:id', function (req, res, next) {
                })
          } else {
             res.status(401).json({
-               message: 'Could not find request!'
+               message: 'Not today satan!'
             })
          }
       })
    } else {
       res.status(500).json({
-         message: 'Internal server error!'
+         message: 'Not today satan!'
       });
    }
 });
@@ -132,11 +132,11 @@ router.delete('/:id', function(req, res, next) {
                   console.log(result);
                   res.status(200).json({message: 'Listing marked for deletion!'})
                } else {
-                  res.status(400).json({message: 'You are not authorized to delete this listing!'})
+                  res.status(400).json({message: 'Not today satan!'})
                }
             })
          } else {
-            res.status(500).json({message: 'Internal server error!'})
+            res.status(500).json({message: 'Not today satan!'})
          }
       })
    }
