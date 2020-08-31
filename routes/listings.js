@@ -80,7 +80,28 @@ router.get('/:id', function (req, res, next) {
       });
    }
 });
-
+//Get an organization listings with the organization information that made the listing
+router.get('/county/listings', function (req, res, next) {
+   let token = req.headers['jwt'];
+   if (token) {
+             authService.verifyUser(token).then(user => {
+                       if (user) {
+                                 models.users
+             .findAll({
+               where: { org_id: user.id, county: user.county }, 
+               include: {model: models.listings}, 
+               where: {zip: user.zip }
+             }).then(zip_listings => {
+                       res.status(200).json(zip_listings);
+             })
+             } else {
+                       res.status(400).json({message: 'Could not find anything that matches'});
+             }
+   })
+} else {
+      res.status(500).json({message: 'Internal Server Error!'})
+}
+});
 // /*Update an org listing */
 // router.put('/:id', function (req, res, next) {
 //    let token = req.headers['jwt'];
