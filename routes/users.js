@@ -42,8 +42,8 @@ router.post('/register', function (req, res, next) {
     });
 });
 
-//Log a user in
-router.post('/login', function (req, res, next) {
+//Log a user in with email
+router.post('/emailLogin', function (req, res, next) {
   let fetchedUser;
   models.users
     .findOne({
@@ -81,7 +81,45 @@ router.post('/login', function (req, res, next) {
       }
     });
 });
-
+//Log a user in with username
+router.post('/usernameLogin', function (req, res, next) {
+  let fetchedUser;
+  models.users
+    .findOne({
+      where: {
+        username: req.body.username
+      }
+    })
+    .then((user) => {
+      if (!user) {
+        console.log('User not found!');
+        return res.status(400).json({
+          message: 'Not today Satan!'
+        });
+      } else {
+        fetchedUser = user;
+        let passwordMatch = authService.comparePasswords(
+          req.body.password,
+          user.password
+        );
+        if (passwordMatch) {
+          let token = authService.signUser(user);
+          res.status(200).json({
+            token: token,
+            message: 'You have been logged in!',
+            expiresIn: 3600,
+            userId: fetchedUser.id,
+            isOrg: fetchedUser.isOrg,
+            isAdmin: fetchedUser.admin
+          });
+        } else {
+          res.status(400).json({
+            message: 'Wrong Password!'
+          });
+        }
+      }
+    });
+});
 /*Get user/org profile using authentication token */
 router.get('/profile', function (req, res, next) {
   let token = req.headers['jwt'];
@@ -103,12 +141,12 @@ router.get('/profile', function (req, res, next) {
 });
 
 /* GET all users listing for the admin user. */
-/* router.get('/', function (req, res, next) {
+router.get('/zip', function (req, res, next) {
   let token = req.headers['jwt'];
   if (token) {
     authService.verifyUser(token).then((user) => {
       if (user) {
-        models.users.findAll({}).then((users) => {
+        models.users.findAll({ where: { zip: user.zip}}).then((users) => {
           console.log(users);
           res.status(201).json(users);
         });
@@ -123,7 +161,7 @@ router.get('/profile', function (req, res, next) {
       message: 'You are not logged in!'
     });
   }
-}); */
+});
 //Get a user by the id
 router.get('/:id', function (req, res, next) {
   let userId = req.params.id;
