@@ -8,6 +8,7 @@ var authService = require('../services/auth');
 router.get('/create', function (req, res, next) {
   res.status(200).json({ message: 'You fetched the create request route.' });
 });
+
 //Create a user request
 router.post('/create', function (req, res, next) {
   let token = req.headers['jwt'];
@@ -18,18 +19,19 @@ router.post('/create', function (req, res, next) {
           .findOrCreate({
             where: { name: req.body.name },
             defaults: {
-              details: req.body.description,
+              details: req.body.details,
               needByDate: req.body.needByDate,
+              deleted: false,
               user_id: user.id
             }
           })
           .spread(function (result, created) {
             if (created) {
-              console.log(result);
-              res.status(200).json(result);
+              console.log(created);
+              res.status(200).json(created);
             } else {
               res.status(400).json({
-                message: 'Error creating request, please try again'
+                message: 'Not today Satan'
               });
             }
           });
@@ -58,6 +60,47 @@ router.get('/requests', function (req, res, next) {
         res.status(400).json({ message: 'Can not find requests.' });
       }
     });
+  }
+});
+//Get all of the requests in the same zip code as the logged in user
+router.get('/all/requests', function (req, res, next) {
+  let token = req.headers['jwt'];
+  if (token) {
+    authService.verifyUser(token)
+      .then(user => {
+        if (user) { 
+          models.requests
+            .findAll({
+              where: { deleted: false }, 
+              include: {model: models.users}, 
+              where: {user_id: user.id }
+            })
+            .then(requests => {
+              console.log(requests);
+             res.status(200).json(requests);
+
+            })
+        } else {
+          res.status(400).json({ message: 'Whoops! Something went wrong!' })
+        }
+      });
+    authService.verifyUser(token).then((user) => {
+      if (user) {
+        models.users
+          .findAll({
+            where: { id: user.id },
+            include: { model: models.requests },
+            where: { zip: user.zip }
+          })
+          .then((zip_listings) => {
+            res.status(200).json(zip_listings);
+          });
+      } else {
+        res.status(400).json({ message: 'Whoops! Something went wrong!' });
+      }
+    });
+  } else {
+    res.status(500).json({ message: 'Internal Server Error!' });
   }
 });
 //Get a single request made by the individual

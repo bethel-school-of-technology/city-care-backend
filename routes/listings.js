@@ -18,13 +18,13 @@ router.post('/create', function (req, res, next) {
                   quantity: req.body.quantity,
                   availability: req.body.availability,
                   requirements: req.body.requirements,
-                  description: req.body.description,
+                 description: req.body.description,
                   org_id: user.id,
                   deleted: false
                }
             }).spread(function(result, created) {
                if(created) {
-                  console.log(result) 
+                  console.log(created) 
                      res.status(200).json(created);
                 } else {
                    res.status(400).json({message: 'Not today satan!'})
@@ -36,6 +36,46 @@ router.post('/create', function (req, res, next) {
       });
    }
 });
+//update a listing 
+router.put('/:id', function (req, res, next) {
+   let token = req.headers['jwt'];
+   let listingId = parseInt(req.params.id);
+   if (token) {
+     authService.verifyUser(token).then((user) => {
+       if (user) {
+         models.listings
+           .update(
+             {
+               quantity: req.body.quantity,
+               availability: req.body.availability,
+               requirements: req.body.requirements,
+              description: req.body.description,
+               org_id: user.id,
+               deleted: false
+             },
+             {
+               where: {
+                 id: listingId
+               }
+             }
+           )
+           .then(function (result) {
+             if (result) {
+               res.status(201).json(result);
+             }
+           });
+       } else {
+         res.status(400).json({
+           message: 'Unable to update this user!'
+         });
+       }
+     });
+   } else {
+     res.status(500).json({
+       message: 'Internal server error!'
+     });
+   }
+ });
 //Get all of the organization listings
 router.get('/listings', function (req, res, next) {
    let token = req.headers['jwt'];
@@ -79,47 +119,31 @@ router.get('/:id', function (req, res, next) {
       });
    }
 });
-
-//update a listing 
-router.put('/:id', function (req, res, next) {
+//Get an organization listings with the organization information that made the listing
+router.get('/all/listings', function (req, res, next) {
    let token = req.headers['jwt'];
-   let listingId = parseInt(req.params.id);
+   let fetchedListings;
    if (token) {
-     authService.verifyUser(token).then((user) => {
-       if (user) {
-         models.listings
-           .update(
-             {
-               quantity: req.body.quantity,
-               availability: req.body.availability,
-               requirements: req.body.requirements,
-               description: req.body.description,
-               org_id: user.id,
-               deleted: false
-             },
-             {
-               where: {
-                 id: listingId
-               }
+             authService.verifyUser(token).then(user => {
+                       if (user) {
+                                 models.users
+             .findAll({
+               where: { deleted: false }, 
+               include: {model: models.listings }
+             }).then(orgs_listings => {
+                fetchedUser = user;
+                     console.log(orgs_listings);
+                       res.status(200).json({orgs_listings, user});
+             })
+             } else {
+                       res.status(400).json({message: 'Could not find anything that matches'});
              }
-           )
-           .then(function (result) {
-             if (result) {
-               res.status(201).json(result);
-             }
-           });
-       } else {
-         res.status(400).json({
-           message: 'Unable to update this user!'
-         });
-       }
-     });
-   } else {
-     res.status(500).json({
-       message: 'Internal server error!'
-     });
-   }
- });
+   })
+} else {
+      res.status(500).json({message: 'Internal Server Error!'})
+}
+});
+
 
 /*Delete an org listing*/
 router.delete('/:id', function(req, res, next) {

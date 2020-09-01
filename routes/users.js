@@ -33,8 +33,8 @@ router.post('/register', function (req, res, next) {
     })
     .spread(function (result, created) {
       if (created) {
-        console.log(result);
-        res.status(201).json(result);
+        console.log(created);
+        res.status(201).json(created);
       } else
         res.status(400).json({
           message: 'User exists!'

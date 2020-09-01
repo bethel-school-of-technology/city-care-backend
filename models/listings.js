@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             description: {
                 type: DataTypes.STRING,
-                allowNull: false,
+                allowNull: false, 
                 required: true
             },
             availability: {
@@ -28,12 +28,6 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 required: true
             },
-            /* category: {
-                type: DataTypes.STRING,
-            },
-            sub_category: {
-                type: DataTypes.STRING,
-            }, */
             org_id: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
