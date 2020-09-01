@@ -10,15 +10,23 @@ module.exports = (sequelize, DataTypes) => {
             },
             quantity: {
                 type: DataTypes.INTEGER,
+                allowNull: false,
+                required: true
             },
             description: {
                 type: DataTypes.STRING,
+                allowNull: false,
+                required: true
             },
             availability: {
                 type: DataTypes.STRING,
+                allowNull: false,
+                required: true
             },
             requirements: {
                 type: DataTypes.STRING,
+                allowNull: false,
+                required: true
             },
             /* category: {
                 type: DataTypes.STRING,
@@ -26,9 +34,9 @@ module.exports = (sequelize, DataTypes) => {
             sub_category: {
                 type: DataTypes.STRING,
             }, */
-            //test github branch
             org_id: {
                 type: DataTypes.INTEGER,
+                allowNull: false,
                 foreignKey: true
             },
             deleted: {
