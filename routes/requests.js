@@ -8,7 +8,7 @@ var authService = require('../services/auth');
 router.get('/create', function (req, res, next) {
   res.status(200).json({ message: 'You fetched the create request route.' });
 });
-// Test change
+
 //Create a user request
 router.post('/create', function (req, res, next) {
   let token = req.headers['jwt'];
@@ -19,7 +19,6 @@ router.post('/create', function (req, res, next) {
           .findOrCreate({
             where: { name: req.body.name },
             defaults: {
-              name: req.body.name,
               details: req.body.details,
               needByDate: req.body.needByDate,
               deleted: false,
