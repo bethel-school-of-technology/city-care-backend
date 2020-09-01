@@ -85,12 +85,12 @@ router.get('/listings', function (req, res, next) {
                        if(user) {
                                  models.listings.findAll({
                                            where: { org_id: user.id, deleted: false }
-                                 }).then(requests =>{
-                                           console.log(requests);
-                                           res.status(200).json(requests);
+                                 }).then(listings =>{
+                                           console.log(listings);
+                                           res.status(200).json(listings);
                                  })
                        } else { 
-                                 res.status(400).json({message: 'Can not find requests.'})
+                                 res.status(400).json({message: 'Can not find listings.'})
                        }
              });
    }
@@ -122,21 +122,19 @@ router.get('/:id', function (req, res, next) {
 //Get an organization listings with the organization information that made the listing
 router.get('/all/listings', function (req, res, next) {
    let token = req.headers['jwt'];
-   let fetchedListings;
    if (token) {
              authService.verifyUser(token).then(user => {
                        if (user) {
                                  models.users
              .findAll({
-               where: { deleted: false }, 
+               where: { deleted: false, zip: user.zip, id: org_id }, 
                include: {model: models.listings }
-             }).then(orgs_listings => {
-                fetchedUser = user;
-                     console.log(orgs_listings);
-                       res.status(200).json({orgs_listings, user});
+             }).then(listings => {
+                     console.log(listings);
+                       res.status(200).json(listings);
              })
              } else {
-                       res.status(400).json({message: 'Could not find anything that matches'});
+                       res.status(400).json({message: 'Not today Satan!'});
              }
    })
 } else {

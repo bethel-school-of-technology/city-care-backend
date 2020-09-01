@@ -62,46 +62,27 @@ router.get('/requests', function (req, res, next) {
     });
   }
 });
-//Get all of the requests in the same zip code as the logged in user
+//Get an organization requests with the organization information that made the listing
 router.get('/all/requests', function (req, res, next) {
   let token = req.headers['jwt'];
   if (token) {
-    authService.verifyUser(token)
-      .then(user => {
-        if (user) { 
-          models.requests
+            authService.verifyUser(token).then(user => {
+                      if (user) {
+                                models.users
             .findAll({
-              where: { deleted: false }, 
-              include: {model: models.users}, 
-              where: {user_id: user.id }
+              where: { deleted: false, user_id: user.id, zip: user.zip }, 
+              include: {model: models.requests }
+            }).then(requests => {
+                    console.log(requests);
+                      res.status(200).json({requests});
             })
-            .then(requests => {
-              console.log(requests);
-             res.status(200).json(requests);
-
-            })
-        } else {
-          res.status(400).json({ message: 'Whoops! Something went wrong!' })
-        }
-      });
-    authService.verifyUser(token).then((user) => {
-      if (user) {
-        models.users
-          .findAll({
-            where: { id: user.id },
-            include: { model: models.requests },
-            where: { zip: user.zip }
-          })
-          .then((zip_listings) => {
-            res.status(200).json(zip_listings);
-          });
-      } else {
-        res.status(400).json({ message: 'Whoops! Something went wrong!' });
-      }
-    });
-  } else {
-    res.status(500).json({ message: 'Internal Server Error!' });
-  }
+            } else {
+                      res.status(400).json({message: 'Not today Satan!'});
+            }
+  })
+} else {
+     res.status(500).json({message: 'Internal Server Error!'})
+}
 });
 //Get a single request made by the individual
 router.get('/:id', function (req, res, next) {
@@ -110,9 +91,9 @@ router.get('/:id', function (req, res, next) {
   if (token) {
     authService.verifyUser(token).then((user) => {
       if (user) {
-        models.requests.findByPk(req.params.id).then((request) => {
-          console.log(request);
-          res.status(200).json(request);
+        models.requests.findByPk(req.params.id).then(requests, users => {
+          console.log(requests, users);
+          res.status(200).json(requests, users);
         });
       } else {
         res.status(401).json({ message: 'Could not find request!' });
@@ -122,15 +103,42 @@ router.get('/:id', function (req, res, next) {
     res.status(500).json({ message: 'Internal server error!' });
   }
 });
-//Update a request
+//update a request 
 router.put('/:id', function (req, res, next) {
   let token = req.headers['jwt'];
-  let id = parseInt(req.params.id);
+  let requestId = parseInt(req.params.id);
   if (token) {
     authService.verifyUser(token).then((user) => {
       if (user) {
-        models.requests.update({});
+        models.requests
+          .update(
+            {
+              name: req.body.name,
+              details: req.body.details,
+              needByDate: req.body.needByDate,
+              user_id: user.id,
+              deleted: false
+            },
+            {
+              where: {
+                id: requestId
+              }
+            }
+          )
+          .then(function (result) {
+            if (result) {
+              res.status(201).json(result);
+            }
+          });
+      } else {
+        res.status(400).json({
+          message: 'Unable to update this user!'
+        });
       }
+    });
+  } else {
+    res.status(500).json({
+      message: 'Internal server error!'
     });
   }
 });
