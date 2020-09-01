@@ -8,6 +8,7 @@ var authService = require('../services/auth');
 router.get('/create', function (req, res, next) {
   res.status(200).json({ message: 'You fetched the create request route.' });
 });
+
 //Create a user request
 router.post('/create', function (req, res, next) {
   let token = req.headers['jwt'];
@@ -18,7 +19,6 @@ router.post('/create', function (req, res, next) {
           .findOrCreate({
             where: { name: req.body.name },
             defaults: {
-              name: req.body.name,
               details: req.body.details,
               needByDate: req.body.needByDate,
               deleted: false,
@@ -84,8 +84,23 @@ router.get('/all/requests', function (req, res, next) {
           res.status(400).json({ message: 'Whoops! Something went wrong!' })
         }
       });
+    authService.verifyUser(token).then((user) => {
+      if (user) {
+        models.users
+          .findAll({
+            where: { id: user.id },
+            include: { model: models.requests },
+            where: { zip: user.zip }
+          })
+          .then((zip_listings) => {
+            res.status(200).json(zip_listings);
+          });
+      } else {
+        res.status(400).json({ message: 'Whoops! Something went wrong!' });
+      }
+    });
   } else {
-            res.status(500).json({message: 'Internal Server Error!'})
+    res.status(500).json({ message: 'Internal Server Error!' });
   }
 });
 //Get a single request made by the individual

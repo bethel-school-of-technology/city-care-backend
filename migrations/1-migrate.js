@@ -15,6 +15,7 @@ var info = {
     "revision": 1,
     "name": "migrate",
     "created": "2020-08-31T19:03:34.460Z",
+    "created": "2020-09-01T00:28:08.773Z",
     "comment": ""
 };
 
