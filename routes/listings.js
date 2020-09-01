@@ -18,8 +18,7 @@ router.post('/create', function (req, res, next) {
                   quantity: req.body.quantity,
                   availability: req.body.availability,
                   requirements: req.body.requirements,
-                  //category: req.body.category,
-                  //sub_category: req.body.sub_category,
+                  description: req.body.description,
                   org_id: user.id,
                   deleted: false
                }
@@ -81,19 +80,46 @@ router.get('/:id', function (req, res, next) {
    }
 });
 
-// /*Update an org listing */
-// router.put('/:id', function (req, res, next) {
-//    let token = req.headers['jwt'];
-//    if(token) {
-//       authService.verifyUser(token).then(user => {
-//          if(user) {
-//             models.listings.update({
-//                //Code goes here
-//             })
-//          }
-//       })
-//    }
-// });
+//update a listing 
+router.put('/:id', function (req, res, next) {
+   let token = req.headers['jwt'];
+   let listingId = parseInt(req.params.id);
+   if (token) {
+     authService.verifyUser(token).then((user) => {
+       if (user) {
+         models.listings
+           .update(
+             {
+               quantity: req.body.quantity,
+               availability: req.body.availability,
+               requirements: req.body.requirements,
+               description: req.body.description,
+               org_id: user.id,
+               deleted: false
+             },
+             {
+               where: {
+                 id: listingId
+               }
+             }
+           )
+           .then(function (result) {
+             if (result) {
+               res.status(201).json(result);
+             }
+           });
+       } else {
+         res.status(400).json({
+           message: 'Unable to update this user!'
+         });
+       }
+     });
+   } else {
+     res.status(500).json({
+       message: 'Internal server error!'
+     });
+   }
+ });
 
 /*Delete an org listing*/
 router.delete('/:id', function(req, res, next) {

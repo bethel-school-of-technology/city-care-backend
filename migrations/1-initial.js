@@ -172,27 +172,27 @@ var migrationCommands = [{
                 },
                 "quantity": {
                     "type": Sequelize.INTEGER,
-                    "field": "quantity"
+                    "field": "quantity",
+                    "allowNull": false,
+                    "required": true
                 },
                 "description": {
                     "type": Sequelize.STRING,
-                    "field": "description"
+                    "field": "description",
+                    "allowNull": false,
+                    "required": true
                 },
                 "availability": {
                     "type": Sequelize.STRING,
-                    "field": "availability"
+                    "field": "availability",
+                    "allowNull": false,
+                    "required": true
                 },
                 "requirements": {
                     "type": Sequelize.STRING,
-                    "field": "requirements"
-                },
-                "category": {
-                    "type": Sequelize.STRING,
-                    "field": "category"
-                },
-                "sub_category": {
-                    "type": Sequelize.STRING,
-                    "field": "sub_category"
+                    "field": "requirements",
+                    "allowNull": false,
+                    "required": true
                 },
                 "org_id": {
                     "type": Sequelize.INTEGER,
@@ -202,7 +202,7 @@ var migrationCommands = [{
                         "model": "users",
                         "key": "id"
                     },
-                    "allowNull": true,
+                    "allowNull": false,
                     "field": "org_id",
                     "foreignKey": true
                 },
