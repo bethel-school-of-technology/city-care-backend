@@ -38,7 +38,7 @@ router.post('/login', function (req, res, next) {
         }
     });
 });
-// /* GET  org profile. */
+// /* GET  orgs profile. */
 // router.get('/profile', function(req, res, next) {
 //           let token = req.headers['jwt'];
 //           if(token) {
