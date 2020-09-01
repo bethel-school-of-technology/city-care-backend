@@ -31,7 +31,7 @@ router.post('/create', function (req, res, next) {
               res.status(200).json(created);
             } else {
               res.status(400).json({
-                message: 'Error creating request, please try again'
+                message: 'Not today Satan'
               });
             }
           });
@@ -63,9 +63,27 @@ router.get('/requests', function (req, res, next) {
   }
 });
 //Get all of the requests in the same zip code as the logged in user
-router.get('/county/requests', function (req, res, next) {
+router.get('/all/requests', function (req, res, next) {
   let token = req.headers['jwt'];
   if (token) {
+    authService.verifyUser(token)
+      .then(user => {
+        if (user) { 
+          models.requests
+            .findAll({
+              where: { deleted: false }, 
+              include: {model: models.users}, 
+              where: {user_id: user.id }
+            })
+            .then(requests => {
+              console.log(requests);
+             res.status(200).json(requests);
+
+            })
+        } else {
+          res.status(400).json({ message: 'Whoops! Something went wrong!' })
+        }
+      });
     authService.verifyUser(token).then((user) => {
       if (user) {
         models.users

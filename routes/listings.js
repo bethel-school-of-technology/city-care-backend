@@ -18,7 +18,7 @@ router.post('/create', function (req, res, next) {
                   quantity: req.body.quantity,
                   availability: req.body.availability,
                   requirements: req.body.requirements,
-                 description: req.body.requirements,
+                 description: req.body.description,
                   org_id: user.id,
                   deleted: false
                }
@@ -49,7 +49,7 @@ router.put('/:id', function (req, res, next) {
                quantity: req.body.quantity,
                availability: req.body.availability,
                requirements: req.body.requirements,
-              description: req.body.requirements,
+              description: req.body.description,
                org_id: user.id,
                deleted: false
              },
@@ -120,18 +120,20 @@ router.get('/:id', function (req, res, next) {
    }
 });
 //Get an organization listings with the organization information that made the listing
-router.get('/county/listings', function (req, res, next) {
+router.get('/all/listings', function (req, res, next) {
    let token = req.headers['jwt'];
+   let fetchedListings;
    if (token) {
              authService.verifyUser(token).then(user => {
                        if (user) {
                                  models.users
              .findAll({
-               where: { org_id: user.id, county: user.county }, 
-               include: {model: models.listings}, 
-               where: {zip: user.zip }
-             }).then(zip_listings => {
-                       res.status(200).json(zip_listings);
+               where: { deleted: false }, 
+               include: {model: models.listings }
+             }).then(orgs_listings => {
+                fetchedUser = user;
+                     console.log(orgs_listings);
+                       res.status(200).json({orgs_listings, user});
              })
              } else {
                        res.status(400).json({message: 'Could not find anything that matches'});

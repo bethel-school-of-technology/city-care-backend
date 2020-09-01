@@ -90,7 +90,7 @@
                     "allowNull": false,
                     "required": true,
                     "field": "needByDate",
-                    "seqType": "Sequelize.DATE"
+                    "seqType": "Sequelize.STRING"
                 },
                 "user_id": {
                     "allowNull": false,
