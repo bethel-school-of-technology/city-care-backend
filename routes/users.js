@@ -37,7 +37,7 @@ router.post('/register', function (req, res, next) {
         res.status(201).json(created);
       } else
         res.status(400).json({
-          message: 'User exists!'
+          message: 'Not today Satan!'
         });
     });
 });
@@ -53,7 +53,6 @@ router.post('/emailLogin', function (req, res, next) {
     })
     .then((user) => {
       if (!user) {
-        console.log('User not found!');
         return res.status(400).json({
           message: 'Login Failed! User not found!'
         });
@@ -75,7 +74,7 @@ router.post('/emailLogin', function (req, res, next) {
           });
         } else {
           res.status(400).json({
-            message: 'Wrong Password!'
+            message: 'Not today Satan!'
           });
         }
       }
@@ -92,7 +91,6 @@ router.post('/usernameLogin', function (req, res, next) {
     })
     .then((user) => {
       if (!user) {
-        console.log('User not found!');
         return res.status(400).json({
           message: 'Not today Satan!'
         });
@@ -114,9 +112,9 @@ router.post('/usernameLogin', function (req, res, next) {
           });
         } else {
           res.status(400).json({
-            message: 'Wrong Password!'
+            message: 'Not today Satan!'
           });
-        }
+        } 
       }
     });
 });
@@ -129,13 +127,13 @@ router.get('/profile', function (req, res, next) {
         res.status(200).json(user);
       } else {
         res.status(400).json({
-          message: 'Nope'
+          message: 'Not today Satan!'
         });
       }
     });
   } else {
     res.status(500).json({
-      message: 'Internal'
+      message: 'Internal server error!'
     });
   }
 });
@@ -152,13 +150,13 @@ router.get('/zip', function (req, res, next) {
         });
       } else {
         res.status(400).json({
-          message: 'You are not authorized to view this page!'
+          message: 'Not today Satan!'
         });
       }
     });
   } else {
-    res.status(400).json({
-      message: 'You are not logged in!'
+    res.status(500).json({
+      message: 'Internal server error.'
     });
   }
 });
@@ -174,7 +172,7 @@ router.get('/:id', function (req, res, next) {
         });
       } else {
         res.status(400).json({
-          message: 'You can not do that!'
+          message: 'Not today Satan!'
         });
       }
     });
@@ -184,6 +182,7 @@ router.get('/:id', function (req, res, next) {
     });
   }
 });
+
 //Update a user
 router.put('/:id', function (req, res, next) {
   let token = req.headers['jwt'];
@@ -224,7 +223,7 @@ router.put('/:id', function (req, res, next) {
           });
       } else {
         res.status(400).json({
-          message: 'Unable to update this user!'
+          message: 'Not today satan!'
         });
       }
     });

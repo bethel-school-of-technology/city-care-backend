@@ -27,15 +27,16 @@ router.post('/create', function (req, res, next) {
                   console.log(created) 
                      res.status(200).json(created);
                 } else {
-                   res.status(400).json({message: 'Not today satan!'})
+                   res.status(400).json({ message: 'Not today satan!'})
                 }
             })
          } else {
-            res.status(500).json({message: 'Not today satan!'})
+            res.status(500).json({ message: 'Internal server error!'})
          }
       });
    }
 });
+
 //update a listing 
 router.put('/:id', function (req, res, next) {
    let token = req.headers['jwt'];
@@ -66,7 +67,7 @@ router.put('/:id', function (req, res, next) {
            });
        } else {
          res.status(400).json({
-           message: 'Unable to update this user!'
+           message: 'Not today Satan!'
          });
        }
      });
@@ -76,6 +77,7 @@ router.put('/:id', function (req, res, next) {
      });
    }
  });
+
 //Get all of the organization listings
 router.get('/listings', function (req, res, next) {
    let token = req.headers['jwt'];
@@ -90,11 +92,14 @@ router.get('/listings', function (req, res, next) {
                                            res.status(200).json(listings);
                                  })
                        } else { 
-                                 res.status(400).json({message: 'Can not find listings.'})
+                                 res.status(400).json({ message: 'Not today Satan!'})
                        }
              });
+   } else {
+      res.status(500).json({ message: 'Internal server error!'})
    }
 });
+
 /*Get an org listing by the id */
 router.get('/:id', function (req, res, next) {
    let token = req.headers['jwt'];
@@ -103,9 +108,9 @@ router.get('/:id', function (req, res, next) {
       authService.verifyUser(token).then(user => {
          if (user) {
             models.listings.findByPk(req.params.id)
-               .then(request => {
-                  console.log(request);
-                  res.status(200).json(request);
+               .then(listing => {
+                  console.log(listing);
+                  res.status(200).json(listing);
                })
          } else {
             res.status(401).json({
@@ -115,10 +120,11 @@ router.get('/:id', function (req, res, next) {
       })
    } else {
       res.status(500).json({
-         message: 'Not today satan!'
+         message: 'Internal server error.'
       });
    }
 });
+
 //Get an organization listings with the organization information that made the listing
 router.get('/all/listings', function (req, res, next) {
    let token = req.headers['jwt'];
@@ -134,14 +140,13 @@ router.get('/all/listings', function (req, res, next) {
                        res.status(200).json(listings);
              })
              } else {
-                       res.status(400).json({message: 'Not today Satan!'});
+                       res.status(400).json({ message: 'Not today Satan!'});
              }
    })
 } else {
-      res.status(500).json({message: 'Internal Server Error!'})
+      res.status(500).json({ message: 'Internal Server Error!'})
 }
 });
-
 
 /*Delete an org listing*/
 router.delete('/:id', function(req, res, next) {
@@ -156,16 +161,16 @@ router.delete('/:id', function(req, res, next) {
                where: { id: listingId }
             }).then(function(result) {
                if(result) {
-                  console.log(result);
-                  res.status(200).json({message: 'Listing marked for deletion!'})
+                  res.status(200).json({ message: 'Listing marked for deletion!'})
                } else {
-                  res.status(400).json({message: 'Not today satan!'})
+                  res.status(400).json({ message: 'Not today satan!'})
                }
             })
          } else {
-            res.status(500).json({message: 'Not today satan!'})
+            res.status(500).json({ message: 'Internal server error.'})
          }
       })
    }
 });
+
 module.exports = router;

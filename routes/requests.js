@@ -5,9 +5,9 @@ var mysql = require('mysql2');
 var models = require('../models');
 var authService = require('../services/auth');
 
-router.get('/create', function (req, res, next) {
+/* router.get('/create', function (req, res, next) {
   res.status(200).json({ message: 'You fetched the create request route.' });
-});
+}); */
 
 //Create a user request
 router.post('/create', function (req, res, next) {
@@ -27,11 +27,10 @@ router.post('/create', function (req, res, next) {
           })
           .spread(function (result, created) {
             if (created) {
-              console.log(created);
               res.status(200).json(created);
             } else {
               res.status(400).json({
-                message: 'Not today Satan'
+                message: 'Not today Satan!'
               });
             }
           });
@@ -47,21 +46,22 @@ router.get('/requests', function (req, res, next) {
   let token = req.headers['jwt'];
   if(token) {
             authService.verifyUser(token).then(user => {
-              let org_id = parseInt(req.params.id);
+              let user_id = parseInt(req.params.id);
                       if(user) {
                                 models.requests.findAll({
                                           where: { user_id: user.id, deleted: false }
                                 }).then(requests =>{
-                                          console.log(requests);
                                           res.status(200).json(requests);
                                 })
                       } else { 
-                                res.status(400).json({message: 'Not Today Satan!'})
+                                res.status(400).json({ message: 'Not Today Satan!'})
                       }
             });
+  } else { 
+    res.status(500).json({ message: 'Internal server error!'})
   }
 });
-//Get an organization requests with the organization information that made the listing
+//Get a users request with the user information that made the request
 router.get('/all/requests', function (req, res, next) {
   let token = req.headers['jwt'];
   if (token) {
@@ -76,11 +76,11 @@ router.get('/all/requests', function (req, res, next) {
                       res.status(200).json({requests});
             })
             } else {
-                      res.status(400).json({message: 'Not today Satan!'});
+                      res.status(400).json({ message: 'Not today Satan!'});
             }
   })
 } else {
-     res.status(500).json({message: 'Internal Server Error!'})
+     res.status(500).json({ message: 'Internal server Error!'})
 }
 });
 //Get a single request made by the individual
@@ -99,11 +99,11 @@ router.get('/:id', function (req, res, next) {
            res.status(401).json({
               message: 'Not today satan!'
            })
-        }
+        } 
      })
   } else {
      res.status(500).json({
-        message: 'Not today satan!'
+        message: 'Internal server error!'
      });
   }
 });
@@ -136,7 +136,7 @@ router.put('/:id', function (req, res, next) {
           });
       } else {
         res.status(400).json({
-          message: 'Unable to update this user!'
+          message: 'Not today Satan!'
         });
       }
     });
@@ -168,7 +168,7 @@ router.delete('/:id', function (req, res, next) {
               res.status(200).json({ message: 'Listing marked for deletion!' });
             } else {
               res.status(400).json({
-                message: 'You are not authorized to delete this listing!'
+                message: 'Not today Satan!'
               });
             }
           });
