@@ -45,21 +45,20 @@ router.post('/create', function (req, res, next) {
 //Get all of the requests made by an individual
 router.get('/requests', function (req, res, next) {
   let token = req.headers['jwt'];
-  if (token) {
-    authService.verifyUser(token).then((user) => {
-      if (user) {
-        models.requests
-          .findAll({
-            where: { user_id: user.id, deleted: false }
-          })
-          .then((requests) => {
-            console.log(requests);
-            res.status(200).json(requests);
-          });
-      } else {
-        res.status(400).json({ message: 'Can not find requests.' });
-      }
-    });
+  if(token) {
+            authService.verifyUser(token).then(user => {
+              let org_id = parseInt(req.params.id);
+                      if(user) {
+                                models.requests.findAll({
+                                          where: { user_id: user.id, deleted: false }
+                                }).then(requests =>{
+                                          console.log(requests);
+                                          res.status(200).json(requests);
+                                })
+                      } else { 
+                                res.status(400).json({message: 'Not Today Satan!'})
+                      }
+            });
   }
 });
 //Get an organization requests with the organization information that made the listing
@@ -87,20 +86,25 @@ router.get('/all/requests', function (req, res, next) {
 //Get a single request made by the individual
 router.get('/:id', function (req, res, next) {
   let token = req.headers['jwt'];
-  let id = req.params.id;
+  let user_id = req.params.id;
   if (token) {
-    authService.verifyUser(token).then((user) => {
-      if (user) {
-        models.requests.findByPk(req.params.id).then(requests, users => {
-          console.log(requests, users);
-          res.status(200).json(requests, users);
-        });
-      } else {
-        res.status(401).json({ message: 'Could not find request!' });
-      }
-    });
+     authService.verifyUser(token).then(user => {
+        if (user) {
+           models.requests.findByPk(req.params.id)
+              .then(request => {
+                 console.log(request);
+                 res.status(200).json(request);
+              })
+        } else {
+           res.status(401).json({
+              message: 'Not today satan!'
+           })
+        }
+     })
   } else {
-    res.status(500).json({ message: 'Internal server error!' });
+     res.status(500).json({
+        message: 'Not today satan!'
+     });
   }
 });
 //update a request 
