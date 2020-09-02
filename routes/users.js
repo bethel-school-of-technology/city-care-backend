@@ -137,14 +137,56 @@ router.get('/profile', function (req, res, next) {
     });
   }
 });
-
-/* GET all users listing for the admin user. */
-router.get('/zip', function (req, res, next) {
+//Get the users for the site tally page using the token
+router.get('/information', function(req, res, next) {
+  let token = req.headers['jwt'];
+  if(token) {
+    authService.verifyUser(token).then(user => {
+      if(user) {
+        fetchedUser = user;
+        models.users.findAll({ 
+          where: {id: user.id, deleted: false, zip: user.zip}
+        }).then((users) => {
+          console.log(fetchedUser, users);
+          res.status(200).json(fetchedUser, users)
+        })
+      } else {
+        res.status(400).json({ message: "Not today Satan!"});
+      }
+    })
+  } else { 
+    res.status(500).json({ message: 'Internal server error!'})
+  }
+});
+/* GET all organizations by zip. */
+router.get('/orgsZip', function (req, res, next) {
   let token = req.headers['jwt'];
   if (token) {
     authService.verifyUser(token).then((user) => {
       if (user) {
-        models.users.findAll({ where: { zip: user.zip}}).then((users) => {
+        models.users.findAll({ where: { zip: user.zip, isOrg: true}}).then((users) => {
+          console.log(users);
+          res.status(201).json(users);
+        });
+      } else {
+        res.status(400).json({
+          message: 'Not today Satan!'
+        });
+      }
+    });
+  } else {
+    res.status(500).json({
+      message: 'Internal server error.'
+    });
+  }
+});
+//Get all users by zip 
+router.get('/usersZip', function (req, res, next) {
+  let token = req.headers['jwt'];
+  if (token) {
+    authService.verifyUser(token).then((user) => {
+      if (user) {
+        models.users.findAll({ where: { zip: user.zip, isOrg: false }}).then((users) => {
           console.log(users);
           res.status(201).json(users);
         });

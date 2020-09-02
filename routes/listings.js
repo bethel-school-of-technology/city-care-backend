@@ -99,7 +99,24 @@ router.get('/listings', function (req, res, next) {
       res.status(500).json({ message: 'Internal server error!'})
    }
 });
-
+//Get all of the listings in the database
+router.get('/', function(req, res, next) {
+   let token = req.headers['jwt'];
+   if(token) {
+     authService.verifyUser(token).then(user => {
+       if(user) {
+         models.listings.findAll({ where: { deleted: false }}).then(requests => {
+           console.log(requests);
+           res.status(200).json(requests);
+         })
+       } else {
+         res.status(400).json({ message: 'Not today Satan!'})
+       }
+     })
+   } else {
+     res.status(500).json({ message: 'Internal server error!'})
+   }
+ });
 /*Get an org listing by the id */
 router.get('/:id', function (req, res, next) {
    let token = req.headers['jwt'];
@@ -126,15 +143,17 @@ router.get('/:id', function (req, res, next) {
 });
 
 //Get an organization listings with the organization information that made the listing
-router.get('/all/listings', function (req, res, next) {
+/* router.get('/all/listings', function (req, res, next) {
    let token = req.headers['jwt'];
    if (token) {
              authService.verifyUser(token).then(user => {
+                let id = req.params.id;
                        if (user) {
+                          let org_id = parseInt(req.params.id);
                                  models.users
              .findAll({
-               where: { deleted: false, zip: user.zip, id: org_id }, 
-               include: {model: models.listings }
+               where: { deleted: false, id: org_id }, 
+               include: { model: models.listings }
              }).then(listings => {
                      console.log(listings);
                        res.status(200).json(listings);
@@ -147,7 +166,7 @@ router.get('/all/listings', function (req, res, next) {
       res.status(500).json({ message: 'Internal Server Error!'})
 }
 });
-
+ */
 /*Delete an org listing*/
 router.delete('/:id', function(req, res, next) {
    let listingId = parseInt(req.params.id);
