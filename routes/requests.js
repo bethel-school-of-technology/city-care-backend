@@ -9,7 +9,7 @@ var authService = require('../services/auth');
   res.status(200).json({ message: 'You fetched the create request route.' });
 }); */
 
-//Create a user request
+//Create a user request and store it in the database
 router.post('/create', function (req, res, next) {
   let token = req.headers['jwt'];
   if (token) {
@@ -41,7 +41,7 @@ router.post('/create', function (req, res, next) {
   }
 });
 
-//Get all of the requests made by an individual
+//Get all of the requests made by an individual for the profile page
 router.get('/requests', function (req, res, next) {
   let token = req.headers['jwt'];
   if(token) {
@@ -61,7 +61,8 @@ router.get('/requests', function (req, res, next) {
     res.status(500).json({ message: 'Internal server error!'})
   }
 });
-//Get all of the requests 
+
+//Get all of the requests in the database for the site tally page
 router.get('/', function(req, res, next) {
   let token = req.headers['jwt'];
   if(token) {
@@ -105,7 +106,7 @@ router.get('/:id', function (req, res, next) {
   }
 });
 //update a request 
-router.put('/:id', function (req, res, next) {
+router.put('/update/:id', function (req, res, next) {
   let token = req.headers['jwt'];
   let requestId = parseInt(req.params.id);
   if (token) {
@@ -144,7 +145,7 @@ router.put('/:id', function (req, res, next) {
   }
 });
 //Delete an existing request
-router.delete('/:id', function (req, res, next) {
+router.delete('/delete/:id', function (req, res, next) {
   let token = req.headers['jwt'];
   let requestId = parseInt(req.params.id);
   if (token) {
@@ -174,5 +175,19 @@ router.delete('/:id', function (req, res, next) {
       }
     });
   }
+});
+
+router.get('/getRequestInformation', function(req, res, next) {
+  models.users.findAll({
+    where: { user_id: id, deleted: false},
+    include: {
+      model: models.requests,
+    },
+    include: { model: models.listings,
+  }
+  }).then(userData => {
+    res.status(200).json({ message: 'You just combined three models to fetch dat'}, 
+    userData)
+  });
 });
 module.exports = router;

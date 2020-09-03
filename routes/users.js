@@ -80,6 +80,7 @@ router.post('/emailLogin', function (req, res, next) {
       }
     });
 });
+
 //Log a user in with username
 router.post('/usernameLogin', function (req, res, next) {
   let fetchedUser;
@@ -137,30 +138,8 @@ router.get('/profile', function (req, res, next) {
     });
   }
 });
-//Get the users for the site tally page using the token
-router.get('/information', function(req, res, next) {
-  let token = req.headers['jst'];
-if(token) {
-  authService.verifyUser(token).then(user => {
-    if(user) {
-      models.users.findAll({
-        where: { zip: user.zip, deleted: false },
-        include: { model: models.listings },
-        include: { model: models.requsts }
-      }).then(users, listings, requests => {
-        res.status(201).json(users, listings, requests);
-      })
-    } else {
-      res.status(400).json({ message: 'Not today Satan!'})
-    }
-  })
-} else {
-  res.status(500).json({ message: 'Internal Server Error!' });
-}
-});
 
-
-//Get a user by the id
+//Get a user by the id for the update user page form
 router.get('/:id', function (req, res, next) {
   let user_id = req.params.id;
   let token = req.headers['jwt'];
@@ -182,24 +161,33 @@ router.get('/:id', function (req, res, next) {
     });
   }
 });
-router.get('/userRequest/:id', function(req, res, next) {
-  let user_id = req.params.id;
+
+//Get an organization by the id for the view listing page
+
+router.get('listingUser/:id', function (req, res, next) {
+  let org_id = req.params.id;
   let token = req.headers['jwt'];
-  if(token) {
-    authService.verifyUser(token).then(user => {
-      if(user) {
+  if (token) {
+    authService.verifyUser(token).then((user) => {
+      if (user) {
         models.users.findByPk(parseInt(req.params.id)).then((user) => {
-          res.status(200).json(user)
-        })
-      } else { 
-        res.status(400).json({ message: 'Not today Satan'});
+          res.status(200).json(user);
+        });
+      } else {
+        res.status(400).json({
+          message: 'Not today Satan!'
+        });
       }
-    })
+    });
   } else {
-    res.status(500).json({ message: 'Internal server error!'})
+    res.status(500).json({
+      message: 'Internal Server Error!'
+    });
   }
 });
-//Update a user
+
+
+//Update a users information in the database
 router.put('/:id', function (req, res, next) {
   let token = req.headers['jwt'];
   let userId = parseInt(req.params.id);
