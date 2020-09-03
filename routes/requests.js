@@ -79,28 +79,7 @@ router.get('/', function(req, res, next) {
     res.status(500).json({ message: 'Internal server error!'})
   }
 });
-//Get a users request with the user information that made the request
-/* router.get('/all/requests', function (req, res, next) {
-  let token = req.headers['jwt'];
-  if (token) {
-            authService.verifyUser(token).then(user => {
-                      if (user) {
-                                models.users
-            .findAll({
-              where: { deleted: false, user_id: user.id, zip: user.zip }, 
-              include: {model: models.requests }
-            }).then(requests => {
-                    console.log(requests);
-                      res.status(200).json({requests});
-            })
-            } else {
-                      res.status(400).json({ message: 'Not today Satan!'});
-            }
-  })
-} else {
-     res.status(500).json({ message: 'Internal server Error!'})
-}
-}); */
+
 //Get a single request made by the individual
 router.get('/:id', function (req, res, next) {
   let token = req.headers['jwt'];

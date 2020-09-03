@@ -139,72 +139,30 @@ router.get('/profile', function (req, res, next) {
 });
 //Get the users for the site tally page using the token
 router.get('/information', function(req, res, next) {
-  let token = req.headers['jwt'];
-  if(token) {
-    authService.verifyUser(token).then(user => {
-      if(user) {
-        fetchedUser = user;
-        models.users.findAll({ 
-          where: {id: user.id, deleted: false, zip: user.zip}
-        }).then((users) => {
-          console.log(fetchedUser, users);
-          res.status(200).json(fetchedUser, users)
-        })
-      } else {
-        res.status(400).json({ message: "Not today Satan!"});
-      }
-    })
-  } else { 
-    res.status(500).json({ message: 'Internal server error!'})
-  }
+  let token = req.headers['jst'];
+if(token) {
+  authService.verifyUser(token).then(user => {
+    if(user) {
+      models.users.findAll({
+        where: { zip: user.zip, deleted: false },
+        include: { model: models.listings },
+        include: { model: models.requsts }
+      }).then(users, listings, requests => {
+        res.status(201).json(users, listings, requests);
+      })
+    } else {
+      res.status(400).json({ message: 'Not today Satan!'})
+    }
+  })
+} else {
+  res.status(500).json({ message: 'Internal Server Error!' });
+}
 });
-/* GET all organizations by zip. */
-router.get('/orgsZip', function (req, res, next) {
-  let token = req.headers['jwt'];
-  if (token) {
-    authService.verifyUser(token).then((user) => {
-      if (user) {
-        models.users.findAll({ where: { zip: user.zip, isOrg: true}}).then((users) => {
-          console.log(users);
-          res.status(201).json(users);
-        });
-      } else {
-        res.status(400).json({
-          message: 'Not today Satan!'
-        });
-      }
-    });
-  } else {
-    res.status(500).json({
-      message: 'Internal server error.'
-    });
-  }
-});
-//Get all users by zip 
-router.get('/usersZip', function (req, res, next) {
-  let token = req.headers['jwt'];
-  if (token) {
-    authService.verifyUser(token).then((user) => {
-      if (user) {
-        models.users.findAll({ where: { zip: user.zip, isOrg: false }}).then((users) => {
-          console.log(users);
-          res.status(201).json(users);
-        });
-      } else {
-        res.status(400).json({
-          message: 'Not today Satan!'
-        });
-      }
-    });
-  } else {
-    res.status(500).json({
-      message: 'Internal server error.'
-    });
-  }
-});
+
+
 //Get a user by the id
 router.get('/:id', function (req, res, next) {
-  let userId = req.params.id;
+  let user_id = req.params.id;
   let token = req.headers['jwt'];
   if (token) {
     authService.verifyUser(token).then((user) => {
@@ -224,7 +182,23 @@ router.get('/:id', function (req, res, next) {
     });
   }
 });
-
+router.get('/userRequest/:id', function(req, res, next) {
+  let user_id = req.params.id;
+  let token = req.headers['jwt'];
+  if(token) {
+    authService.verifyUser(token).then(user => {
+      if(user) {
+        models.users.findByPk(parseInt(req.params.id)).then((user) => {
+          res.status(200).json(user)
+        })
+      } else { 
+        res.status(400).json({ message: 'Not today Satan'});
+      }
+    })
+  } else {
+    res.status(500).json({ message: 'Internal server error!'})
+  }
+});
 //Update a user
 router.put('/:id', function (req, res, next) {
   let token = req.headers['jwt'];
