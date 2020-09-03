@@ -5,11 +5,11 @@ var mysql = require('mysql2');
 var models = require('../models');
 var authService = require('../services/auth');
 
-router.get('/create', function (req, res, next) {
+/* router.get('/create', function (req, res, next) {
   res.status(200).json({ message: 'You fetched the create request route.' });
-});
+}); */
 
-//Create a user request
+//Create a user request and store it in the database
 router.post('/create', function (req, res, next) {
   let token = req.headers['jwt'];
   if (token) {
@@ -27,11 +27,10 @@ router.post('/create', function (req, res, next) {
           })
           .spread(function (result, created) {
             if (created) {
-              console.log(created);
               res.status(200).json(created);
             } else {
               res.status(400).json({
-                message: 'Not today Satan'
+                message: 'Not today Satan!'
               });
             }
           });
@@ -42,69 +41,72 @@ router.post('/create', function (req, res, next) {
   }
 });
 
-//Get all of the requests made by an individual
+//Get all of the requests made by an individual for the profile page
 router.get('/requests', function (req, res, next) {
   let token = req.headers['jwt'];
-  if (token) {
-    authService.verifyUser(token).then((user) => {
-      if (user) {
-        models.requests
-          .findAll({
-            where: { user_id: user.id, deleted: false }
-          })
-          .then((requests) => {
-            console.log(requests);
-            res.status(200).json(requests);
-          });
-      } else {
-        res.status(400).json({ message: 'Can not find requests.' });
-      }
-    });
+  if(token) {
+            authService.verifyUser(token).then(user => {
+              let user_id = parseInt(req.params.id);
+                      if(user) {
+                                models.requests.findAll({
+                                          where: { user_id: user.id, deleted: false }
+                                }).then(requests =>{
+                                          res.status(200).json(requests);
+                                })
+                      } else { 
+                                res.status(400).json({ message: 'Not Today Satan!'})
+                      }
+            });
+  } else { 
+    res.status(500).json({ message: 'Internal server error!'})
   }
 });
-//Get an organization requests with the organization information that made the listing
-router.get('/all/requests', function (req, res, next) {
+
+//Get all of the requests in the database for the site tally page
+router.get('/', function(req, res, next) {
   let token = req.headers['jwt'];
-  if (token) {
-            authService.verifyUser(token).then(user => {
-                      if (user) {
-                                models.users
-            .findAll({
-              where: { deleted: false, user_id: user.id, zip: user.zip }, 
-              include: {model: models.requests }
-            }).then(requests => {
-                    console.log(requests);
-                      res.status(200).json({requests});
-            })
-            } else {
-                      res.status(400).json({message: 'Not today Satan!'});
-            }
-  })
-} else {
-     res.status(500).json({message: 'Internal Server Error!'})
-}
+  if(token) {
+    authService.verifyUser(token).then(user => {
+      if(user) {
+        models.requests.findAll({ where: { deleted: false }}).then(requests => {
+          console.log(requests);
+          res.status(200).json(requests);
+        })
+      } else {
+        res.status(400).json({ message: 'Not today Satan!'})
+      }
+    })
+  } else {
+    res.status(500).json({ message: 'Internal server error!'})
+  }
 });
+
 //Get a single request made by the individual
 router.get('/:id', function (req, res, next) {
   let token = req.headers['jwt'];
-  let id = req.params.id;
+  let user_id = req.params.id;
   if (token) {
-    authService.verifyUser(token).then((user) => {
-      if (user) {
-        models.requests.findByPk(req.params.id).then(requests, users => {
-          console.log(requests, users);
-          res.status(200).json(requests, users);
-        });
-      } else {
-        res.status(401).json({ message: 'Could not find request!' });
-      }
-    });
+     authService.verifyUser(token).then(user => {
+        if (user) {
+           models.requests.findByPk(req.params.id)
+              .then(request => {
+                 console.log(request);
+                 res.status(200).json(request);
+              })
+        } else {
+           res.status(401).json({
+              message: 'Not today satan!'
+           })
+        } 
+     })
   } else {
-    res.status(500).json({ message: 'Internal server error!' });
+     res.status(500).json({
+        message: 'Internal server error!'
+     });
   }
 });
 //update a request 
-router.put('/:id', function (req, res, next) {
+router.put('/update/:id', function (req, res, next) {
   let token = req.headers['jwt'];
   let requestId = parseInt(req.params.id);
   if (token) {
@@ -132,7 +134,7 @@ router.put('/:id', function (req, res, next) {
           });
       } else {
         res.status(400).json({
-          message: 'Unable to update this user!'
+          message: 'Not today Satan!'
         });
       }
     });
@@ -143,7 +145,7 @@ router.put('/:id', function (req, res, next) {
   }
 });
 //Delete an existing request
-router.delete('/:id', function (req, res, next) {
+router.delete('/delete/:id', function (req, res, next) {
   let token = req.headers['jwt'];
   let requestId = parseInt(req.params.id);
   if (token) {
@@ -164,7 +166,7 @@ router.delete('/:id', function (req, res, next) {
               res.status(200).json({ message: 'Listing marked for deletion!' });
             } else {
               res.status(400).json({
-                message: 'You are not authorized to delete this listing!'
+                message: 'Not today Satan!'
               });
             }
           });
@@ -173,5 +175,19 @@ router.delete('/:id', function (req, res, next) {
       }
     });
   }
+});
+
+router.get('/getRequestInformation', function(req, res, next) {
+  models.users.findAll({
+    where: { user_id: id, deleted: false},
+    include: {
+      model: models.requests,
+    },
+    include: { model: models.listings,
+  }
+  }).then(userData => {
+    res.status(200).json({ message: 'You just combined three models to fetch dat'}, 
+    userData)
+  });
 });
 module.exports = router;

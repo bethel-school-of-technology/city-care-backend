@@ -27,17 +27,18 @@ router.post('/create', function (req, res, next) {
                   console.log(created) 
                      res.status(200).json(created);
                 } else {
-                   res.status(400).json({message: 'Not today satan!'})
+                   res.status(400).json({ message: 'Not today satan!'})
                 }
             })
          } else {
-            res.status(500).json({message: 'Not today satan!'})
+            res.status(500).json({ message: 'Internal server error!'})
          }
       });
    }
 });
+
 //update a listing 
-router.put('/:id', function (req, res, next) {
+router.put('/update/:id', function (req, res, next) {
    let token = req.headers['jwt'];
    let listingId = parseInt(req.params.id);
    if (token) {
@@ -66,7 +67,7 @@ router.put('/:id', function (req, res, next) {
            });
        } else {
          res.status(400).json({
-           message: 'Unable to update this user!'
+           message: 'Not today Satan!'
          });
        }
      });
@@ -76,7 +77,8 @@ router.put('/:id', function (req, res, next) {
      });
    }
  });
-//Get all of the organization listings
+
+//Get all of an organization listings to display on the profile page
 router.get('/listings', function (req, res, next) {
    let token = req.headers['jwt'];
    if(token) {
@@ -90,22 +92,43 @@ router.get('/listings', function (req, res, next) {
                                            res.status(200).json(listings);
                                  })
                        } else { 
-                                 res.status(400).json({message: 'Can not find listings.'})
+                                 res.status(400).json({ message: 'Not today Satan!'})
                        }
              });
+   } else {
+      res.status(500).json({ message: 'Internal server error!'})
    }
 });
-/*Get an org listing by the id */
-router.get('/:id', function (req, res, next) {
+//Get all of the listings in the database to display on the main site tally page
+router.get('/', function(req, res, next) {
+   let token = req.headers['jwt'];
+   if(token) {
+     authService.verifyUser(token).then(user => {
+       if(user) {
+         models.listings.findAll({ where: { deleted: false }}).then(requests => {
+           console.log(requests);
+           res.status(200).json(requests);
+         })
+       } else {
+         res.status(400).json({ message: 'Not today Satan!'})
+       }
+     })
+   } else {
+     res.status(500).json({ message: 'Internal server error!'})
+   }
+ });
+
+/*Get an org listing by the id to display on the view listing page*/
+router.get('/listing/:id', function (req, res, next) {
    let token = req.headers['jwt'];
    let org_id = req.params.id;
    if (token) {
       authService.verifyUser(token).then(user => {
          if (user) {
             models.listings.findByPk(req.params.id)
-               .then(request => {
-                  console.log(request);
-                  res.status(200).json(request);
+               .then(listing => {
+                  console.log(listing);
+                  res.status(200).json(listing);
                })
          } else {
             res.status(401).json({
@@ -115,36 +138,34 @@ router.get('/:id', function (req, res, next) {
       })
    } else {
       res.status(500).json({
-         message: 'Not today satan!'
+         message: 'Internal server error.'
       });
    }
 });
+
 //Get an organization listings with the organization information that made the listing
-router.get('/all/listings', function (req, res, next) {
+router.get('/find', function(req, res, next) {
    let token = req.headers['jwt'];
-   if (token) {
-             authService.verifyUser(token).then(user => {
-                       if (user) {
-                                 models.users
-             .findAll({
-               where: { deleted: false, zip: user.zip, id: org_id }, 
-               include: {model: models.listings }
-             }).then(listings => {
-                     console.log(listings);
-                       res.status(200).json(listings);
-             })
-             } else {
-                       res.status(400).json({message: 'Not today Satan!'});
-             }
-   })
-} else {
-      res.status(500).json({message: 'Internal Server Error!'})
-}
+   if(token) {
+      authService.verifyUser(token).then(user => {
+         if(user) {
+            models.users.findAll({
+               where: { deleted: false },
+               include: { model: models.listings, where: { deleted: false } }
+            }).then(listings => {
+               if(listings) {
+                  console.log()
+                  res.status(200).json(listings)
+               } else { 
+                  res.status(400).json({message: 'Not today satan'})
+               }
+            })
+         }
+      })
+   }
 });
-
-
 /*Delete an org listing*/
-router.delete('/:id', function(req, res, next) {
+router.delete('/delete/:id', function(req, res, next) {
    let listingId = parseInt(req.params.id);
    let token = req.headers['jwt'];
    if(token) {
@@ -156,16 +177,16 @@ router.delete('/:id', function(req, res, next) {
                where: { id: listingId }
             }).then(function(result) {
                if(result) {
-                  console.log(result);
-                  res.status(200).json({message: 'Listing marked for deletion!'})
+                  res.status(200).json({ message: 'Listing marked for deletion!'})
                } else {
-                  res.status(400).json({message: 'Not today satan!'})
+                  res.status(400).json({ message: 'Not today satan!'})
                }
             })
          } else {
-            res.status(500).json({message: 'Not today satan!'})
+            res.status(500).json({ message: 'Internal server error.'})
          }
       })
    }
 });
+
 module.exports = router;
