@@ -42,7 +42,27 @@ router.post('/create', function (req, res, next) {
 });
 
 //Get all of the requests made by an individual for the profile page
-router.get('/requests', function (req, res, next) {
+router.get('/requests/profile', function (req, res, next) {
+  let token = req.headers['jwt'];
+  if(token) {
+            authService.verifyUser(token).then(user => {
+              let user_id = parseInt(req.params.id);
+                      if(user) {
+                                models.requests.findAll({
+                                          where: { user_id: user.id, deleted: false }
+                                }).then(requests =>{
+                                          res.status(200).json(requests);
+                                })
+                      } else { 
+                                res.status(400).json({ message: 'Not Today Satan!'})
+                      }
+            });
+  } else { 
+    res.status(500).json({ message: 'Internal server error!'})
+  }
+});
+//Get all the users requests for the tally page 
+router.get('/requests/tally', function (req, res, next) {
   let token = req.headers['jwt'];
   if(token) {
             authService.verifyUser(token).then(user => {

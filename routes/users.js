@@ -138,12 +138,13 @@ router.get('/profile', function (req, res, next) {
     });
   }
 });
-router.get('/', function(req, res, next) {
+//get all of the users who are organizations
+router.get('/orgs', function(req, res, next) {
  let token = req.headers['jwt'];
  if(token) {
    authService.verifyUser(token).then(user => {
      if(user) {
-       models.users.findAll({ where: { deleted: false }}).then(users => {
+       models.users.findAll({ where: { isOrg: true, deleted: false }}).then(users => {
          if(users) {
            res.status(200).json(users)
          } else {
@@ -156,6 +157,25 @@ router.get('/', function(req, res, next) {
    })
  }
 });
+//get all of the users who are not organizations
+router.get('/others', function(req, res, next) {
+  let token = req.headers['jwt'];
+  if(token) {
+    authService.verifyUser(token).then(user => {
+      if(user) {
+        models.users.findAll({ where: { isOrg: false, deleted: false }}).then(users => {
+          if(users) {
+            res.status(200).json(users)
+          } else {
+            res.status(400).json({ message: 'Not today Satan!'})
+          }
+        })
+      } else {
+        res.status(500).json({ message: 'Internal server error!'})
+      }
+    })
+  }
+ });
 //Get a user by the id for the update user page form
 router.get('/:id', function (req, res, next) {
   let userId = req.params.id;
@@ -179,28 +199,6 @@ router.get('/:id', function (req, res, next) {
   }
 });
 
-//Get an organization by the id for the view listing page
-/* router.get('listingUser/:id', function (req, res, next) {
-  let org_id = req.params.id;
-  let token = req.headers['jwt'];
-  if (token) {
-    authService.verifyUser(token).then((user) => {
-      if (user) {
-        models.users.findByPk(parseInt(req.params.id)).then((user) => {
-          res.status(200).json(user);
-        });
-      } else {
-        res.status(400).json({
-          message: 'Not today Satan!'
-        });
-      }
-    });
-  } else {
-    res.status(500).json({
-      message: 'Internal Server Error!'
-    });
-  }
-}); */
 
 //Update a users information in the database
 router.put('/:id', function (req, res, next) {
