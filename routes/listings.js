@@ -99,24 +99,7 @@ router.get('/listings', function (req, res, next) {
       res.status(500).json({ message: 'Internal server error!'})
    }
 });
-//Get all of the listings in the database to display on the main site tally page
-router.get('/', function(req, res, next) {
-   let token = req.headers['jwt'];
-   if(token) {
-     authService.verifyUser(token).then(user => {
-       if(user) {
-         models.listings.findAll({ where: { deleted: false }}).then(listings => {
-           console.log(listings);
-           res.status(200).json(listings);
-         })
-       } else {
-         res.status(400).json({ message: 'Not today Satan!'})
-       }
-     })
-   } else {
-     res.status(500).json({ message: 'Internal server error!'})
-   }
- });
+
 
 /*Get an org listing by the id to display on the view listing page*/
 router.get('/listing/:id', function (req, res, next) {
@@ -142,43 +125,25 @@ router.get('/listing/:id', function (req, res, next) {
       });
    }
 });
-//get all users listings based on the userid or the org id
-router.get('/listings', function(req, res, next) {
-   let token = req.headers['jwt'];
-   if(token) {
-      authService.verifyUser(token).then(user => {
-         if(user) {
-            models.listings.findAll({ where: {org_id: id, deleted: false}}).then(listings => {
-               if(listings) {
-                  res.status(200).json(listings);
-               } else {
-                  res.status(400).json({message: 'Not today Satan'})
-               }
-            })
-         } else { 
-            res.status(500).json({message: 'Internal server boo boo'})
-         }
-      })
-   }
-});
+
 //Get an organization listings with the organization information that made the listing
-/* router.get('/find', function(req, res, next) {
+router.get('/findOrgs', function(req, res, next) {
    let token = req.headers['jwt'];
    if(token) {
       authService.verifyUser(token).then(user => {
      if(user) {
         models.users.findAll({
-           where: { deleted: false },
+           where: { isOrg: true, deleted: false },
            include: { model: models.listings }
         }).then(listings_data => {
-           res.status(200).json( {listings: listings_data, users: user})
+           res.status(200).json( {listings: listings_data, users: user })
         })
      } else {
       res.status(400).json({ message: 'Not today Satan!'})
      }
       })
    }
-}); */
+});
 /*Delete an org listing*/
 router.delete('/delete/:id', function(req, res, next) {
    let listingId = parseInt(req.params.id);

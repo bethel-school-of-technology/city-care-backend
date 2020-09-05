@@ -119,6 +119,7 @@ router.post('/usernameLogin', function (req, res, next) {
       }
     });
 });
+
 /*Get user/org profile using authentication token */
 router.get('/profile', function (req, res, next) {
   let token = req.headers['jwt'];
@@ -138,44 +139,7 @@ router.get('/profile', function (req, res, next) {
     });
   }
 });
-//get all of the users who are organizations
-router.get('/orgs', function(req, res, next) {
- let token = req.headers['jwt'];
- if(token) {
-   authService.verifyUser(token).then(user => {
-     if(user) {
-       models.users.findAll({ where: { isOrg: true, deleted: false }}).then(users => {
-         if(users) {
-           res.status(200).json(users)
-         } else {
-           res.status(400).json({ message: 'Not today Satan!'})
-         }
-       })
-     } else {
-       res.status(500).json({ message: 'Internal server error!'})
-     }
-   })
- }
-});
-//get all of the users who are not organizations
-router.get('/others', function(req, res, next) {
-  let token = req.headers['jwt'];
-  if(token) {
-    authService.verifyUser(token).then(user => {
-      if(user) {
-        models.users.findAll({ where: { isOrg: false, deleted: false }}).then(users => {
-          if(users) {
-            res.status(200).json(users)
-          } else {
-            res.status(400).json({ message: 'Not today Satan!'})
-          }
-        })
-      } else {
-        res.status(500).json({ message: 'Internal server error!'})
-      }
-    })
-  }
- });
+
 //Get a user by the id for the update user page form
 router.get('/:id', function (req, res, next) {
   let userId = req.params.id;
@@ -198,7 +162,6 @@ router.get('/:id', function (req, res, next) {
     });
   }
 });
-
 
 //Update a users information in the database
 router.put('/:id', function (req, res, next) {
