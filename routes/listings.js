@@ -99,24 +99,7 @@ router.get('/listings', function (req, res, next) {
       res.status(500).json({ message: 'Internal server error!'})
    }
 });
-//Get all of the listings in the database to display on the main site tally page
-router.get('/', function(req, res, next) {
-   let token = req.headers['jwt'];
-   if(token) {
-     authService.verifyUser(token).then(user => {
-       if(user) {
-         models.listings.findAll({ where: { deleted: false }}).then(requests => {
-           console.log(requests);
-           res.status(200).json(requests);
-         })
-       } else {
-         res.status(400).json({ message: 'Not today Satan!'})
-       }
-     })
-   } else {
-     res.status(500).json({ message: 'Internal server error!'})
-   }
- });
+
 
 /*Get an org listing by the id to display on the view listing page*/
 router.get('/listing/:id', function (req, res, next) {
@@ -144,23 +127,20 @@ router.get('/listing/:id', function (req, res, next) {
 });
 
 //Get an organization listings with the organization information that made the listing
-router.get('/find', function(req, res, next) {
+router.get('/findOrgs', function(req, res, next) {
    let token = req.headers['jwt'];
    if(token) {
       authService.verifyUser(token).then(user => {
-         if(user) {
-            models.users.findAll({
-               where: { deleted: false },
-               include: { model: models.listings, where: { deleted: false } }
-            }).then(listings => {
-               if(listings) {
-                  console.log()
-                  res.status(200).json(listings)
-               } else { 
-                  res.status(400).json({message: 'Not today satan'})
-               }
-            })
-         }
+     if(user) {
+        models.users.findAll({
+           where: { isOrg: true, deleted: false },
+           include: { model: models.listings }
+        }).then(listings_data => {
+           res.status(200).json( {listings: listings_data, users: user })
+        })
+     } else {
+      res.status(400).json({ message: 'Not today Satan!'})
+     }
       })
    }
 });

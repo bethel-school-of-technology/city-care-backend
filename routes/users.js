@@ -119,6 +119,7 @@ router.post('/usernameLogin', function (req, res, next) {
       }
     });
 });
+
 /*Get user/org profile using authentication token */
 router.get('/profile', function (req, res, next) {
   let token = req.headers['jwt'];
@@ -141,7 +142,7 @@ router.get('/profile', function (req, res, next) {
 
 //Get a user by the id for the update user page form
 router.get('/:id', function (req, res, next) {
-  let user_id = req.params.id;
+  let userId = req.params.id;
   let token = req.headers['jwt'];
   if (token) {
     authService.verifyUser(token).then((user) => {
@@ -161,31 +162,6 @@ router.get('/:id', function (req, res, next) {
     });
   }
 });
-
-//Get an organization by the id for the view listing page
-
-router.get('listingUser/:id', function (req, res, next) {
-  let org_id = req.params.id;
-  let token = req.headers['jwt'];
-  if (token) {
-    authService.verifyUser(token).then((user) => {
-      if (user) {
-        models.users.findByPk(parseInt(req.params.id)).then((user) => {
-          res.status(200).json(user);
-        });
-      } else {
-        res.status(400).json({
-          message: 'Not today Satan!'
-        });
-      }
-    });
-  } else {
-    res.status(500).json({
-      message: 'Internal Server Error!'
-    });
-  }
-});
-
 
 //Update a users information in the database
 router.put('/:id', function (req, res, next) {
