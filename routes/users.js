@@ -33,17 +33,17 @@ router.post('/register', function (req, res, next) {
     })
     .spread(function (result, created) {
       if (created) {
-        console.log(result);
-        res.status(201).json(result);
+        console.log(created);
+        res.status(201).json(created);
       } else
         res.status(400).json({
-          message: 'User exists!'
+          message: 'Not today Satan!'
         });
     });
 });
 
-//Log a user in
-router.post('/login', function (req, res, next) {
+//Log a user in with email
+router.post('/emailLogin', function (req, res, next) {
   let fetchedUser;
   models.users
     .findOne({
@@ -53,7 +53,6 @@ router.post('/login', function (req, res, next) {
     })
     .then((user) => {
       if (!user) {
-        console.log('User not found!');
         return res.status(400).json({
           message: 'Login Failed! User not found!'
         });
@@ -75,9 +74,48 @@ router.post('/login', function (req, res, next) {
           });
         } else {
           res.status(400).json({
-            message: 'Wrong Password!'
+            message: 'Not today Satan!'
           });
         }
+      }
+    });
+});
+
+//Log a user in with username
+router.post('/usernameLogin', function (req, res, next) {
+  let fetchedUser;
+  models.users
+    .findOne({
+      where: {
+        username: req.body.username
+      }
+    })
+    .then((user) => {
+      if (!user) {
+        return res.status(400).json({
+          message: 'Not today Satan!'
+        });
+      } else {
+        fetchedUser = user;
+        let passwordMatch = authService.comparePasswords(
+          req.body.password,
+          user.password
+        );
+        if (passwordMatch) {
+          let token = authService.signUser(user);
+          res.status(200).json({
+            token: token,
+            message: 'You have been logged in!',
+            expiresIn: 3600,
+            userId: fetchedUser.id,
+            isOrg: fetchedUser.isOrg,
+            isAdmin: fetchedUser.admin
+          });
+        } else {
+          res.status(400).json({
+            message: 'Not today Satan!'
+          });
+        } 
       }
     });
 });
@@ -91,40 +129,18 @@ router.get('/profile', function (req, res, next) {
         res.status(200).json(user);
       } else {
         res.status(400).json({
-          message: 'Nope'
+          message: 'Not today Satan!'
         });
       }
     });
   } else {
     res.status(500).json({
-      message: 'Internal'
+      message: 'Internal server error!'
     });
   }
 });
 
-/* GET all users listing for the admin user. */
-/* router.get('/', function (req, res, next) {
-  let token = req.headers['jwt'];
-  if (token) {
-    authService.verifyUser(token).then((user) => {
-      if (user) {
-        models.users.findAll({}).then((users) => {
-          console.log(users);
-          res.status(201).json(users);
-        });
-      } else {
-        res.status(400).json({
-          message: 'You are not authorized to view this page!'
-        });
-      }
-    });
-  } else {
-    res.status(400).json({
-      message: 'You are not logged in!'
-    });
-  }
-}); */
-//Get a user by the id
+//Get a user by the id for the update user page form
 router.get('/:id', function (req, res, next) {
   let userId = req.params.id;
   let token = req.headers['jwt'];
@@ -136,7 +152,7 @@ router.get('/:id', function (req, res, next) {
         });
       } else {
         res.status(400).json({
-          message: 'You can not do that!'
+          message: 'Not today Satan!'
         });
       }
     });
@@ -146,7 +162,8 @@ router.get('/:id', function (req, res, next) {
     });
   }
 });
-//Update a user
+
+//Update a users information in the database
 router.put('/:id', function (req, res, next) {
   let token = req.headers['jwt'];
   let userId = parseInt(req.params.id);
@@ -186,7 +203,7 @@ router.put('/:id', function (req, res, next) {
           });
       } else {
         res.status(400).json({
-          message: 'Unable to update this user!'
+          message: 'Not today satan!'
         });
       }
     });

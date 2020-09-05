@@ -9,10 +9,8 @@ var cors = require('cors'); //Include Cross Origin Resource Sharing To Connect W
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 //add orgs router
-var orgsRouter = require('./routes/orgs');
 var requestsRouter = require('./routes/requests');
 var listingsRouter = require('./routes/listings');
-var searchRouter = require('./routes/search');
 
 var app = express();
 //Use Cross Origin Resource Sharing In The Application
@@ -27,10 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 //use the orgs route
-app.use('/orgs', orgsRouter);
 app.use('/requests', requestsRouter);
 app.use('/listings', listingsRouter);
-app.use('/search', searchRouter);
 
 /* app.use(function(req, res, next) {
           next(createError(404));
