@@ -63,4 +63,4 @@ makemigration --name added_category_model
 sequelize model:generate –name subcategory –attributes id:integer,CatId:integer,Name:string,Type:string
 
 makemigration --name added_subcategory_model
-made this comment to have a change to push 
+made this comment to have a change to push yes
