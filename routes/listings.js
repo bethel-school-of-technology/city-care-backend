@@ -134,7 +134,7 @@ router.get('/findOrgs', function(req, res, next) {
      if(user) {
         models.users.findAll({
            where: { isOrg: true, deleted: false },
-           include: { model: models.listings }
+           include: { model: models.listings  }
         }).then(listings_data => {
            res.status(200).json( {listings: listings_data })
         })
