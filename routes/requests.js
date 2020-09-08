@@ -64,10 +64,10 @@ router.get('/findUsers', function(req, res, next) {
      authService.verifyUser(token).then(user => {
     if(user) {
        models.users.findAll({
-          where: { isOrg: false, isOrg: null, deleted: false },
+          where: { isOrg: false, deleted: false },
           include: { model: models.requests },
        }).then(requests_data => {
-          res.status(200).json( {requests: requests_data, users: user })
+          res.status(200).json( {requests: requests_data })
        })
     } else {
      res.status(400).json({ message: 'Not today Satan!'})

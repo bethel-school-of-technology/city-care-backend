@@ -136,7 +136,7 @@ router.get('/findOrgs', function(req, res, next) {
            where: { isOrg: true, deleted: false },
            include: { model: models.listings }
         }).then(listings_data => {
-           res.status(200).json( {listings: listings_data, users: user })
+           res.status(200).json( {listings: listings_data })
         })
      } else {
       res.status(400).json({ message: 'Not today Satan!'})
