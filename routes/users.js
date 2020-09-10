@@ -34,10 +34,13 @@ router.post('/register', function (req, res, next) {
     .spread(function (result, created) {
       if (created) {
         console.log(created);
-        res.status(201).json(created);
+        res.status(201).json({ 
+          message: 
+          'You have successfully been registered! Welcome to City-Care!'}, 
+          created);
       } else
         res.status(400).json({
-          message: 'Not today Satan!'
+          message: 'An error has taken place here, please try again!'
         });
     });
 });
@@ -140,7 +143,7 @@ router.get('/profile', function (req, res, next) {
   }
 });
 
-//Get a user by the id for the update user page form
+//Get a user by the id for the update user page form and the view listing or request page
 router.get('/:id', function (req, res, next) {
   let userId = req.params.id;
   let token = req.headers['jwt'];
@@ -163,6 +166,27 @@ router.get('/:id', function (req, res, next) {
   }
 });
 
+/* router.get('/:id', function (req, res, next) {
+  let org_id = req.params.id;
+  let token = req.headers['jwt'];
+  if (token) {
+    authService.verifyUser(token).then((user) => {
+      if (user) {
+        models.users.findByPk(parseInt(req.params.id)).then((user) => {
+          res.status(200).json(user);
+        });
+      } else {
+        res.status(400).json({
+          message: 'Not today Satan!'
+        });
+      }
+    });
+  } else {
+    res.status(500).json({
+      message: 'Internal Server Error!'
+    });
+  }
+}); */
 //Update a users information in the database
 router.put('/:id', function (req, res, next) {
   let token = req.headers['jwt'];

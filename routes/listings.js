@@ -104,11 +104,11 @@ router.get('/listings', function (req, res, next) {
 /*Get an org listing by the id to display on the view listing page*/
 router.get('/listing/:id', function (req, res, next) {
    let token = req.headers['jwt'];
-   let org_id = req.params.id;
+   let listingId = req.params.id;
    if (token) {
       authService.verifyUser(token).then(user => {
          if (user) {
-            models.listings.findByPk(req.params.id)
+            models.listings.findByPk(parseInt(req.params.id))
                .then(listing => {
                   console.log(listing);
                   res.status(200).json(listing);

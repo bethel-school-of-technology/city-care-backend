@@ -40,6 +40,8 @@ app.use(function(err, req, res, next) {
 res.status(err.status || 500);
 res.send(err.message).json({message: 'I have been sent to the error handler!'});
 }); */
+
+
 //Connect to the MySQL Database
 models.sequelize.sync().then(function() {
           console.log('App Connected & Sync\'d up!')
