@@ -37,7 +37,7 @@ router.post('/register', function (req, res, next) {
         res.status(201).json(created);
       } else
         res.status(400).json({
-          message: 'Not today Satan!'
+          message: 'Sorry there was an error with your registration.'
         });
     });
 });
@@ -74,7 +74,7 @@ router.post('/emailLogin', function (req, res, next) {
           });
         } else {
           res.status(400).json({
-            message: 'Not today Satan!'
+            message: 'Login Failed! User not found!'
           });
         }
       }
@@ -93,7 +93,7 @@ router.post('/usernameLogin', function (req, res, next) {
     .then((user) => {
       if (!user) {
         return res.status(400).json({
-          message: 'Not today Satan!'
+          message: 'Login Failed! User not found!'
         });
       } else {
         fetchedUser = user;
@@ -113,7 +113,7 @@ router.post('/usernameLogin', function (req, res, next) {
           });
         } else {
           res.status(400).json({
-            message: 'Not today Satan!'
+            message: 'Login Failed! User not found!'
           });
         } 
       }
@@ -129,7 +129,7 @@ router.get('/profile', function (req, res, next) {
         res.status(200).json(user);
       } else {
         res.status(400).json({
-          message: 'Not today Satan!'
+          message: 'Sorry there was an error retrieving your profile.'
         });
       }
     });
@@ -152,7 +152,7 @@ router.get('/:id', function (req, res, next) {
         });
       } else {
         res.status(400).json({
-          message: 'Not today Satan!'
+          message: 'Sorry there was an error displaying your profile.'
         });
       }
     });
@@ -203,7 +203,7 @@ router.put('/:id', function (req, res, next) {
           });
       } else {
         res.status(400).json({
-          message: 'Not today satan!'
+          message: 'Sorry there was an error updating your user profile.'
         });
       }
     });
