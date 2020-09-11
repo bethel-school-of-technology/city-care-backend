@@ -22,16 +22,16 @@ router.post('/create', function (req, res, next) {
                   org_id: user.id,
                   deleted: false
                }
-            }).spread(function(result, created) {
+            }).spread(function(created, error) {
                if(created) {
                   console.log(created) 
                      res.status(200).json(created);
                 } else {
-                   res.status(400).json({ message: 'Not today satan!'})
+                   res.status(400).json(error)
                 }
             })
          } else {
-            res.status(500).json({ message: 'Internal server error!'})
+            res.status(500).json(error)
          }
       });
    }
@@ -60,21 +60,17 @@ router.put('/update/:id', function (req, res, next) {
                }
              }
            )
-           .then(function (result) {
+           .then(function (result, error) {
              if (result) {
-               res.status(201).json(result);
+               res.status(200).json(result);
              }
            });
        } else {
-         res.status(400).json({
-           message: 'Not today Satan!'
-         });
+         res.status(400).json(error);
        }
      });
    } else {
-     res.status(500).json({
-       message: 'Internal server error!'
-     });
+     res.status(500).json(error);
    }
  });
 
@@ -87,16 +83,16 @@ router.get('/listings', function (req, res, next) {
                        if(user) {
                                  models.listings.findAll({
                                            where: { org_id: user.id, deleted: false }
-                                 }).then(listings =>{
+                                 }).then((listings, error) =>{
                                            console.log(listings);
                                            res.status(200).json(listings);
                                  })
                        } else { 
-                                 res.status(400).json({ message: 'Not today Satan!'})
+                                 res.status(400).json(error)
                        }
              });
    } else {
-      res.status(500).json({ message: 'Internal server error!'})
+      res.status(500).json(error)
    }
 });
 
@@ -109,20 +105,15 @@ router.get('/listing/:id', function (req, res, next) {
       authService.verifyUser(token).then(user => {
          if (user) {
             models.listings.findByPk(parseInt(req.params.id))
-               .then(listing => {
-                  console.log(listing);
+               .then((listing, error) => {
                   res.status(200).json(listing);
                })
          } else {
-            res.status(401).json({
-               message: 'Not today satan!'
-            })
+            res.status(401).json(error)
          }
       })
    } else {
-      res.status(500).json({
-         message: 'Internal server error.'
-      });
+      res.status(500).json(error);
    }
 });
 
@@ -135,13 +126,15 @@ router.get('/findOrgs', function(req, res, next) {
         models.users.findAll({
            where: { isOrg: true, deleted: false },
            include: { model: models.listings  }
-        }).then(listings_data => {
+        }).then((listings_data, error) => {
            res.status(200).json( {listings: listings_data })
         })
      } else {
-      res.status(400).json({ message: 'Not today Satan!'})
+      res.status(400).json(error)
      }
       })
+   } else {
+      res.status(500).json(error)
    }
 });
 /*Delete an org listing*/
@@ -155,15 +148,15 @@ router.delete('/delete/:id', function(req, res, next) {
                deleted: true
             }, {
                where: { id: listingId }
-            }).then(function(result) {
+            }).then(function(result, error) {
                if(result) {
-                  res.status(200).json({ message: 'Listing marked for deletion!'})
+                  res.status(200).json(result)
                } else {
-                  res.status(400).json({ message: 'Not today satan!'})
+                  res.status(400).json(error)
                }
             })
          } else {
-            res.status(500).json({ message: 'Internal server error.'})
+            res.status(500).json(error)
          }
       })
    }
