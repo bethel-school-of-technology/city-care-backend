@@ -7,8 +7,8 @@ var authService = require('../services/auth');
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  
+router.get('/', function (req, res, next) {
+
 });
 
 module.exports = router;

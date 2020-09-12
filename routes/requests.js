@@ -22,17 +22,15 @@ router.post('/create', function (req, res, next) {
               user_id: user.id
             }
           })
-          .spread(function (result, created) {
+          .spread(function (created, error) {
             if (created) {
               res.status(200).json(created);
             } else {
-              res.status(400).json({
-                message: 'Sorry there was an error creating your request.'
-              });
+              res.status(400).json(error);
             }
           });
       } else {
-        res.status(500).json({ message: 'Internal server error!' });
+        res.status(500).json(error);
       }
     });
   }
@@ -40,66 +38,66 @@ router.post('/create', function (req, res, next) {
 //Get all of the requests made by an individual for the profile page
 router.get('/requests/profile', function (req, res, next) {
   let token = req.headers['jwt'];
-  if(token) {
-            authService.verifyUser(token).then(user => {
-              let user_id = parseInt(req.params.id);
-                      if(user) {
-                                models.requests.findAll({
-                                          where: { user_id: user.id, deleted: false }
-                                }).then(requests =>{
-                                          res.status(200).json(requests);
-                                })
-                      } else { 
-                                res.status(400).json({ message: 'Sorry there was an error retrieving your requests.'})
-                      }
-            });
-  } else { 
-    res.status(500).json({ message: 'Internal server error!'})
+  if (token) {
+    authService.verifyUser(token).then(user => {
+      let user_id = parseInt(req.params.id);
+      if (user) {
+        models.requests.findAll({
+          where: { user_id: user.id, deleted: false }
+        }).then((requests, error) => {
+          res.status(200).json(requests);
+        })
+      } else {
+        res.status(400).json(error)
+      }
+    });
+  } else {
+    res.status(500).json(error)
   }
 });
 //Get all of the users that are not organizations 
-router.get('/findUsers', function(req, res, next) {
+router.get('/findUsers', function (req, res, next) {
   let token = req.headers['jwt'];
-  if(token) {
-     authService.verifyUser(token).then(user => {
-    if(user) {
-       models.users.findAll({
-          where: { isOrg: false, isOrg: null, deleted: false },
-          include: { model: models.requests },
-       }).then(requests_data => {
-          res.status(200).json( {requests: requests_data, users: user })
-       })
-    } else {
-     res.status(400).json({ message: 'Sorry there was an error retrieving the Individual that created this request.'})
-    }
-     })
+  if (token) {
+    authService.verifyUser(token).then(user => {
+      if (user) {
+        models.users.findAll({
+          where: { isOrg: false, deleted: false },
+          include: { model: models.requests }
+        }).then((requests_data, error) => {
+          res.status(200).json({ requests: requests_data })
+        })
+      } else {
+        res.status(400).json(error)
+      }
+    })
   } else {
-    res.status(500).json({ message: 'Internal server error!'})
+    res.status(500).json(error)
   }
 });
 
 //Get a single request made by the individual
 router.get('/:id', function (req, res, next) {
   let token = req.headers['jwt'];
-  let user_id = req.params.id;
+  let userId = req.params.id;
   if (token) {
-     authService.verifyUser(token).then(user => {
-        if (user) {
-           models.requests.findByPk(req.params.id)
-              .then(request => {
-                 console.log(request);
-                 res.status(200).json(request);
-              })
-        } else {
-           res.status(401).json({
-              message: 'Sorry there was an error getting the details for your request.'
-           })
-        } 
-     })
+    authService.verifyUser(token).then(user => {
+      if (user) {
+        models.requests.findByPk(req.params.id, {
+          include: [{
+            model: models.users
+          }]
+        })
+          .then((request, error) => {
+            console.log(request);
+            res.status(200).json(request);
+          })
+      } else {
+        res.status(401).json(error)
+      }
+    })
   } else {
-     res.status(500).json({
-        message: 'Internal server error!'
-     });
+    res.status(500).json(error);
   }
 });
 //update a request 
@@ -124,21 +122,17 @@ router.put('/update/:id', function (req, res, next) {
               }
             }
           )
-          .then(function (result) {
+          .then(function (result, error) {
             if (result) {
               res.status(201).json(result);
             }
           });
       } else {
-        res.status(400).json({
-          message: 'Sorry there was an error updating your request.'
-        });
+        res.status(400).json(error);
       }
     });
   } else {
-    res.status(500).json({
-      message: 'Internal server error!'
-    });
+    res.status(500).json(error);
   }
 });
 //Delete an existing request
@@ -157,18 +151,16 @@ router.delete('/delete/:id', function (req, res, next) {
               where: { id: requestId }
             }
           )
-          .then(function (result) {
+          .then(function (result, error) {
             if (result) {
               console.log(result);
-              res.status(200).json({ message: 'Listing marked for deletion!' });
+              res.status(200).json(error);
             } else {
-              res.status(400).json({
-                message: 'Sorry there was an error deleting your request.'
-              });
+              res.status(400).json(error);
             }
           });
       } else {
-        res.status(500).json({ message: 'Internal server error!' });
+        res.status(500).json(error);
       }
     });
   }

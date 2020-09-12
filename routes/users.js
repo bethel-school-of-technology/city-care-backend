@@ -5,7 +5,8 @@ var cors = require('cors');
 var models = require('../models');
 var authService = require('../services/auth');
 
-router.post('/register', function (req, res, next) {
+
+router.post('/', function (req, res, next) {
   models.users
     .findOrCreate({
       where: { email: req.body.email },
@@ -28,17 +29,14 @@ router.post('/register', function (req, res, next) {
         username: req.body.username,
         password: authService.hashPassword(req.body.password),
         deleted: false,
-        admin: false
+        admin: false,
       }
     })
-    .spread(function (result, created) {
+    .spread(function (created, error) {
       if (created) {
-        console.log(created);
         res.status(201).json(created);
       } else
-        res.status(400).json({
-          message: 'Sorry there was an error with your registration.'
-        });
+        res.status(500).json(error)
     });
 });
 
@@ -51,11 +49,9 @@ router.post('/emailLogin', function (req, res, next) {
         email: req.body.email
       }
     })
-    .then((user) => {
+    .then((user, error) => {
       if (!user) {
-        return res.status(400).json({
-          message: 'Login Failed! User not found!'
-        });
+        return res.status(400).json(error);
       } else {
         fetchedUser = user;
         let passwordMatch = authService.comparePasswords(
@@ -64,7 +60,7 @@ router.post('/emailLogin', function (req, res, next) {
         );
         if (passwordMatch) {
           let token = authService.signUser(user);
-          res.status(200).json({
+          res.status(201).json({
             token: token,
             message: 'You have been logged in!',
             expiresIn: 3600,
@@ -73,9 +69,7 @@ router.post('/emailLogin', function (req, res, next) {
             isAdmin: fetchedUser.admin
           });
         } else {
-          res.status(400).json({
-            message: 'Login Failed! User not found!'
-          });
+          res.status(400).json(error);
         }
       }
     });
@@ -90,11 +84,9 @@ router.post('/usernameLogin', function (req, res, next) {
         username: req.body.username
       }
     })
-    .then((user) => {
+    .then((user, error) => {
       if (!user) {
-        return res.status(400).json({
-          message: 'Login Failed! User not found!'
-        });
+        return res.status(400).json(error);
       } else {
         fetchedUser = user;
         let passwordMatch = authService.comparePasswords(
@@ -103,7 +95,7 @@ router.post('/usernameLogin', function (req, res, next) {
         );
         if (passwordMatch) {
           let token = authService.signUser(user);
-          res.status(200).json({
+          res.status(201).json({
             token: token,
             message: 'You have been logged in!',
             expiresIn: 3600,
@@ -112,10 +104,8 @@ router.post('/usernameLogin', function (req, res, next) {
             isAdmin: fetchedUser.admin
           });
         } else {
-          res.status(400).json({
-            message: 'Login Failed! User not found!'
-          });
-        } 
+          res.status(400).json(error);
+        }
       }
     });
 });
@@ -124,44 +114,37 @@ router.post('/usernameLogin', function (req, res, next) {
 router.get('/profile', function (req, res, next) {
   let token = req.headers['jwt'];
   if (token) {
-    authService.verifyUser(token).then((user) => {
+    authService.verifyUser(token).then((user, error) => {
       if (user) {
         res.status(200).json(user);
       } else {
-        res.status(400).json({
-          message: 'Sorry there was an error retrieving your profile.'
-        });
+        res.status(400).json(error);
       }
     });
   } else {
-    res.status(500).json({
-      message: 'Internal server error!'
-    });
+    res.status(500).json(error);
   }
 });
 
-//Get a user by the id for the update user page form
+//Get a user by the id for the update user page form and the view listing or request page
 router.get('/:id', function (req, res, next) {
-  let userId = req.params.id;
+  // let userId = req.params.id;
   let token = req.headers['jwt'];
   if (token) {
     authService.verifyUser(token).then((user) => {
       if (user) {
-        models.users.findByPk(parseInt(req.params.id)).then((user) => {
+        models.users.findByPk(parseInt(req.params.id)).then((user, error) => {
           res.status(200).json(user);
         });
       } else {
-        res.status(400).json({
-          message: 'Sorry there was an error displaying your profile.'
-        });
+        res.status(400).json(error);
       }
     });
   } else {
-    res.status(500).json({
-      message: 'Internal Server Error!'
-    });
+    res.status(500).json(error);
   }
 });
+
 
 //Update a users information in the database
 router.put('/:id', function (req, res, next) {
@@ -196,55 +179,18 @@ router.put('/:id', function (req, res, next) {
               }
             }
           )
-          .then(function (result) {
+          .then(function (result, error) {
             if (result) {
-              res.status(201).json(result);
+              res.status(200).json(result);
             }
           });
       } else {
-        res.status(400).json({
-          message: 'Sorry there was an error updating your user profile.'
-        });
+        res.status(400).json(error);
       }
     });
   } else {
-    res.status(500).json({
-      message: 'Internal server error!'
-    });
+    res.status(500).json(error);
   }
 });
-
-//Delete a user for the admin
-/* router.delete('/:id', function (req, res, next) {
-  let UserId = parseInt(req.params.id);
-  let token = req.headers['jwt'];
-  if (token) {
-    authService.verifyUser(token).then((user) => {
-      if (user && user.Admin) {
-        models.users
-          .delete({
-            where: {
-              UserId: UserId
-            }
-          })
-          .then(function (result) {
-            if (result) {
-              res.status(201).json({
-                message: 'This user has be removed!'
-              });
-            }
-          });
-      } else {
-        res.status(400).json({
-          message: 'User can not be deleted!'
-        });
-      }
-    });
-  } else {
-    res.status(500).json({
-      message: 'Whoops, something went wrong!'
-    });
-  }
-}); */
 
 module.exports = router;
