@@ -27,7 +27,7 @@ router.post('/create', function (req, res, next) {
                   console.log(created) 
                      res.status(200).json(created);
                 } else {
-                   res.status(400).json({ message: 'Not today satan!'})
+                   res.status(400).json({ message: 'Sorry there was an error creating your listing.'})
                 }
             })
          } else {
@@ -66,15 +66,11 @@ router.put('/update/:id', function (req, res, next) {
              }
            });
        } else {
-         res.status(400).json({
-           message: 'Not today Satan!'
-         });
+         res.status(400).json({message: 'Sorry there was an error updating your listing.'});
        }
      });
    } else {
-     res.status(500).json({
-       message: 'Internal server error!'
-     });
+     res.status(500).json({message: 'Internal server error!'});
    }
  });
 
@@ -92,7 +88,7 @@ router.get('/listings', function (req, res, next) {
                                            res.status(200).json(listings);
                                  })
                        } else { 
-                                 res.status(400).json({ message: 'Not today Satan!'})
+                                 res.status(400).json({ message: 'Sorry there was an error retrieving your listings.'})
                        }
              });
    } else {
@@ -114,15 +110,11 @@ router.get('/listing/:id', function (req, res, next) {
                   res.status(200).json(listing);
                })
          } else {
-            res.status(401).json({
-               message: 'Not today satan!'
-            })
+            res.status(401).json({message: 'Sorry there was an error displaying your listing.'})
          }
       })
    } else {
-      res.status(500).json({
-         message: 'Internal server error.'
-      });
+      res.status(500).json({message: 'Internal server error.'});
    }
 });
 
@@ -139,7 +131,7 @@ router.get('/findOrgs', function(req, res, next) {
            res.status(200).json( {listings: listings_data, users: user })
         })
      } else {
-      res.status(400).json({ message: 'Not today Satan!'})
+      res.status(400).json({ message: 'Sorry there was an error retrieving the Organization that created this listing.'})
      }
       })
    }
@@ -159,7 +151,7 @@ router.delete('/delete/:id', function(req, res, next) {
                if(result) {
                   res.status(200).json({ message: 'Listing marked for deletion!'})
                } else {
-                  res.status(400).json({ message: 'Not today satan!'})
+                  res.status(400).json({ message: 'Sorry there was an error deleting your listing.'})
                }
             })
          } else {

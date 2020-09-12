@@ -173,26 +173,46 @@ var migrationCommands = [{
                 "quantity": {
                     "type": Sequelize.INTEGER,
                     "field": "quantity",
+<<<<<<< HEAD:migrations/1-initial.js
+                    "allowNull": false,
+                    "required": true
+=======
                     "required": true,
                     "allowNull": false
+>>>>>>> 304c04a58dd049c9528b2e2ffc8b95d8effdcffa:migrations/1-migrate.js
                 },
                 "description": {
                     "type": Sequelize.STRING,
                     "field": "description",
+<<<<<<< HEAD:migrations/1-initial.js
+                    "allowNull": false,
+                    "required": true
+=======
                     "required": true,
                     "allowNull": false
+>>>>>>> 304c04a58dd049c9528b2e2ffc8b95d8effdcffa:migrations/1-migrate.js
                 },
                 "availability": {
                     "type": Sequelize.STRING,
                     "field": "availability",
+<<<<<<< HEAD:migrations/1-initial.js
+                    "allowNull": false,
+                    "required": true
+=======
                     "required": true,
                     "allowNull": false
+>>>>>>> 304c04a58dd049c9528b2e2ffc8b95d8effdcffa:migrations/1-migrate.js
                 },
                 "requirements": {
                     "type": Sequelize.STRING,
                     "field": "requirements",
+<<<<<<< HEAD:migrations/1-initial.js
+                    "allowNull": false,
+                    "required": true
+=======
                     "required": true,
                     "allowNull": false
+>>>>>>> 304c04a58dd049c9528b2e2ffc8b95d8effdcffa:migrations/1-migrate.js
                 },
                 "org_id": {
                     "type": Sequelize.INTEGER,
@@ -202,6 +222,10 @@ var migrationCommands = [{
                         "model": "users",
                         "key": "id"
                     },
+<<<<<<< HEAD:migrations/1-initial.js
+                    "allowNull": false,
+=======
+>>>>>>> 304c04a58dd049c9528b2e2ffc8b95d8effdcffa:migrations/1-migrate.js
                     "field": "org_id",
                     "foreignKey": true,
                     "allowNull": false

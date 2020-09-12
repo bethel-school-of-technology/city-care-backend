@@ -27,7 +27,7 @@ router.post('/create', function (req, res, next) {
               res.status(200).json(created);
             } else {
               res.status(400).json({
-                message: 'Not today Satan!'
+                message: 'Sorry there was an error creating your request.'
               });
             }
           });
@@ -50,7 +50,7 @@ router.get('/requests/profile', function (req, res, next) {
                                           res.status(200).json(requests);
                                 })
                       } else { 
-                                res.status(400).json({ message: 'Not Today Satan!'})
+                                res.status(400).json({ message: 'Sorry there was an error retrieving your requests.'})
                       }
             });
   } else { 
@@ -70,7 +70,7 @@ router.get('/findUsers', function(req, res, next) {
           res.status(200).json( {requests: requests_data, users: user })
        })
     } else {
-     res.status(400).json({ message: 'Not today Satan!'})
+     res.status(400).json({ message: 'Sorry there was an error retrieving the Individual that created this request.'})
     }
      })
   } else {
@@ -92,7 +92,7 @@ router.get('/:id', function (req, res, next) {
               })
         } else {
            res.status(401).json({
-              message: 'Not today satan!'
+              message: 'Sorry there was an error getting the details for your request.'
            })
         } 
      })
@@ -131,7 +131,7 @@ router.put('/update/:id', function (req, res, next) {
           });
       } else {
         res.status(400).json({
-          message: 'Not today Satan!'
+          message: 'Sorry there was an error updating your request.'
         });
       }
     });
@@ -163,7 +163,7 @@ router.delete('/delete/:id', function (req, res, next) {
               res.status(200).json({ message: 'Listing marked for deletion!' });
             } else {
               res.status(400).json({
-                message: 'Not today Satan!'
+                message: 'Sorry there was an error deleting your request.'
               });
             }
           });
