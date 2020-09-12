@@ -79,7 +79,7 @@ router.get('/findUsers', function(req, res, next) {
 //Get a single request made by the individual
 router.get('/:id', function (req, res, next) {
   let token = req.headers['jwt'];
-  let user_id = req.params.id;
+  let userId = req.params.id;
   if (token) {
      authService.verifyUser(token).then(user => {
         if (user) {
