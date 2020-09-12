@@ -29,14 +29,14 @@ router.post('/', function (req, res, next) {
         username: req.body.username,
         password: authService.hashPassword(req.body.password),
         deleted: false,
-        admin: false
+        admin: false, 
       }
     })
     .spread(function (created, error) {
       if (created) {
         res.status(201).json(created);
       } else
-        res.status(404).json(error);
+      res.status(500).json(error)
     });
 });
 

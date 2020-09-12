@@ -18,13 +18,12 @@ router.post('/create', function (req, res, next) {
                   quantity: req.body.quantity,
                   availability: req.body.availability,
                   requirements: req.body.requirements,
-                 description: req.body.description,
+                  description: req.body.description,
                   org_id: user.id,
-                  deleted: false
+                  deleted: false, 
                }
             }).spread(function(created, error) {
-               if(created) {
-                  console.log(created) 
+                     if(created) {
                      res.status(200).json(created);
                 } else {
                    res.status(400).json(error)

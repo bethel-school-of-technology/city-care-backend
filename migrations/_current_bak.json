@@ -230,6 +230,12 @@
                     "field": "password",
                     "seqType": "Sequelize.STRING"
                 },
+                "hasPosts": {
+                    "required": false,
+                    "default": false,
+                    "field": "hasPosts",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
                 "isOrg": {
                     "default": false,
                     "required": false,
@@ -260,5 +266,5 @@
             "indexes": []
         }
     },
-    "revision": 5
+    "revision": 4
 }
