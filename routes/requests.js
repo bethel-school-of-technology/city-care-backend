@@ -83,7 +83,11 @@ router.get('/:id', function (req, res, next) {
   if (token) {
      authService.verifyUser(token).then(user => {
         if (user) {
-           models.requests.findByPk(req.params.id)
+           models.requests.findByPk(req.params.id, {
+             include: [{
+               model: models.users
+             }]
+           })
               .then((request, error) => {
                  console.log(request);
                  res.status(200).json(request);
