@@ -38,39 +38,39 @@ router.post('/create', function (req, res, next) {
 //Get all of the requests made by an individual for the profile page
 router.get('/requests/profile', function (req, res, next) {
   let token = req.headers['jwt'];
-  if(token) {
-            authService.verifyUser(token).then(user => {
-              let user_id = parseInt(req.params.id);
-                      if(user) {
-                                models.requests.findAll({
-                                          where: { user_id: user.id, deleted: false }
-                                }).then((requests, error) =>{
-                                          res.status(200).json(requests);
-                                })
-                      } else { 
-                                res.status(400).json(error)
-                      }
-            });
-  } else { 
+  if (token) {
+    authService.verifyUser(token).then(user => {
+      let user_id = parseInt(req.params.id);
+      if (user) {
+        models.requests.findAll({
+          where: { user_id: user.id, deleted: false }
+        }).then((requests, error) => {
+          res.status(200).json(requests);
+        })
+      } else {
+        res.status(400).json(error)
+      }
+    });
+  } else {
     res.status(500).json(error)
   }
 });
 //Get all of the users that are not organizations 
-router.get('/findUsers', function(req, res, next) {
+router.get('/findUsers', function (req, res, next) {
   let token = req.headers['jwt'];
-  if(token) {
-     authService.verifyUser(token).then(user => {
-    if(user) {
-       models.users.findAll({
+  if (token) {
+    authService.verifyUser(token).then(user => {
+      if (user) {
+        models.users.findAll({
           where: { isOrg: false, deleted: false },
           include: { model: models.requests }
-       }).then((requests_data, error) => {
-          res.status(200).json( {requests: requests_data })
-       })
-    } else {
-     res.status(400).json(error)
-    }
-     })
+        }).then((requests_data, error) => {
+          res.status(200).json({ requests: requests_data })
+        })
+      } else {
+        res.status(400).json(error)
+      }
+    })
   } else {
     res.status(500).json(error)
   }
@@ -81,23 +81,23 @@ router.get('/:id', function (req, res, next) {
   let token = req.headers['jwt'];
   let userId = req.params.id;
   if (token) {
-     authService.verifyUser(token).then(user => {
-        if (user) {
-           models.requests.findByPk(req.params.id, {
-             include: [{
-               model: models.users
-             }]
-           })
-              .then((request, error) => {
-                 console.log(request);
-                 res.status(200).json(request);
-              })
-        } else {
-           res.status(401).json(error)
-        } 
-     })
+    authService.verifyUser(token).then(user => {
+      if (user) {
+        models.requests.findByPk(req.params.id, {
+          include: [{
+            model: models.users
+          }]
+        })
+          .then((request, error) => {
+            console.log(request);
+            res.status(200).json(request);
+          })
+      } else {
+        res.status(401).json(error)
+      }
+    })
   } else {
-     res.status(500).json(error);
+    res.status(500).json(error);
   }
 });
 //update a request 

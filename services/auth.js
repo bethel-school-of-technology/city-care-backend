@@ -5,13 +5,13 @@ const bcrypt = require('bcryptjs');
 var authService = {
   signUser: function (user) {
     const token = jwt.sign({
-        email: user.email,
-        username: user.username,        
-        userId: user.id
-      },
+      email: user.email,
+      username: user.username,
+      userId: user.id
+    },
       'super_cali_fragi_listic_expi_alley_docious_a_longer_secret_key_is_better', {
-        expiresIn: '1h'
-      }
+      expiresIn: '1h'
+    }
     );
     return token;
   },
