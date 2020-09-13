@@ -1,12 +1,14 @@
 var express = require('express');
 var router = express.Router();
-var mysql = require('mysql2');
-var cors = require('cors');
 var models = require('../models');
 var authService = require('../services/auth');
 
 
-router.post('/', function (req, res, next) {
+
+
+
+//Create a user
+router.post('/register', function (req, res, next) {
   models.users
     .findOrCreate({
       where: { email: req.body.email },

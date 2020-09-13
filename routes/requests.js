@@ -1,7 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var cors = require('cors');
-var mysql = require('mysql2');
 var models = require('../models');
 var authService = require('../services/auth');
 
