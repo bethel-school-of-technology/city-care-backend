@@ -63,3 +63,7 @@ makemigration --name added_category_model
 sequelize model:generate –name subcategory –attributes id:integer,CatId:integer,Name:string,Type:string
 
 makemigration --name added_subcategory_model
+
+npm install --save multer 
+npm install --save body-parser
+npm install --save connect-multiparty
