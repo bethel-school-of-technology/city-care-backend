@@ -61,7 +61,7 @@ router.get('/findUsers', function (req, res, next) {
       if (user) {
         models.users.findAll({
           where: { isOrg: false, deleted: false },
-          include: { model: models.requests }
+          include: { model: models.requests, where: { deleted: false } }
         }).then((requests_data, error) => {
           res.status(200).json({ requests: requests_data })
         })
