@@ -1,4 +1,4 @@
-# CityCare After forking and cloning repository, run npm install to install all of the dependencies.  Do this in the city-care directory and in the back directory if it doesn't work with the node_modules.  Also make sure you are checked out to the dev branch before starting and run a git pull.
+# CityCare Group Final Project
 
           First steps create a project on GitHub to host for the group temporarily.  Create the basic angular front end with an empty express backend called back.
                     ng new City-Care - create the angular front end basic app with routing and css styles.
