@@ -1,25 +1,49 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-//Import the models folder to use models within the application
-var models = require('./models');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const models = require('./models');
+//Auth0 Authentication
+const jwt = require('express-jwt');
+const jwks = require('jwks-rsa');
+
+const app = express();
 
 
-var cors = require('cors'); //Include Cross Origin Resource Sharing To Connect With Angular Front End
-const multer = require('multer');
+// var express = require('express');
+// var path = require('path');
+// var cookieParser = require('cookie-parser');
+// var logger = require('morgan');
+// //Import the models folder to use models within the application
+// var models = require('./models');
+const port = process.env.PORT || 3001;
+
+const jwtCheck = jwt({
+       secret: jwks.expressJwtSecret({
+         cache: true,
+         rateLimit: true,
+         jwksRequestsPerMinute: 5,
+         jwksUri: 'https://tekwebtek.us.auth0.com/.well-known/jwks.json'
+       }),
+       audience: 'https://city_care_api',
+       issuer: 'https://tekwebtek.us.auth0.com/',
+       algorithms: ['RS256']
+});
+app.use(jwtCheck);
+app.get('/authorized', function(req, res) {
+  res.send('Secured Resource!')
+})
+
+const cors = require('cors'); //Include Cross Origin Resource Sharing To Connect With Angular Front End
 
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var requestsRouter = require('./routes/requests');
-var listingsRouter = require('./routes/listings');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const requestsRouter = require('./routes/requests');
+const listingsRouter = require('./routes/listings');
 
 
 
-const app = express(),
-bodyParser = require('body-parser');
-port = 3080;
 
 app.use(cors());
 
@@ -47,9 +71,9 @@ app.use(function(error, req, res, next) {
 res.status(error.status || 500);
 res.render('error');
 });
-app.get('/', (req,res) => {
-          res.sendFile(process.cwd()+"/my-app/dist/angular-nodejs-example/index.html")
-        });
+// app.get('/', (req,res) => {
+//           res.sendFile(process.cwd()+"/my-app/dist/angular-nodejs-example/index.html")
+//         });
         
         app.listen(port, () => {
             console.log(`Server listening on the port::${port}`);
