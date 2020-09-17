@@ -17,7 +17,10 @@ var listingsRouter = require('./routes/listings');
 
 
 
-const app = express();
+const app = express(),
+bodyParser = require('body-parser');
+port = 3080;
+
 app.use(cors());
 
 
@@ -44,7 +47,13 @@ app.use(function(error, req, res, next) {
 res.status(error.status || 500);
 res.render('error');
 });
-
+app.get('/', (req,res) => {
+          res.sendFile(process.cwd()+"/my-app/dist/angular-nodejs-example/index.html")
+        });
+        
+        app.listen(port, () => {
+            console.log(`Server listening on the port::${port}`);
+        });
 //Connect to the MySQL Database
 models.sequelize.sync().then(function () {
           console.log('App Connected & Sync\'d up!')
