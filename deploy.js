@@ -1,6 +1,6 @@
 var cmd = require('node-cmd');
 let key = "final-project.ppk";
-let url = "3.136.154.205 "
+let url = "3.131.95.226"
 var path, node_ssh, ssh, fs;
 fs = require('fs');
 path = require('path');
