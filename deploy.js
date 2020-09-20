@@ -48,7 +48,7 @@ function transferProjectToRemote(failed, successful) {
   );
 }
 
-// creates a temporary folder on the remote server
+// create a temporary folder on the remote server
 function createRemoteTempFolder() {
   return ssh.execCommand(
     'rm -rf city-care-backend-temp && mkdir city-care-backend-temp', {
@@ -56,7 +56,7 @@ function createRemoteTempFolder() {
   });
 }
 
-// stops mongodb and node services on the remote server
+// stops node services on the remote server
 function stopRemoteServices() {
   return ssh.execCommand(
     'pm2 stop all', {
@@ -64,7 +64,7 @@ function stopRemoteServices() {
   });
 }
 
-// updates the project source on the server
+// update the project source on the server
 function updateRemoteApp() {
   return ssh.execCommand(
     'mkdir city-care-backend && cp -r city-care-backend-temp/* city-care-backend/ && rm -rf city-care-backend-temp', {
