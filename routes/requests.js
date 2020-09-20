@@ -53,14 +53,14 @@ router.get('/requests/profile', function (req, res, next) {
     res.status(500).json(error)
   }
 });
-//Get all of the users that are not organizations 
+//Get all of the users that are not organizations and their requests based on the logged in users zip code
 router.get('/findUsers', function (req, res, next) {
   let token = req.headers['jwt'];
   if (token) {
     authService.verifyUser(token).then(user => {
       if (user) {
         models.users.findAll({
-          where: { isOrg: false, deleted: false },
+          where: { isOrg: false, zip: user.zip,  deleted: false },
           include: { model: models.requests, where: { deleted: false } }
         }).then((requests_data, error) => {
           res.status(200).json({ requests: requests_data })

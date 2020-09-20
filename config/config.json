@@ -1,16 +1,16 @@
 {
   "development": {
     "username": "root",
-    "password": "daddykjune1",
-    "database": "city-care-storage",
-    "host": "city-care-storage.cvdkwwll47dt.us-east-2.rds.amazonaws.com",
+    "password": "Password1!",
+    "database": "city_care_database",
+    "host": "127.0.0.1",
     "dialect": "mysql",
     "operatorsAliases": false
   },
   "test": {
     "username": "root",
-    "password": "daddykjune1",
-    "database": "city-care-storage",
+    "password": "Password1!",
+    "database": "city_care_database",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "operatorsAliases": false

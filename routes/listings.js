@@ -118,14 +118,14 @@ router.get('/listing/:id', function (req, res, next) {
    }
 });
 
-//Get an organization listings with the organization information that made the listing
+//Get an organization listings with the organization information that made the listing based on the logged in users zip code
 router.get('/findOrgs', function (req, res, next) {
    let token = req.headers['jwt'];
    if (token) {
       authService.verifyUser(token).then(user => {
          if (user) {
             models.users.findAll({
-               where: { isOrg: true, deleted: false },
+               where: { isOrg: true, zip: user.zip, deleted: false },
                include: { model: models.listings, where: { deleted: false } }
             }).then((listings_data, error) => {
                res.status(200).json({ listings: listings_data })

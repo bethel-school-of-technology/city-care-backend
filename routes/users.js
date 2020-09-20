@@ -130,7 +130,6 @@ router.get('/profile', function (req, res, next) {
 
 //Get a user by the id for the update user page form and the view listing or request page
 router.get('/:id', function (req, res, next) {
-  // let userId = req.params.id;
   let token = req.headers['jwt'];
   if (token) {
     authService.verifyUser(token).then((user) => {
