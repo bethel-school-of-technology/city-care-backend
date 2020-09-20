@@ -6,10 +6,10 @@ const models = require('./models');
 
 const cors = require('cors'); //Include Cross Origin Resource Sharing To Connect With Angular Front End
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const requestsRouter = require('./routes/requests');
-const listingsRouter = require('./routes/listings');
+const indexRouter = require('./routes/index.routes');
+const usersRouter = require('./routes/users.routes');
+const requestsRouter = require('./routes/requests.routes');
+const listingsRouter = require('./routes/listings.routes');
 
 
 const app = express()
