@@ -4,7 +4,7 @@ var models = require('../models');
 var authService = require('../services/auth.service');
 
 //Create a listing
-exports.create_listing = async function (req, res, next) {
+exports.create_listing = function (req, res, next) {
           let token = req.headers['jwt'];
           if (token) {
              authService.verifyUser(token).then(user => {
@@ -33,7 +33,7 @@ exports.create_listing = async function (req, res, next) {
           }
        }
 //Get all listings made by an organization
-exports.get_listings = async function (req, res, next) {
+exports.get_listings = function (req, res, next) {
           let token = req.headers['jwt'];
           if (token) {
              authService.verifyUser(token).then(user => {
@@ -54,7 +54,7 @@ exports.get_listings = async function (req, res, next) {
           }
        }
 //Get an organization listing by the id
-exports.get_one_listing = async function (req, res, next) {
+exports.get_one_listing = function (req, res, next) {
           let token = req.headers['jwt'];
           let listingId = req.params.id;
           if (token) {
@@ -77,7 +77,7 @@ exports.get_one_listing = async function (req, res, next) {
           }
        }
 //Get all of the listings and organizations that made them
-exports.get_listings_with_users = async function (req, res, next) {
+exports.get_listings_with_users = function (req, res, next) {
           let token = req.headers['jwt'];
           if (token) {
              authService.verifyUser(token).then(user => {
@@ -97,7 +97,7 @@ exports.get_listings_with_users = async function (req, res, next) {
           }
        }
 //Update an organization listing
-exports.update_listing = async function (req, res, next) {
+exports.update_listing = function (req, res, next) {
           let token = req.headers['jwt'];
           let listingId = parseInt(req.params.id);
           if (token) {
@@ -133,7 +133,7 @@ exports.update_listing = async function (req, res, next) {
           }
        }
 //Delete an organization listing
-exports.delete_listing = async function (req, res, next) {
+exports.delete_listing = function (req, res, next) {
           let listingId = parseInt(req.params.id);
           let token = req.headers['jwt'];
           if (token) {

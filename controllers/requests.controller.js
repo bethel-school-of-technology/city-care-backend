@@ -4,7 +4,7 @@ var models = require('../models');
 var authService = require('../services/auth.service');
 
 //Create a user request and store it in the database
-exports.create_request = async function(req, res, next) {
+exports.create_request = function(req, res, next) {
           let token = req.headers['jwt'];
           if (token) {
             authService.verifyUser(token).then((user) => {
@@ -33,7 +33,7 @@ exports.create_request = async function(req, res, next) {
           }
         }
 //Get all of the requests made by an individual for the profile page
-exports.get_users_requests = async function(req, res, next) {
+exports.get_users_requests = function(req, res, next) {
           let token = req.headers['jwt'];
           if (token) {
             authService.verifyUser(token).then(user => {
@@ -53,7 +53,7 @@ exports.get_users_requests = async function(req, res, next) {
           }
         }
 //Get all of the users in the database and their requests
-exports.get_all = async function(req, res, next) {
+exports.get_all = function(req, res, next) {
           let token = req.headers['jwt'];
           if (token) {
             authService.verifyUser(token).then(user => {
@@ -73,7 +73,7 @@ exports.get_all = async function(req, res, next) {
           }
         }
  //Get a single request made by the individual       
-exports.get_one_request = async function(req, res, next) {
+exports.get_one_request = function(req, res, next) {
           let token = req.headers['jwt'];
           let userId = req.params.id;
           if (token) {
@@ -97,7 +97,7 @@ exports.get_one_request = async function(req, res, next) {
           }
         }
 //Update a request
-exports.update_request = async function(req, res, next) {
+exports.update_request = function(req, res, next) {
           let token = req.headers['jwt'];
           let requestId = parseInt(req.params.id);
           if (token) {
@@ -132,7 +132,7 @@ exports.update_request = async function(req, res, next) {
           }
         }
 //Delete an existing request
-exports.delete_request = async function(req, res, next) {
+exports.delete_request = function(req, res, next) {
           let token = req.headers['jwt'];
           let requestId = parseInt(req.params.id);
           if (token) {
