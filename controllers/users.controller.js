@@ -1,9 +1,10 @@
-var express = require('express');
-var models = require('../models');
-var authService = require('../services/auth.service');
+const express = require('express');
+const models = require('../models');
+const authService = require('../services/auth.service');
+
 
 //Get a user by the users token for the profile page
-exports.get_profile =  async function(req, res, next) {
+exports.get_profile =  function(req, res, next) {
           let token = req.headers['jwt'];
           if (token) {
             authService.verifyUser(token).then((user, error) => {
@@ -17,8 +18,9 @@ exports.get_profile =  async function(req, res, next) {
             res.status(500).json(error);
           }
         }
+
 //Get a user for the  update user form
-exports.get_user = async function(req, res, next) {
+exports.get_user = function(req, res, next) {
           let token = req.headers['jwt'];
           if (token) {
             authService.verifyUser(token).then((user) => {
@@ -34,7 +36,8 @@ exports.get_user = async function(req, res, next) {
             res.status(500).json(error);
           }
         }
-exports.update_user = async function(req, res, next) {
+        
+exports.update_user = function(req, res, next) {
           let token = req.headers['jwt'];
           let userId = parseInt(req.params.id);
           if (token) {

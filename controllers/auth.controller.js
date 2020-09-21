@@ -2,7 +2,7 @@ var express = require('express');
 var models = require('../models');
 var authService = require('../services/auth.service');
 
-exports.user_registration =  function (req, res, next) {
+exports.user_registration =  function(req, res, next) {
           models.users
             .findOrCreate({
               where: { email: req.body.email },
@@ -70,7 +70,7 @@ exports.email_login =  (req, res, next) => {
             });
         }
 
-exports.user_name_login = async function(req, res, next) {
+exports.user_name_login = function(req, res, next) {
           let fetchedUser;
           models.users
             .findOne({
