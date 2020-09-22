@@ -21,7 +21,8 @@ exports.create_request = function(req, res, next) {
                   })
                   .spread(function (created, error) {
                     if (created) {
-                      res.status(200).json(created);
+                      res.status(201).json({created,
+                      message: 'Request Created.'});
                     } else {
                       res.status(400).json(error);
                     }

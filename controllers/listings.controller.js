@@ -21,7 +21,7 @@ exports.create_listing = function (req, res, next) {
                       }
                    }).spread(function (created, error) {
                       if (created) {
-                         res.status(200).json(created);
+                         res.status(200).json({created, message: 'Listing Created.'});
                       } else {
                          res.status(400).json(error)
                       }

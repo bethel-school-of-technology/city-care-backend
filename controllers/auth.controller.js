@@ -30,7 +30,7 @@ exports.user_registration =  function(req, res, next) {
             })
             .spread(function (created, error) {
               if (created) {
-                res.status(201).json(created);
+                res.status(201).json({created, message: 'User created & registered! Welcome to City Care!'});
               } else
                 res.status(500).json(error)
             });
@@ -55,7 +55,7 @@ exports.email_login =  (req, res, next) => {
                 );
                 if (passwordMatch) {
                   let token = authService.signUser(user);
-                  res.status(201).json({
+                  res.status(202).json({
                     token: token,
                     message: 'You have been logged in!',
                     expiresIn: 3600,
@@ -89,7 +89,7 @@ exports.user_name_login = function(req, res, next) {
                 );
                 if (passwordMatch) {
                   let token = authService.signUser(user);
-                  res.status(201).json({
+                  res.status(202).json({
                     token: token,
                     message: 'You have been logged in!',
                     expiresIn: 3600,
