@@ -71,7 +71,7 @@ exports.update_user = function(req, res, next) {
                   )
                   .then(function (result, error) {
                     if (result) {
-                      res.status(200).json(result);
+                      res.status(202).json({result, message: 'User updated.'});
                     }
                   });
               } else {

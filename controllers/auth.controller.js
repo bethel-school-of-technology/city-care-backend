@@ -46,7 +46,7 @@ exports.email_login =  (req, res, next) => {
             })
             .then((user, error) => {
               if (!user) {
-                return res.status(400).json(error);
+                return res.status(404).json(error);
               } else {
                 fetchedUser = user;
                 let passwordMatch = authService.comparePasswords(
@@ -64,8 +64,8 @@ exports.email_login =  (req, res, next) => {
                     isAdmin: fetchedUser.admin
                   });
                 } else {
-                  res.status(400).json(error);
-                }
+                  res.status(401).json(error);
+                } 
               }
             });
         }
@@ -80,7 +80,7 @@ exports.user_name_login = function(req, res, next) {
             })
             .then((user, error) => {
               if (!user) {
-                return res.status(400).json(error);
+                return res.status(404).json(error);
               } else {
                 fetchedUser = user;
                 let passwordMatch = authService.comparePasswords(
@@ -98,7 +98,7 @@ exports.user_name_login = function(req, res, next) {
                     isAdmin: fetchedUser.admin
                   });
                 } else {
-                  res.status(400).json(error);
+                  res.status(401).json(error);
                 }
               }
             });
