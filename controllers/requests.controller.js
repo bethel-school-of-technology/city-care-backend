@@ -121,7 +121,7 @@ exports.update_request = function(req, res, next) {
                   )
                   .then(function (result, error) {
                     if (result) {
-                      res.status(201).json(result);
+                      res.status(201).json({result, message: 'Request updated.'});
                     }
                   });
               } else {
@@ -150,8 +150,7 @@ exports.delete_request = function(req, res, next) {
                   )
                   .then(function (result, error) {
                     if (result) {
-                      console.log(result);
-                      res.status(200).json(error);
+                      res.status(202).json({result, message: 'Request Deleted.'});
                     } else {
                       res.status(400).json(error);
                     }

@@ -21,7 +21,7 @@ exports.create_listing = function (req, res, next) {
                       }
                    }).spread(function (created, error) {
                       if (created) {
-                         res.status(200).json({created, message: 'Listing Created.'});
+                         res.status(201).json({created, message: 'Listing Created.'});
                       } else {
                          res.status(400).json(error)
                       }
@@ -121,7 +121,7 @@ exports.update_listing = function (req, res, next) {
                       )
                       .then(function (result, error) {
                          if (result) {
-                            res.status(200).json(result);
+                            res.status(202).json({result, message: 'Listing updated.'});
                          }
                       });
                 } else {
@@ -145,7 +145,7 @@ exports.delete_listing = function (req, res, next) {
                       where: { id: listingId }
                    }).then(function (result, error) {
                       if (result) {
-                         res.status(200).json(result)
+                         res.status(202).json({result, message: 'Listing deleted.'})
                       } else {
                          res.status(400).json(error)
                       }
