@@ -11,20 +11,20 @@
 
           app.js - Nodejs api server
 
-Models:
-          index.js
-          users.js
-          listings.js
-          requests.js
+          Models:
+              index.js
+                   users.js
+                   listings.js
+                   requests.js
 
-Services 
-          auth.js
-Routes
+          Services 
+                    auth.js
+          Routes
 
-          index.js
-          listins.js
-          requests.js
-          users.js
+                index.js
+                listins.js
+                requests.js
+                users.js
 
 # Packages used on the back end
 
